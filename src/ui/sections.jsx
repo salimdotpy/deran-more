@@ -3,11 +3,10 @@ import { Avatar, Button, Card, CardBody, Input, Textarea, Typography } from '@ma
 import { Link } from 'react-router-dom';
 import { BiLogoWhatsapp, BiSupport } from 'react-icons/bi';
 import { PhoneIcon } from '@heroicons/react/24/solid';
-import logo from '@/public/images/logoIcon/logo.png';
 import { EnvelopeIcon, MapPinIcon, QuestionMarkCircleIcon } from '@heroicons/react/24/outline';
 
 const cls = ['!text-fore peer-focus:pl-0 peer-focus:before:!border-primary/90 peer-focus:after:!border-primary/90', 'text-fore focus:border-primary/90 placeholder:opacity-100'];
-
+const logo = '/images/logoIcon/logo.png'
 export default function LoadingComponent() {
     return (
         <div className='fixed inset-0 bg-primary/50 flex gap-2 justify-center items-center z-[1000]'>

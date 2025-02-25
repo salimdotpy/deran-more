@@ -3,6 +3,7 @@ import { Bars3Icon, SunIcon, UserIcon, XMarkIcon } from '@heroicons/react/24/sol
 import { Button, Drawer, IconButton, List, ListItem, Navbar, Tooltip } from '@material-tailwind/react';
 import { Link } from 'react-router-dom';
 import React from 'react';
+import ToggleTheme from './ToggleTheme';
 
 const links = [
     { name: 'Home', href: '/' },
@@ -76,7 +77,8 @@ const SideDrawer = ({ open, onClose, sitename }) => {
                 <NavList />
                 <div className="font-medium text-primary lg:hidden px-2.5">
                     <ListItem className="flex items-center justify-between gap-2 py-2 pr-4">
-                        <span>Theme mode</span><ToggleTheme label={false} />
+                        <span>Theme mode</span>
+                        <ToggleTheme label={false} />
                     </ListItem>
                 </div>
             </div>
