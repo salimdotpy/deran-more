@@ -4,7 +4,7 @@
 
 @layer components {
   ::selection {
-    /* @apply bg-primary text-white; */
+    @apply bg-primary text-white;
   }
 
   .naira::before {
@@ -24,10 +24,13 @@
 
   /* Dark theme */
   .dark {
-    --color-primary: 0 102 218;
+    --color-primary: 233 110 240;
     --color-secondary: 20 157 221;
+    /* Dark theme secondary color */
     --bg-color: 11 15 25;
+    /* Dark theme background color */
     --text-color: 232 234 236;
+    /* Dark theme text color */
     --header-bg: 17 24 39;
   }
 
@@ -35,9 +38,13 @@
   @media (prefers-color-scheme: dark) {
     :root {
       --color-primary: 0 102 218;
+      /* Dark theme primary color */
       --color-secondary: 20 157 221;
+      /* Dark theme secondary color */
       --bg-color: 11 15 25;
+      /* Dark theme background color */
       --text-color: 232 234 236;
+      /* Dark theme text color */
       --header-bg: 17 24 39;
     }
   }

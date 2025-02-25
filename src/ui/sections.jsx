@@ -7,6 +7,7 @@ import { EnvelopeIcon, MapPinIcon, QuestionMarkCircleIcon } from '@heroicons/rea
 
 const cls = ['!text-fore peer-focus:pl-0 peer-focus:before:!border-primary/90 peer-focus:after:!border-primary/90', 'text-fore focus:border-primary/90 placeholder:opacity-100'];
 const logo = '/images/logoIcon/logo.png'
+
 export default function LoadingComponent() {
     return (
         <div className='fixed inset-0 bg-primary/50 flex gap-2 justify-center items-center z-[1000]'>
@@ -17,7 +18,7 @@ export default function LoadingComponent() {
     )
 }
 
-const slider_img = 'images/bg.jpg';
+const slider_img = 'images/img1.jpeg';
 export const HeroSection = ({ data }) => {
     let heading = data?.heading;
     heading = heading && heading.split('<br />').map((head, key) =>
@@ -49,11 +50,7 @@ export const AboutSection = ({ data }) => {
         <section id='about' className='py-10 bg-header'>
             <div className='container xl:w-[90%] mx-auto'>
                 <div className='flex flex-wrap gap-5 px-4'>
-                    <div data-aos="fade-right" className='relative md:flex-1 basis-[100%]' style={{backgroundImage: `url(${data?.image})`, backgroundSize: 'cover'}}>
-                        <div className='absolute inset-0 from-header to-transparent bg-gradient-to-l'>
-                        </div>
-                    </div>
-                    <div className='h-1/2 md:flex-1 basis-[100%] flex flex-col gap-y-4 p-5' data-aos="fade-left">
+                    <div className='h-1/2 md:flex-1 basis-[100%] flex flex-col gap-y-4 p-5' data-aos="fade-right">
                         <h3 className='text-primary font-bold text-2xl font-[tahoma]'>
                             DeranMore
                             <br />
@@ -64,6 +61,10 @@ export const AboutSection = ({ data }) => {
                         <p className='text-fore/80 text-justify'> 
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit Asperiores dolores sed et. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit Asperiores dolores sed et.
                         </p>
+                    </div>
+                    <div data-aos="fade-left" className='relative md:flex-1 basis-[100%]' style={{backgroundImage: `url(images/img3.jpeg)`, backgroundSize: 'cover',}}>
+                        <div className='absolute inset-0 from-header to-transparent bg-gradient-to-r'>
+                        </div>
                     </div>
                 </div>
             </div>
