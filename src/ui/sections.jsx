@@ -16,7 +16,7 @@ export function LoadingComponent() {
         setLoading(true);
         const timeout = setTimeout(() => setLoading(false), 500); // Simulated loading time
         return () => clearTimeout(timeout);
-    }, [location]);
+    }, []);
     return (
         loading && (
         <div className='fixed inset-0 bg-primary/50 flex gap-2 justify-center items-center z-[1000]'>
