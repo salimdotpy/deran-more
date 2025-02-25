@@ -123,7 +123,7 @@ export const ServiceSection = ({ content, elements }) => {
 
 export const FooterSection = ({ data }) => {
     const socialLinks = [
-        {data_values: {social_icon: BiLogoWhatsapp, social_link: 'https://wa.me/+'}},
+        {data_values: {social_icon: BiLogoWhatsapp, social_link: 'https://wa.me/+2348034066961'}},
         {data_values: {social_icon: EnvelopeIcon, social_link: 'mailto:deranmore@hotmail.com'}},
         {data_values: {social_icon: PhoneIcon, social_link: 'tel:+18329844722,'}},
     ]
