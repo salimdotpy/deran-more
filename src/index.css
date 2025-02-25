@@ -4,7 +4,9 @@
 
 @layer components {
   ::selection {
-    @apply bg-primary text-white;
+    @apply text-white;
+    --tw-bg-opacity: 1;
+    background-color: rgb(var(--color-primary) / var(--tw-bg-opacity, 1));
   }
 
   .naira::before {
