@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Avatar, Button, Card, CardBody, Input, Textarea, Typography } from '@material-tailwind/react';
-import { Link, useNavigation } from 'react-router-dom';
+import { Link, useLocation, useNavigation } from 'react-router-dom';
 import { BiLogoWhatsapp, BiSupport } from 'react-icons/bi';
 import { PhoneIcon } from '@heroicons/react/24/solid';
 import { EnvelopeIcon, MapPinIcon, QuestionMarkCircleIcon } from '@heroicons/react/24/outline';
@@ -9,9 +9,16 @@ const cls = ['!text-fore peer-focus:pl-0 peer-focus:before:!border-primary/90 pe
 const logo = '/images/logoIcon/logo.png'
 
 export function LoadingComponent() {
-    const navigation = useNavigation();
+    const [loading, setLoading] = useState(false);
+    const location = useLocation();
+
+    useEffect(() => {
+        setLoading(true);
+        const timeout = setTimeout(() => setLoading(false), 5000); // Simulated loading time
+        return () => clearTimeout(timeout);
+    }, [location]);
     return (
-        navigation.state === "loading" && (
+        loading && (
         <div className='fixed inset-0 bg-primary/50 flex gap-2 justify-center items-center z-[1000]'>
             {[10, 12, 14].map((size, key) => 
             <img key={key} src={logo} alt='company logo' className={`size-${size} animate-bounce p-1 bg-white rounded-full shadow`} />
