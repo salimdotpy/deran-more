@@ -1,6 +1,6 @@
 import React from 'react';
 import { Avatar, Button, Card, CardBody, Input, Textarea, Typography } from '@material-tailwind/react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigation } from 'react-router-dom';
 import { BiLogoWhatsapp, BiSupport } from 'react-icons/bi';
 import { PhoneIcon } from '@heroicons/react/24/solid';
 import { EnvelopeIcon, MapPinIcon, QuestionMarkCircleIcon } from '@heroicons/react/24/outline';
@@ -8,15 +8,30 @@ import { EnvelopeIcon, MapPinIcon, QuestionMarkCircleIcon } from '@heroicons/rea
 const cls = ['!text-fore peer-focus:pl-0 peer-focus:before:!border-primary/90 peer-focus:after:!border-primary/90', 'text-fore focus:border-primary/90 placeholder:opacity-100'];
 const logo = '/images/logoIcon/logo.png'
 
-export default function LoadingComponent() {
+export function LoadingComponent() {
+    const navigation = useNavigation();
     return (
+        navigation.state === "loading" && (
         <div className='fixed inset-0 bg-primary/50 flex gap-2 justify-center items-center z-[1000]'>
             {[10, 12, 14].map((size, key) => 
             <img key={key} src={logo} alt='company logo' className={`size-${size} animate-bounce p-1 bg-white rounded-full shadow`} />
             )}
         </div>
+        )
     )
 }
+
+export const Loader = () => {
+    const navigation = useNavigation();
+  
+    return (
+      navigation.state === "loading" && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-white"></div>
+        </div>
+      )
+    );
+  };
 
 const slider_img = 'images/img1.jpeg';
 export const HeroSection = ({ data }) => {

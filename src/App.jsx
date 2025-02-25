@@ -3,6 +3,7 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { useEffect } from 'react';
 import Index from "./pages/Index";
+import { LoadingComponent } from "./ui/sections";
 
 function App() {
   useEffect(() => {
@@ -16,6 +17,7 @@ function App() {
 
   return (
     <BrowserRouter>
+    <LoadingComponent />
       <Routes>
         <Route path="/" element={<Index />}/>
       </Routes>
