@@ -2,7 +2,7 @@ import {BrowserRouter, Routes, Route} from "react-router-dom";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { useEffect } from 'react';
-import Index from "./pages/Index";
+import Index from "./pages";
 
 function App() {
   useEffect(() => {
