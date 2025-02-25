@@ -49,11 +49,11 @@ export const HeroSection = ({ data }) => {
                     <Typography variant='h6' className='mt-3 mb-7 text-sm md:text-lg lg:text-2xl text-gray-200' data-aos="fade-right" data-aos-delay={200}>
                         With DeranMore Educational Consult Services
                     </Typography>
-                    <Link to={"/#about"} data-aos="fade-up" data-aos-delay={300}>
+                    <a href={"/#about"} data-aos="fade-up" data-aos-delay={300}>
                         <Button className="rounded-full border-white hover:border-primary border-2 bg-transparent hover:bg-primary">
                             Learn More
                         </Button>
-                    </Link>
+                    </a>
                 </div>
             </div>
         </div>
