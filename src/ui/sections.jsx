@@ -19,11 +19,11 @@ export function LoadingComponent() {
     }, []);
     return (
         loading && (
-        <div className='fixed inset-0 bg-primary/50 flex gap-2 justify-center items-center z-[1000]'>
-            {[10, 12, 14].map((size, key) => 
-            <img key={key} src={logo} alt='company logo' className={`size-${size} animate-bounce p-1 bg-white rounded-full shadow`} />
-            )}
-        </div>
+            <div className='fixed inset-0 bg-primary/50 flex gap-2 justify-center items-center z-[1000]'>
+                {[10, 12, 14].map((size, key) =>
+                    <img key={key} src={logo} alt='company logo' className={`size-${size} animate-bounce p-1 bg-white rounded-full shadow`} />
+                )}
+            </div>
         )
     )
 }
@@ -68,7 +68,7 @@ export const AboutSection = ({ data }) => {
                                 Educational Consult Services
                             </span>
                         </h3>
-                        <p className='text-fore/80 text-justify'> 
+                        <p className='text-fore/80 text-justify'>
                             Some information about the company/organisation,
                             Some information about the company/organisation,
                             Some information about the company/organisation,
@@ -76,7 +76,7 @@ export const AboutSection = ({ data }) => {
                             Some information about the company/organisation.
                         </p>
                     </div>
-                    <div data-aos="fade-left" className='relative min-h-60 md:flex-1 basis-[100%]' style={{backgroundImage: `url(images/img3.jpeg)`, backgroundSize: 'cover',}}>
+                    <div data-aos="fade-left" className='relative min-h-60 md:flex-1 basis-[100%]' style={{ backgroundImage: `url(images/img3.jpeg)`, backgroundSize: 'cover', }}>
                         <div className='absolute inset-0 from-header to-transparent bg-gradient-to-r'>
                         </div>
                     </div>
@@ -88,8 +88,8 @@ export const AboutSection = ({ data }) => {
 
 export const ServiceSection = ({ content, elements }) => {
     elements = [
-        {data_values: {Icon: QuestionMarkCircleIcon, title: 'Professional Guidance On:', description: ' Dissertation Writting, Thesis Development, Journal Publication Preparation etc.'}},
-        {data_values: {Icon: BiSupport, title: 'Expert Assistance', description: 'Improve Research Design & Methodology, Enhance data analysis and interperation, Develop well-structured and coherent manuscripts.'}},
+        { data_values: { Icon: QuestionMarkCircleIcon, title: 'Professional Guidance On:', description: ' Dissertation Writting, Thesis Development, Journal Publication Preparation etc.' } },
+        { data_values: { Icon: BiSupport, title: 'Expert Assistance', description: 'Improve Research Design & Methodology, Enhance data analysis and interperation, Develop well-structured and coherent manuscripts.' } },
     ]
     return (
         <section id='services' className='py-10'>
@@ -101,23 +101,23 @@ export const ServiceSection = ({ content, elements }) => {
                     </p>
                 </div>
                 <div className='flex flex-wrap p-4 w-full'>
-                    {elements && elements.map((service, key) =>{
+                    {elements && elements.map((service, key) => {
                         const ServiceIcon = service.data_values.Icon;
-                        const sub_services = service.data_values.description.split(',').map((sub_, i)=>
-                        <p key={i}>&rArr; {sub_}</p>
+                        const sub_services = service.data_values.description.split(',').map((sub_, i) =>
+                            <p key={i}>&rArr; {sub_}</p>
                         );
                         return (
-                        <div key={key} className='text-fore mb-8 w-full md:flex-1 lg:w-1/3 md:w-1/2 group' data-aos="fade-up" data-aos-delay={`${key}00`}>
-                            <div className='float-left flex justify-center items-center size-14 border border-primary bg-primary rounded-full text-header group-hover:bg-header group-hover:text-primary transition-colors duration-1000'>
-                                <ServiceIcon className='size-6' />
-                            </div>
-                            <Typography variant='h6' className='ml-20'>
-                                {service.data_values.title}
-                            </Typography>
-                            <Typography as={'div'} className='ml-20'>
-                                {sub_services}
-                            </Typography>
-                        </div>)
+                            <div key={key} className='text-fore mb-8 w-full md:flex-1 lg:w-1/3 md:w-1/2 group' data-aos="fade-up" data-aos-delay={`${key}00`}>
+                                <div className='float-left flex justify-center items-center size-14 border border-primary bg-primary rounded-full text-header group-hover:bg-header group-hover:text-primary transition-colors duration-1000'>
+                                    <ServiceIcon className='size-6' />
+                                </div>
+                                <Typography variant='h6' className='ml-20'>
+                                    {service.data_values.title}
+                                </Typography>
+                                <Typography as={'div'} className='ml-20'>
+                                    {sub_services}
+                                </Typography>
+                            </div>)
                     })}
                 </div>
             </div>
@@ -146,15 +146,15 @@ export const PaymentSection = ({ data }) => {
                                     You can make payment to one of these account:
                                 </Typography>
                             </div>
-                            <hr className='w-full my-3'/>
+                            <hr className='w-full my-3' />
                             <List className='p-0'>
-                                {[...Array(4).fill(1)].map((_, key) => 
-                                <ListItem className='text-fore'>
-                                    <ListItemPrefix>
-                                        <ArrowRightIcon className='size-6' />
-                                    </ListItemPrefix>
-                                    Account Name, 0123456789, Bank Name 
-                                </ListItem>
+                                {[...Array(4).fill(1)].map((_, key) =>
+                                    <ListItem className='text-fore'>
+                                        <ListItemPrefix>
+                                            <ArrowRightIcon className='size-6' />
+                                        </ListItemPrefix>
+                                        Account Name, 0123456789, Bank Name
+                                    </ListItem>
                                 )}
                             </List>
                         </CardBody>
@@ -167,8 +167,8 @@ export const PaymentSection = ({ data }) => {
                                     I've made the payment?
                                 </Typography>
                             </div>
-                            <hr className='w-full my-3'/>
-                            <div className='flex items-center justify-center'>
+                            <hr className='w-full my-3' />
+                            <div className='flex items-center justify-center my-16'>
                                 <Button variant='outlined' onClick={handleOpen} className='border-primary rounded-full px-16 hover:text-white border-2 text-fore hover:bg-primary'>
                                     Verify
                                 </Button>
@@ -177,20 +177,20 @@ export const PaymentSection = ({ data }) => {
                     </Card>
                 </div>
             </div>
-            
+
             <Dialog open={open} handler={handleOpen} size="sm">
-                <DialogBody divider className="grid place-items-center gap-4 md:p-16 relative">
+                <DialogBody divider className=" bg-header border-0 gap-4 md:p-16 relative">
                     <XMarkIcon className="mr-3 h-5 w-5 absolute top-3 right-0" onClick={handleOpen} />
-                    <Badge content={<CheckIcon className="h-4 w-4 text-white" strokeWidth={2.5} />} className="top-2 right-1 bg-gradient-to-tr from-green-400 to-green-600 border-2 border-white shadow-lg shadow-black/20"
-                    >
-                        <EnvelopeIcon className='size-16 text-fore' />
-                    </Badge>
-                    <Typography variant="h5" className='text-center text-fore'>
-                        A mail has been sent to your registered email
-                    </Typography>
-                    <Typography className="text-center font-normal">
-                        Click the link in the mail description to change password
-                    </Typography>
+                    <form className="mt-8 mb-2 text-fore" method='post'>
+                        <div className="mb-1 flex flex-col gap-6">
+                            <div>
+                                <Input label='Enter Transaction ID' labelProps={{ className: cls[0] }} containerProps={{ className: 'min-w-0' }} className={cls[1]} required />
+                            </div>
+                        </div>
+                        <Button type="submit" className={`mt-6 bg-primary disabled:!pointer-events-auto disabled:cursor-not-allowed justify-center`} loading={false} fullWidth>
+                            Comfirm
+                        </Button>
+                    </form>
                 </DialogBody>
             </Dialog>
         </section>
@@ -199,9 +199,9 @@ export const PaymentSection = ({ data }) => {
 
 export const ContactSection = ({ data }) => {
     const contact_info = [
-        {title: 'Phone', desc: '+18329844722, +2348034066961', Icon: PhoneIcon},
-        {title: 'Email', desc: 'deranmore@hotmail.com', Icon: EnvelopeIcon},
-        {title: 'Address', desc: 'Ede, Osun State.', Icon: MapPinIcon},
+        { title: 'Phone', desc: '+18329844722, +2348034066961', Icon: PhoneIcon },
+        { title: 'Email', desc: 'deranmore@hotmail.com', Icon: EnvelopeIcon },
+        { title: 'Address', desc: 'Ede, Osun State.', Icon: MapPinIcon },
     ]
     return (
         <section id='contact' className='pt-10'>
@@ -218,7 +218,7 @@ export const ContactSection = ({ data }) => {
                             <Typography variant="h5" className="text-fore">
                                 Have something to say?
                             </Typography>
-                            <hr className='w-full my-5'/>
+                            <hr className='w-full my-5' />
                             <form className="flex flex-col gap-6 mb-2 mt-2 text-fore" method='post'>
                                 <div className='flex flex-wrap gap-6 *:basis-1/3 *:flex-1'>
                                     <div>
@@ -274,9 +274,9 @@ export const ContactSection = ({ data }) => {
 
 export const FooterSection = ({ data }) => {
     const socialLinks = [
-        {data_values: {social_icon: BiLogoWhatsapp, social_link: 'https://wa.me/+2348034066961'}},
-        {data_values: {social_icon: EnvelopeIcon, social_link: 'mailto:deranmore@hotmail.com'}},
-        {data_values: {social_icon: PhoneIcon, social_link: 'tel:+18329844722,'}},
+        { data_values: { social_icon: BiLogoWhatsapp, social_link: 'https://wa.me/+2348034066961' } },
+        { data_values: { social_icon: EnvelopeIcon, social_link: 'mailto:deranmore@hotmail.com' } },
+        { data_values: { social_icon: PhoneIcon, social_link: 'tel:+18329844722,' } },
     ]
     return (
         <section id='' className='py-5 bg-header'>
