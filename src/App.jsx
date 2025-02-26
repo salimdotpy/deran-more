@@ -1,11 +1,14 @@
-import {BrowserRouter, Routes, Route} from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Index from "./pages/Index";
 import { LoadingComponent } from "./ui/sections";
+import Login from "./pages/Login";
+import { ToastContainer } from "react-toastify";
 
 function App() {
+  const [theme, setTheme] = useState(false);
   useEffect(() => {
     AOS.init({
       duration: 1000,
@@ -13,14 +16,29 @@ function App() {
       once: true,
       mirror: false
     });
+
+    if (localStorage?.getItem('theme') === 'dark') {
+      setTheme(true);
+    }
   }, []);
+  
+  useEffect(() => {
+    if (theme) {
+      document.body.classList.add('dark');
+    } else {
+      document.body.classList.remove('dark');
+    }
+    localStorage.setItem('theme', theme ? 'dark' : 'light');
+  }, [theme]);
 
   return (
     <BrowserRouter>
-    <LoadingComponent />
+      <LoadingComponent />
       <Routes>
-        <Route path="/" element={<Index />}/>
+        <Route path="/" element={<Index />} />
+        <Route path="/auth/admin" element={<Login />} />
       </Routes>
+      <ToastContainer theme={theme ? 'dark' : 'light'} />
     </BrowserRouter>
   )
 }

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Avatar, Badge, Button, Card, CardBody, CardHeader, Dialog, DialogBody, Input, List, ListItem, ListItemPrefix, Textarea, Typography } from '@material-tailwind/react';
+import { Button, Card, CardBody, Dialog, DialogBody, Input, List, ListItem, ListItemPrefix, Textarea, Typography } from '@material-tailwind/react';
 import { Link, useLocation } from 'react-router-dom';
 import { BiLogoWhatsapp, BiSupport } from 'react-icons/bi';
 import { PhoneIcon } from '@heroicons/react/24/solid';
-import { ArrowRightIcon, CheckCircleIcon, CheckIcon, CreditCardIcon, EnvelopeIcon, MapPinIcon, QuestionMarkCircleIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { ArrowRightIcon, CheckCircleIcon, CreditCardIcon, EnvelopeIcon, MapPinIcon, QuestionMarkCircleIcon, XMarkIcon } from '@heroicons/react/24/outline';
 
 const cls = ['!text-fore peer-focus:pl-0 peer-focus:before:!border-primary/90 peer-focus:after:!border-primary/90', 'text-fore focus:border-primary/90 placeholder:opacity-100'];
 const logo = '/images/logoIcon/logo.png'
@@ -77,7 +77,7 @@ export const AboutSection = ({ data }) => {
                         </p>
                     </div>
                     <div data-aos="fade-left" className='relative min-h-60 md:flex-1 basis-[100%]' style={{ backgroundImage: `url(images/img3.jpeg)`, backgroundSize: 'cover', }}>
-                        <div className='absolute inset-0 from-header to-transparent bg-gradient-to-r'>
+                        <div className='absolute inset-0 from-header to-transparent md:bg-gradient-to-r bg-gradient-to-b'>
                         </div>
                     </div>
                 </div>
@@ -124,6 +124,7 @@ export const ServiceSection = ({ content, elements }) => {
         </section>
     );
 };
+
 export const PaymentSection = ({ data }) => {
     const [open, setOpen] = React.useState(false);
     const [sent, setSent] = React.useState(false);
@@ -138,7 +139,7 @@ export const PaymentSection = ({ data }) => {
                     </p>
                 </div>
                 <div className='flex flex-wrap gap-5 mb-10 px-4'>
-                    <Card className="bg-back text-fore md:flex-1 basis-[100%]">
+                    <Card  data-aos="fade-left" className="bg-back text-fore md:flex-1 basis-[100%]">
                         <CardBody>
                             <div className=''>
                                 <CreditCardIcon className='size-16 text-primary inline-block' />
@@ -159,7 +160,7 @@ export const PaymentSection = ({ data }) => {
                             </List>
                         </CardBody>
                     </Card>
-                    <Card className="bg-back text-fore md:flex-1 basis-[100%]">
+                    <Card data-aos="fade-right" className="bg-back text-fore md:flex-1 basis-[100%]">
                         <CardBody>
                             <div className=''>
                                 <CheckCircleIcon className='size-16 text-primary inline-block' />
@@ -179,7 +180,7 @@ export const PaymentSection = ({ data }) => {
             </div>
 
             <Dialog open={open} handler={handleOpen} size="sm">
-                <DialogBody divider className=" bg-header border-0 gap-4 md:p-16 relative">
+                <DialogBody divider className=" bg-header border-0 gap-4 md:p-16 relative rounded">
                     <XMarkIcon className="mr-3 h-5 w-5 absolute top-3 right-0" onClick={handleOpen} />
                     <form className="mt-8 mb-2 text-fore" method='post'>
                         <div className="mb-1 flex flex-col gap-6">
@@ -213,7 +214,7 @@ export const ContactSection = ({ data }) => {
                     </p>
                 </div>
                 <div className='flex flex-wrap gap-5 mb-10 px-4'>
-                    <Card className="bg-header border text-fore md:flex-1 basis-[100%]">
+                    <Card data-aos="fade-left" data-aos-delay="100" className="bg-header border text-fore md:flex-1 basis-[100%]">
                         <CardBody>
                             <Typography variant="h5" className="text-fore">
                                 Have something to say?
@@ -240,7 +241,7 @@ export const ContactSection = ({ data }) => {
                             </form>
                         </CardBody>
                     </Card>
-                    <Card className="bg-header border text-fore md:flex-1 basis-[100%]">
+                    <Card data-aos="fade-left" data-aos-delay="200" className="bg-header border text-fore md:flex-1 basis-[100%]">
                         <CardBody>
                             <iframe src={data?.data_values?.map_source || 'https://www.google.com/maps/embed/v1/place?q=The+Federal+Polytechnic+Ede,+Ede,+Nigeria&key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8'} loading='lazy' className='w-full h-[400px]' allowFullScreen></iframe>
                         </CardBody>
