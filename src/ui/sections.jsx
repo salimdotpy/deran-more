@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Avatar, Button, Card, CardBody, Input, Textarea, Typography } from '@material-tailwind/react';
-import { Link, useLocation, useNavigation } from 'react-router-dom';
+import { Avatar, Badge, Button, Card, CardBody, CardHeader, Dialog, DialogBody, Input, List, ListItem, ListItemPrefix, Textarea, Typography } from '@material-tailwind/react';
+import { Link, useLocation } from 'react-router-dom';
 import { BiLogoWhatsapp, BiSupport } from 'react-icons/bi';
 import { PhoneIcon } from '@heroicons/react/24/solid';
-import { EnvelopeIcon, MapPinIcon, QuestionMarkCircleIcon } from '@heroicons/react/24/outline';
+import { ArrowRightIcon, CheckCircleIcon, CheckIcon, CreditCardIcon, EnvelopeIcon, MapPinIcon, QuestionMarkCircleIcon, XMarkIcon } from '@heroicons/react/24/outline';
 
 const cls = ['!text-fore peer-focus:pl-0 peer-focus:before:!border-primary/90 peer-focus:after:!border-primary/90', 'text-fore focus:border-primary/90 placeholder:opacity-100'];
 const logo = '/images/logoIcon/logo.png'
@@ -69,10 +69,14 @@ export const AboutSection = ({ data }) => {
                             </span>
                         </h3>
                         <p className='text-fore/80 text-justify'> 
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit Asperiores dolores sed et. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit Asperiores dolores sed et.
+                            Some information about the company/organisation,
+                            Some information about the company/organisation,
+                            Some information about the company/organisation,
+                            Some information about the company/organisation,
+                            Some information about the company/organisation.
                         </p>
                     </div>
-                    <div data-aos="fade-left" className='relative md:flex-1 basis-[100%]' style={{backgroundImage: `url(images/img3.jpeg)`, backgroundSize: 'cover',}}>
+                    <div data-aos="fade-left" className='relative min-h-60 md:flex-1 basis-[100%]' style={{backgroundImage: `url(images/img3.jpeg)`, backgroundSize: 'cover',}}>
                         <div className='absolute inset-0 from-header to-transparent bg-gradient-to-r'>
                         </div>
                     </div>
@@ -120,35 +124,78 @@ export const ServiceSection = ({ content, elements }) => {
         </section>
     );
 };
-
-export const FooterSection = ({ data }) => {
-    const socialLinks = [
-        {data_values: {social_icon: BiLogoWhatsapp, social_link: 'https://wa.me/+2348034066961'}},
-        {data_values: {social_icon: EnvelopeIcon, social_link: 'mailto:deranmore@hotmail.com'}},
-        {data_values: {social_icon: PhoneIcon, social_link: 'tel:+18329844722,'}},
-    ]
+export const PaymentSection = ({ data }) => {
+    const [open, setOpen] = React.useState(false);
+    const [sent, setSent] = React.useState(false);
+    const handleOpen = () => { setOpen(!open); setSent(false) };
     return (
-        <section id='' className='py-5 bg-header'>
+        <section id='payment' className='py-10 bg-header'>
             <div className='container xl:w-[90%] mx-auto'>
-                <div className='flex flex-wrap items-center justify-center md:justify-between gap-5 px-4'>
-                    <div>
-                        © Copyright <b>DeranMore.</b> All Rights Reserved
-                    </div>
-                    <div className='flex gap-x-3 text-2xl'>
-                        {socialLinks && socialLinks.map(({ data_values }, key) => {
-                            const SIcon = data_values?.social_icon
-                            return (
-                                <Link to={data_values?.social_link || '/'} key={key} className='hover:text-primary/60 text-primary/90'>
-                                    {SIcon && <SIcon className='size-5' />}
-                                </Link>
-                            )
-                        })}
-                    </div>
+                <div className='p-4 text-center'>
+                    <h3 className='font-bold text-2xl'>Payment</h3>
+                    <p className='text-fore/80 my-4'>
+                        We accept payment through below medium
+                    </p>
+                </div>
+                <div className='flex flex-wrap gap-5 mb-10 px-4'>
+                    <Card className="bg-back text-fore md:flex-1 basis-[100%]">
+                        <CardBody>
+                            <div className=''>
+                                <CreditCardIcon className='size-16 text-primary inline-block' />
+                                <Typography className="text-fore">
+                                    You can make payment to one of these account:
+                                </Typography>
+                            </div>
+                            <hr className='w-full my-3'/>
+                            <List className='p-0'>
+                                {[...Array(4).fill(1)].map((_, key) => 
+                                <ListItem className='text-fore'>
+                                    <ListItemPrefix>
+                                        <ArrowRightIcon className='size-6' />
+                                    </ListItemPrefix>
+                                    Account Name, 0123456789, Bank Name 
+                                </ListItem>
+                                )}
+                            </List>
+                        </CardBody>
+                    </Card>
+                    <Card className="bg-back text-fore md:flex-1 basis-[100%]">
+                        <CardBody>
+                            <div className=''>
+                                <CheckCircleIcon className='size-16 text-primary inline-block' />
+                                <Typography className="text-fore">
+                                    I've made the payment?
+                                </Typography>
+                            </div>
+                            <hr className='w-full my-3'/>
+                            <div className='flex items-center justify-center'>
+                                <Button variant='outlined' onClick={handleOpen} className='border-primary rounded-full px-16 hover:text-white border-2 text-fore hover:bg-primary'>
+                                    Verify
+                                </Button>
+                            </div>
+                        </CardBody>
+                    </Card>
                 </div>
             </div>
+            
+            <Dialog open={open} handler={handleOpen} size="sm">
+                <DialogBody divider className="grid place-items-center gap-4 md:p-16 relative">
+                    <XMarkIcon className="mr-3 h-5 w-5 absolute top-3 right-0" onClick={handleOpen} />
+                    <Badge content={<CheckIcon className="h-4 w-4 text-white" strokeWidth={2.5} />} className="top-2 right-1 bg-gradient-to-tr from-green-400 to-green-600 border-2 border-white shadow-lg shadow-black/20"
+                    >
+                        <EnvelopeIcon className='size-16 text-fore' />
+                    </Badge>
+                    <Typography variant="h5" className='text-center text-fore'>
+                        A mail has been sent to your registered email
+                    </Typography>
+                    <Typography className="text-center font-normal">
+                        Click the link in the mail description to change password
+                    </Typography>
+                </DialogBody>
+            </Dialog>
         </section>
-    )
-}
+    );
+};
 
 export const ContactSection = ({ data }) => {
     const contact_info = [
@@ -157,7 +204,7 @@ export const ContactSection = ({ data }) => {
         {title: 'Address', desc: 'Ede, Osun State.', Icon: MapPinIcon},
     ]
     return (
-        <section id='contact' className='pt-10 bg-header'>
+        <section id='contact' className='pt-10'>
             <div className='container xl:w-[90%] mx-auto'>
                 <div className='p-4 text-center'>
                     <h3 className='font-bold text-2xl'>Contact Us</h3>
@@ -224,3 +271,32 @@ export const ContactSection = ({ data }) => {
         </section>
     );
 };
+
+export const FooterSection = ({ data }) => {
+    const socialLinks = [
+        {data_values: {social_icon: BiLogoWhatsapp, social_link: 'https://wa.me/+2348034066961'}},
+        {data_values: {social_icon: EnvelopeIcon, social_link: 'mailto:deranmore@hotmail.com'}},
+        {data_values: {social_icon: PhoneIcon, social_link: 'tel:+18329844722,'}},
+    ]
+    return (
+        <section id='' className='py-5 bg-header'>
+            <div className='container xl:w-[90%] mx-auto'>
+                <div className='flex flex-wrap items-center justify-center md:justify-between gap-5 px-4'>
+                    <div>
+                        © Copyright <b>DeranMore.</b> All Rights Reserved
+                    </div>
+                    <div className='flex gap-x-3 text-2xl'>
+                        {socialLinks && socialLinks.map(({ data_values }, key) => {
+                            const SIcon = data_values?.social_icon
+                            return (
+                                <Link to={data_values?.social_link || '/'} key={key} className='hover:text-primary/60 text-primary/90'>
+                                    {SIcon && <SIcon className='size-5' />}
+                                </Link>
+                            )
+                        })}
+                    </div>
+                </div>
+            </div>
+        </section>
+    )
+}
