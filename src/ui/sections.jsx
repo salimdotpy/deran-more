@@ -3,7 +3,7 @@ import { Button, Card, CardBody, Dialog, DialogBody, Input, List, ListItem, List
 import { Link, useLocation } from 'react-router-dom';
 import { BiLogoWhatsapp, BiSupport } from 'react-icons/bi';
 import { PhoneIcon } from '@heroicons/react/24/solid';
-import { ArrowRightIcon, CheckCircleIcon, CreditCardIcon, EnvelopeIcon, MapPinIcon, QuestionMarkCircleIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { ArrowRightIcon, CheckCircleIcon, CreditCardIcon, EnvelopeIcon, FaceFrownIcon, MapPinIcon, QuestionMarkCircleIcon, XMarkIcon } from '@heroicons/react/24/outline';
 
 const cls = ['!text-fore peer-focus:pl-0 peer-focus:before:!border-primary/90 peer-focus:after:!border-primary/90', 'text-fore focus:border-primary/90 placeholder:opacity-100'];
 const logo = '/images/logoIcon/logo.png'
@@ -300,3 +300,22 @@ export const FooterSection = ({ data }) => {
         </section>
     )
 }
+
+export const NotFound = () => {
+    return (
+        <div className='flex justify-center items-center h-screen'>
+            <Card className='bg-header px-12 py-16'>
+                <CardBody className='text-center text-fore'>
+                    <FaceFrownIcon className='inline-block size-16 my-4 text-primary' />
+                    <Typography variant='h4'>404 - Page Not Found</Typography>
+                    <p className='mb-3'>Sorry, the page you are looking for does not exist.</p>
+                    <Link to={'/'}>
+                        <Button className='bg-primary'>
+                            Back to Home
+                        </Button>
+                    </Link>
+                </CardBody>
+            </Card>
+        </div>
+    );
+};

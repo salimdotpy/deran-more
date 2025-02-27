@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { useEffect, useState } from 'react';
-import { LoadingComponent } from "./ui/sections";
+import { LoadingComponent, NotFound } from "./ui/sections";
 import Login from "./pages/Login";
 import { ToastContainer } from "react-toastify";
 import Index from "./pages/Index";
@@ -39,6 +39,7 @@ function App() {
         <Route path="/" element={<Index />} />
         <Route path="/auth/admin" element={<Login />} />
         <Route path="/admin" element={<Dashboard />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
       <ToastContainer theme={theme ? 'dark' : 'light'} />
     </BrowserRouter>
