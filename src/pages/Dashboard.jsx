@@ -71,7 +71,6 @@ export default function Dashboard() {
                     </CardBody>
                 </Card>
             </div>
-            {JSON.stringify(import.meta.env)} ade
         </Layout>
     )
 }
