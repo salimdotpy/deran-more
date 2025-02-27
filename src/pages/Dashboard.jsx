@@ -10,6 +10,7 @@ export default function Dashboard() {
     const toggleBalanceVisiblity = (value) => setBalanceShown(balanceShown === value ? 0 : value);
 
     document.title = 'Dashboard - DeranMore';
+    console.log(import.meta.env);
     return (
         <Layout>
             <div className="flex gap-5 flex-wrap *:flex-1 *:basis-full md:*:basis-1/4 mb-10 text-fore">
@@ -70,6 +71,7 @@ export default function Dashboard() {
                     </CardBody>
                 </Card>
             </div>
+            {JSON.stringify(import.meta.env)} ade
         </Layout>
     )
 }

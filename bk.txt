@@ -1,0 +1,31 @@
+# Recommended for most uses
+DATABASE_URL=postgres://neondb_owner:npg_D50brMkmQXAz@ep-bitter-wave-a4l74n8b-pooler.us-east-1.aws.neon.tech/neondb?sslmode=require
+
+# For uses requiring a connection without pgbouncer
+DATABASE_URL_UNPOOLED=postgresql://neondb_owner:npg_D50brMkmQXAz@ep-bitter-wave-a4l74n8b.us-east-1.aws.neon.tech/neondb?sslmode=require
+
+# Parameters for constructing your own connection string
+PGHOST=ep-bitter-wave-a4l74n8b-pooler.us-east-1.aws.neon.tech
+PGHOST_UNPOOLED=ep-bitter-wave-a4l74n8b.us-east-1.aws.neon.tech
+PGUSER=neondb_owner
+PGDATABASE=neondb
+PGPASSWORD=npg_D50brMkmQXAz
+
+# Parameters for Vercel Postgres Templates
+POSTGRES_URL=postgres://neondb_owner:npg_D50brMkmQXAz@ep-bitter-wave-a4l74n8b-pooler.us-east-1.aws.neon.tech/neondb?sslmode=require
+POSTGRES_URL_NON_POOLING=postgres://neondb_owner:npg_D50brMkmQXAz@ep-bitter-wave-a4l74n8b.us-east-1.aws.neon.tech/neondb?sslmode=require
+POSTGRES_USER=neondb_owner
+POSTGRES_HOST=ep-bitter-wave-a4l74n8b-pooler.us-east-1.aws.neon.tech
+POSTGRES_PASSWORD=npg_D50brMkmQXAz
+POSTGRES_DATABASE=neondb
+POSTGRES_URL_NO_SSL=postgres://neondb_owner:npg_D50brMkmQXAz@ep-bitter-wave-a4l74n8b-pooler.us-east-1.aws.neon.tech/neondb
+POSTGRES_PRISMA_URL=postgres://neondb_owner:npg_D50brMkmQXAz@ep-bitter-wave-a4l74n8b-pooler.us-east-1.aws.neon.tech/neondb?connect_timeout=15&sslmode=require
+
+# Parameters for Vercel BLOB
+DERANMORE_BLOB_READ_WRITE_TOKEN="vercel_blob_rw_JmvPRqI3cZj5CAV5_mkABTozTeV3c8nmIOV3zGHxuBlAKb2"
+STORE_NAME=deran-more-blob
+STORE_ID=store_JmvPRqI3cZj5CAV5
+STORE_URL=https://jmvprqi3czj5cav5.public.blob.vercel-storage.com
+
+# Access Token
+DERANMORE_TOKEN=FMIzmGYrcBa31tNmL9Zxx6JW

@@ -2,6 +2,16 @@ import { ChevronDownIcon, ChevronRightIcon, CurrencyDollarIcon, EnvelopeIcon, Gl
 import { Accordion, AccordionBody, AccordionHeader, Chip, Drawer, List, ListItem, ListItemPrefix, ListItemSuffix, Typography } from "@material-tailwind/react";
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
+import data from "../sections.json";
+
+let secs = data;
+let keys = Object.entries(secs).sort();
+secs = []
+keys.forEach(key => {
+  if (key[1].builder) {
+    secs.push({ name: key[1].name, href: '/admin/frontend/frontend-sections/'+key[0] })
+  }
+});
 
 export const links = [
     { name: 'Dashboard', href: '/admin', Icon: HomeIcon },
@@ -20,14 +30,7 @@ export const links = [
     { name: 'FRONTEND MANAGER', head: true },
     {
         name: 'Manage Sections', href: false, Icon: TvIcon,
-        menu: [
-            { name: 'Hero Section', href: '/admin/frontend/frontend-sections/hero' },
-            { name: 'About Section', href: '/admin/frontend/frontend-sections/about' },
-            { name: 'Service Section', href: '/admin/frontend/frontend-sections/service' },
-            { name: 'Payment Section', href: '/admin/frontend/frontend-sections/payment' },
-            { name: 'Contact Section', href: '/admin/frontend/frontend-sections/contact' },
-            { name: 'Footer Section', href: '/admin/frontend/frontend-sections/footer' },
-        ]
+        menu: secs
     },
 ]
 

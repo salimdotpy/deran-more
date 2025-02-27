@@ -1,0 +1,87 @@
+{
+    "hero": {
+        "builder": true,
+        "no_selection":true,
+        "name": "Hero Section",
+        "content": {
+            "images":{
+                "image":{
+                    "size":false
+                }
+            },
+            "heading": "text",
+            "sub_heading": "text",
+            "button_text": "text",
+            "button_url": "text"
+        }
+    },
+    "about": {
+        "builder": true,
+        "name": "About Section",
+        "content": {
+            "images":{
+                "image":{
+                    "size":"600x250"
+                }
+            },
+            "heading": "text",
+            "sub_heading": "textarea",
+            "details": "textarea",
+            "button_text": "text",
+            "button_url": "text"
+        }
+    },
+    "services": {
+        "builder": true,
+        "name": "Services Section",
+        "content": {
+            "heading": "text",
+            "sub_heading": "textarea"
+        },
+        "element": {
+            "icon": "icon",
+            "title": "text",
+            "description": "textarea",
+            "modal": true
+        }
+    },
+    "payment": {
+        "builder": true,
+        "name": "Payment Section",
+        "content": {
+            "heading": "text",
+            "sub_heading": "text",
+            "button_text": "text"
+        },
+        "element": {
+            "account_name": "text",
+            "account_number": "text",
+            "bank": "text",
+            "modal":true
+        }
+    },
+    "footer": {
+        "builder": true,
+        "no_selection": true,
+        "name": "Footer Section",
+        "element":{
+            "social_name": "text",
+            "social_link": "text",
+            "social_icon": "icon",
+            "modal":true
+        }
+    },
+    "contact_us": {
+        "builder": true,
+        "no_selection": true,
+        "name": "Contact Us",
+        "content": {
+            "title": "text",
+            "button_text": "text",
+            "email": "text",
+            "phone": "text",
+            "address": "text",
+            "map_source": "text"
+        }
+    }
+}
