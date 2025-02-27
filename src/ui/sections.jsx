@@ -127,8 +127,7 @@ export const ServiceSection = ({ content, elements }) => {
 
 export const PaymentSection = ({ data }) => {
     const [open, setOpen] = React.useState(false);
-    const [sent, setSent] = React.useState(false);
-    const handleOpen = () => { setOpen(!open); setSent(false) };
+    const handleOpen = () => { setOpen(!open); };
     return (
         <section id='payment' className='py-10 bg-header'>
             <div className='container xl:w-[90%] mx-auto'>
@@ -150,7 +149,7 @@ export const PaymentSection = ({ data }) => {
                             <hr className='w-full my-3' />
                             <List className='p-0'>
                                 {[...Array(4).fill(1)].map((_, key) =>
-                                    <ListItem className='text-fore'>
+                                    <ListItem key={key} className='text-fore'>
                                         <ListItemPrefix>
                                             <ArrowRightIcon className='size-6' />
                                         </ListItemPrefix>

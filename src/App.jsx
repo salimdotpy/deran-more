@@ -2,10 +2,11 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { useEffect, useState } from 'react';
-import Index from "./pages/Index";
 import { LoadingComponent } from "./ui/sections";
 import Login from "./pages/Login";
 import { ToastContainer } from "react-toastify";
+import Index from "./pages/Index";
+import Dashboard from "./pages/Dashboard";
 
 function App() {
   const [theme, setTheme] = useState(false);
@@ -21,7 +22,7 @@ function App() {
       setTheme(true);
     }
   }, []);
-  
+
   useEffect(() => {
     if (theme) {
       document.body.classList.add('dark');
@@ -37,6 +38,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Index />} />
         <Route path="/auth/admin" element={<Login />} />
+        <Route path="/admin" element={<Dashboard />} />
       </Routes>
       <ToastContainer theme={theme ? 'dark' : 'light'} />
     </BrowserRouter>

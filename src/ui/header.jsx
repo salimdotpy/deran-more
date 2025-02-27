@@ -1,6 +1,6 @@
 
-import { Bars3Icon, SunIcon, UserIcon, XMarkIcon } from '@heroicons/react/24/solid';
-import { Button, Drawer, IconButton, List, ListItem, Navbar, Tooltip } from '@material-tailwind/react';
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/solid';
+import { Drawer, IconButton, List, ListItem, Navbar } from '@material-tailwind/react';
 import { Link } from 'react-router-dom';
 import React from 'react';
 import ToggleTheme from './ToggleTheme';
