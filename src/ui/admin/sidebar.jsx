@@ -9,7 +9,7 @@ let keys = Object.entries(secs).sort();
 secs = []
 keys.forEach(key => {
   if (key[1].builder) {
-    secs.push({ name: key[1].name, href: '/admin/frontend/frontend-sections/'+key[0] })
+    secs.push({ name: key[1].name, href: '/admin/frontend/'+key[0] })
   }
 });
 

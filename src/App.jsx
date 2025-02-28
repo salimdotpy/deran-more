@@ -7,6 +7,10 @@ import Login from "./pages/Login";
 import { ToastContainer } from "react-toastify";
 import Index from "./pages/Index";
 import Dashboard from "./pages/Dashboard";
+import { AuthProvider } from "./ui/AuthContext";
+import ProtectedRoute from "./ui/ProtectedRoute";
+import SettingLogoFavicon, { SettingSeo } from "./pages/Settings";
+import Frontend from "./pages/Frontend";
 
 function App() {
   const [theme, setTheme] = useState(false);
@@ -33,16 +37,30 @@ function App() {
   }, [theme]);
 
   return (
-    <BrowserRouter>
-      <LoadingComponent />
-      <Routes>
-        <Route path="/" element={<Index />} />
-        <Route path="/auth/admin" element={<Login />} />
-        <Route path="/admin" element={<Dashboard />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-      <ToastContainer theme={theme ? 'dark' : 'light'} />
-    </BrowserRouter>
+    <AuthProvider>
+      <BrowserRouter>
+        <LoadingComponent />
+        <Routes>
+          <Route path="/" element={<Index />} />
+          <Route path="/auth/admin" element={<Login />} />
+          <Route path="/admin/*" 
+            element={
+              <ProtectedRoute>
+                <Routes>
+                  <Route path="/" element={<Dashboard />} />
+                  <Route path="/logo-favicon" element={<SettingLogoFavicon />} />
+                  <Route path="/seo" element={<SettingSeo />} />
+                  <Route path="/frontend/:type" element={<Frontend />} />
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </ProtectedRoute>
+            } 
+          />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+        <ToastContainer theme={theme ? 'dark' : 'light'} />
+      </BrowserRouter>
+    </AuthProvider>
   )
 }
 

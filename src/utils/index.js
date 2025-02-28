@@ -83,8 +83,6 @@ export const getImage = async (image, size = null) => {
     return `/images/default.png`;
 };
 
-// vercel_blob_rw_JmvPRqI3cZj5CAV5_mkABTozTeV3c8nmIOV3zGHxuBlAKb2
-
 /*
 
 

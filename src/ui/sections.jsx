@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Card, CardBody, Dialog, DialogBody, Input, List, ListItem, ListItemPrefix, Textarea, Typography } from '@material-tailwind/react';
+import { Breadcrumbs, Button, Card, CardBody, Dialog, DialogBody, Input, List, ListItem, ListItemPrefix, Textarea, Typography } from '@material-tailwind/react';
 import { Link, useLocation } from 'react-router-dom';
 import { BiLogoWhatsapp, BiSupport } from 'react-icons/bi';
 import { PhoneIcon } from '@heroicons/react/24/solid';
@@ -303,7 +303,7 @@ export const FooterSection = ({ data }) => {
 
 export const NotFound = () => {
     return (
-        <div className='flex justify-center items-center h-screen'>
+        <div className='flex justify-center items-center h-screen p-5'>
             <Card className='bg-header px-12 py-16'>
                 <CardBody className='text-center text-fore'>
                     <FaceFrownIcon className='inline-block size-16 my-4 text-primary' />
@@ -319,3 +319,19 @@ export const NotFound = () => {
         </div>
     );
 };
+
+
+export function BreadCrumbs({ role='admin', links = [], ...props }) {
+    return (
+        <Breadcrumbs {...props}>
+            <Link to={`/${role}`} className={`text-fore hover:text-primary ${links.length ? 'opacity-60' : ''}`}>
+                Dashboard
+            </Link>
+            {links && links.map((link, key) =>
+                <Link href={link.href} key={key} className={`text-fore hover:text-primary ${key === links.length - 1 ? '' : "opacity-60"}`}>
+                    {link.name}
+                </Link>
+            )}
+        </Breadcrumbs>
+    )
+}
