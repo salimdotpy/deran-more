@@ -1,7 +1,7 @@
 import React from "react";
 import Layout from "../ui/admin/layout";
 import { Card, CardBody, Typography } from "@material-tailwind/react";
-import { CheckCircleIcon, EyeIcon, EyeSlashIcon, MinusCircleIcon, XMarkIcon } from "@heroicons/react/24/solid";
+import { CheckCircleIcon, EyeIcon, EyeSlashIcon, MinusCircleIcon } from "@heroicons/react/24/solid";
 import { showAmount } from "../ui/admin/sidebar";
 import { CurrencyDollarIcon } from "@heroicons/react/24/solid";
 
