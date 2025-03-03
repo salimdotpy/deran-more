@@ -1,38 +1,90 @@
-export const validateFile = (file) => {
-    if (file.size >= 1.5 * 1024 * 1024) {
-        throw Error("File size must be less than 1.5MB");
+import { doc, query, where } from "firebase/firestore";
+import { addDoc, collection, db, getDocs, updateDoc } from "./firebase";
+
+export async function fetchSetting(data_key = 'general') {
+    try {
+        const settingsCol = collection(db, "settings");
+        const q = query(settingsCol, where("data_keys", "==", data_key));
+        const snapshot = await getDocs(q);
+        if (!snapshot.empty) {
+            const doc = snapshot.docs[0];
+            return JSON.parse(doc.data().data_values);
+        } else {
+            return null;
+        }
+    } catch (error) {
+        return null;
     }
-    if (!["image/jpeg", "image/jpg", "image/png", "image/gif"].includes(file.type)) {
-        throw Error("Unsupported file format. Please upload JPG, PNG, or GIF");
-    }
-    return
 }
 
-export const logoIconUpdate = async (file) => {
+export async function updateSetting(form, data_key = 'general') {
     try {
-        if (file && file.logo) {
-            const logo = file.logo;
-            validateFile(logo);
-            const ab = await logo.arrayBuffer();
-            const buf = new Uint8Array(ab)
-            let path = imagePath();
-            path = 'public/' + path.logoIcon.path;
-            await uploadImage(buf, path, null, null, 'logo.png')
+        const settingsCol = collection(db, "settings");
+        const q = query(settingsCol, where("data_keys", "==", data_key));
+        const snapshot = await getDocs(q);
+        const data = JSON.stringify(form);
+        const date = new Date().toISOString();
+        if (!snapshot.empty) {
+            const docu = snapshot.docs[0];
+            await updateDoc(doc(db, "settings", docu.id), { data_values: data, updated_at: date });
+        } else {
+            await addDoc(settingsCol, { data_keys: data_key, data_values: data, created_at: date, updated_at: date });
         }
-        if (file && file.favicon) {
-            const favicon = file.favicon;
-            validateFile(favicon);
-            const ab = await favicon.arrayBuffer();
-            const buf = new Uint8Array(ab)
-            const path = imagePath();
-            await uploadImage(buf, 'public/' + path.logoIcon.path, path.favicon.size, null, 'favicon.png')
-        }
-        return { message: 'Logo & favicon has been updated' };
-    }
-    catch (error) {
+        const tle = await keyToTitle(data_key);
+        return { message: `${tle.split('.')?.[0]} setting updated successfully!` };
+
+    } catch (error) {
         return { error: error.message };
     }
 }
+
+export const setNotification = async (notification) => {
+    try {
+        const noteCol = collection(db, "notifications");
+        const date = new Date().toISOString();
+        await addDoc(noteCol, { ...notification, created_at: date, updated_at: date });
+        return true;
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const fetchNotifications = async (user_id = false, id = false) => {
+    try {
+        let notify
+        const noteCol = collection(db, "notifications");
+        if (user_id) {
+            const q = query(noteCol, where("user_id", "==", user_id));
+            const snapshot = await getDocs(q);
+            notify = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
+        } else if (id) {
+            const q = query(noteCol, where("id", "==", id));
+            const snapshot = await getDocs(q);
+            const doc = snapshot.docs[0];
+            notify = { id: doc.id, ...doc.data() }
+        }
+        return notify;
+    } catch (error) {
+        return false;
+    }
+};
+
+export const readNotifications = async (id = false, user_id = false) => {
+    try {
+        const noteCol = collection(db, "notifications");
+        const cond = user_id ? where("user_id", "==", user_id) : where("id", "==", id);
+        const q = query(noteCol, cond, where("status", "==", 0));
+        const snapshot = await getDocs(q);
+        const date = new Date().toISOString();
+        if (!snapshot.empty) {
+            const doc = snapshot.docs[0];
+            await updateDoc(doc(db, "notifications", doc.id), { status: 1, updated_at: date });
+        } return true;
+    } catch (error) {
+        console.log(error);
+        return false;
+    }
+};
 
 export const verificationCode = (length = 6) => {
     const min = Math.pow(10, length - 1);
@@ -43,88 +95,23 @@ export const verificationCode = (length = 6) => {
 export const getNumber = (length = 8) =>
     Array.from({ length }, () => Math.floor(Math.random() * 10)).join('');
 
-export const imagePath = () => {
-    let data = {}
-    data['image'] = {
-        default: 'images/default.png',
-    }
-    data['logoIcon'] = {
-        path: 'images/logoIcon',
-    }
-    data['favicon'] = {
-        size: '128x128',
-    }
-    data['extensions'] = {
-        path: 'images/extensions',
-        size: '36x36',
-    }
-    data['seo'] = {
-        path: 'images/seo',
-        size: '600x315'
-    }
-    data['profile'] = {
-        user: {
-            path: 'images/user/profile',
-            size: '350x300'
-        },
-        admin: {
-            path: 'admin/images/profile',
-            size: '400x400'
-        }
-    }
-    return data
+// Convert title to key
+export const keyToTitle = (text, multi = false) => {
+    const words = text.split("_").map((word) => word[0].toUpperCase() + word.slice(1));
+    return multi ? words.join(" ") : words.join(" ");
 }
 
-export const getImage = async (image, size = null) => {
-    const imagePath = path.join(process.cwd(), `public/${image}`);
-    if (fs.existsSync(imagePath)) {
-        return `/${image}`;
+export function formatDate(date) {
+    date = new Date(date);
+    return `${date.toLocaleString('en-US', { month: 'short' })} ${date.getDate()}${getOrdinal(date.getDate())}, ${date.getFullYear()} ${date.toLocaleTimeString('en-US', { hour12: true })}`;
+}
+
+export function getOrdinal(n) {
+    if (n > 10 && n < 14) return 'th';
+    switch (n % 10) {
+        case 1: return 'st';
+        case 2: return 'nd';
+        case 3: return 'rd';
+        default: return 'th';
     }
-    return `/images/default.png`;
-};
-
-/*
-
-
-export const uploadImage = async (file, location, size = null, oldFile = null, fname = null) => {
-  const uploadPath = path.join(process.cwd(), location);
-  fs.mkdirSync(uploadPath, { recursive: true });
-  if (oldFile) {
-    removeFile(path.join(uploadPath, oldFile));
-  }
-  
-  const filename = fname ? fname : `${Date.now()}-${randomBytes(4).toString('hex')}.jpg`;
-  const filePath = path.join(uploadPath, filename);
-
-  const image = sharp(file);
-  if (size) {
-    const [width, height] = size.split('x').map(Number);
-    await image.resize({width, height, fit: 'inside', withoutEnlargement:true}).toFile(filePath);
-  } else {
-    await image.toFile(filePath);
-  }
-  return filename;
-};
-
-// Function to upload general files
-export const uploadFile = async (file, location, oldFile = null) => {
-  const uploadPath = path.join(process.cwd(), location);
-  fs.mkdirSync(uploadPath, { recursive: true });
-  if (oldFile) removeFile(path.join(uploadPath, oldFile));
-
-  const filename = `${Date.now()}-${randomBytes(4).toString('hex')}.${file.mimetype.split('/')[1]}`;
-  fs.writeFileSync(path.join(uploadPath, filename), file.buffer);
-  return filename;
-};
-
-// Function to remove a file
-export const removeFile = async (filePath, r=false) => {
-  if (r) {
-    const removePath = path.join(process.cwd(), 'public/' + filePath);
-    if (fs.existsSync(removePath)) fs.unlinkSync(removePath);
-  }else{
-    if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
-  }
-};
-
-*/
+}

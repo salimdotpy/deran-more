@@ -8,23 +8,7 @@ import { CurrencyDollarIcon } from "@heroicons/react/24/solid";
 export default function Dashboard() {
     const [balanceShown, setBalanceShown] = React.useState(false);
     const toggleBalanceVisiblity = (value) => setBalanceShown(balanceShown === value ? 0 : value);
-    
-    const VERCEL_POSTGRES_API = "https://api.vercel.com/v1/postgres/query";
 
-    const fetchUsers = async () => {
-    const response = await fetch(VERCEL_POSTGRES_API, {
-        method: "POST",
-        headers: {
-        Authorization: `Bearer ${import.meta.env.VITE_DATA_TOKEN}`,
-        "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ sql: "SELECT * FROM admins ORDER BY id DESC" }),
-    });
-
-    const data = await response.json();
-    console.log(data.rows);
-    };
-    fetchUsers(); 
     document.title = 'Dashboard - DeranMore';
     return (
         <Layout>

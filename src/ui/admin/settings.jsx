@@ -6,6 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 import { toast } from "react-toastify";
 import { BreadCrumbs } from "../sections";
+import { updateSetting } from "../../utils";
 
 const ImageSchema = {
     image_input: yup.mixed()
@@ -35,8 +36,13 @@ export function LogoFavicon({ image }) {
     const onSubmit = async (formData) => {
         setLoading(true);
         try {
-            console.log(formData);
-            toast.success('Submission Successfully.');
+            const response = await updateSetting(previews, 'logoFavicon.image');
+            if (response.message) {
+                toast.success(response.message);
+            } else {
+                toast.error(response.error)
+            }
+            // toast.success('Submission Successfully.');
         } catch (error) {
             toast.error('Submission failed.');
         } finally {
@@ -73,7 +79,7 @@ export function LogoFavicon({ image }) {
                             <Card className="bg-back text-fore basis-1/3 shrink-0 grow">
                                 <CardHeader floated={false} className="h-64 bg-header">
                                     <label htmlFor="logo">
-                                        <img src={previews.logo} alt="profile-picture" className="size-full" />
+                                        <img src={previews.logo || '/images/default.png'} alt="Company Logo" className="size-full" />
                                     </label>
                                 </CardHeader>
                                 <CardBody className="text-center text-fore">
@@ -94,7 +100,7 @@ export function LogoFavicon({ image }) {
                             <Card className="bg-back text-fore basis-1/3 grow">
                                 <CardHeader floated={false} className="h-64 bg-header">
                                     <label htmlFor="favicon">
-                                        <img src={previews.favicon} alt="profile-picture" className="size-full" />
+                                        <img src={previews.favicon || '/images/default.png'} alt="profile-picture" className="size-full" />
                                     </label>
                                 </CardHeader>
                                 <CardBody className="text-center text-fore">
@@ -112,7 +118,7 @@ export function LogoFavicon({ image }) {
                                     </label>
                                 </CardFooter>
                             </Card>
-                            <Button type="submit" className={`bg-primary disabled:!pointer-events-auto disabled:cursor-not-allowed`} disabled={loading} fullWidth>
+                            <Button type="submit" className={`bg-primary disabled:!pointer-events-auto disabled:cursor-not-allowed`} loading={loading} fullWidth>
                                 Update
                             </Button>
                         </div>
@@ -131,8 +137,13 @@ export function Seo({ data }) {
     const onSubmit = async (formData) => {
         setLoading(true);
         try {
-            console.log(formData);
-            toast.success('Submission Successfully.');
+            formData.image = preview;
+            const response = await updateSetting(formData, 'seo.data');
+            if (response.message) {
+                toast.success(response.message);
+            } else {
+                toast.error(response.error)
+            }
         } catch (error) {
             toast.error('Submission failed.');
         } finally {
@@ -162,13 +173,13 @@ export function Seo({ data }) {
             <Card className="bg-header text-fore">
                 <CardBody>
                     <form className="mb-2 mt-2 text-fore" onSubmit={handleSubmit(onSubmit)}>
-                        <input type="hidden" {...register('type')} defaultValue="data" />
-                        <input type="hidden" {...register('seo_image')} defaultValue="1" />
-                        <input type="hidden" {...register('key')} defaultValue="seo" />
+                        {/* <input type="hidden" {...register('type')} defaultValue="data" /> */}
+                        {/* <input type="hidden" {...register('seo_image')} defaultValue="1" /> */}
+                        {/* <input type="hidden" {...register('key')} defaultValue="seo" /> */}
                         <div className="flex flex-wrap w-full">
                             <div className="w-full md:w-1/3 text-center">
                                 <label htmlFor="logo">
-                                    <img src={preview} alt="profile-picture" className="w-full h-auto" />
+                                    <img src={preview || '/images/default.png'} alt="Company Seo Image" className="w-full h-auto" />
                                 </label>
                                 <input type="file" id="logo" onChange={(e) => handleFileChange(e)} accept="image/*" className="hidden" />
                                 {errors.image_input && <Typography className="font-medium text-red-900" textGradient>
