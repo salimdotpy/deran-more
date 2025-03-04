@@ -135,12 +135,13 @@ export const getPageSections = async (arr = false) => {
       const frontendsRef = collection(db, "frontends"); // Firestore collection reference
   
       let q = query(frontendsRef, where("data_keys", "==", data_keys)); // Base query
-  
-      if (orderById) {
+      /*
+      if (!orderById) {
         q = query(frontendsRef, where("data_keys", "==", data_keys)); // No ordering
       } else {
         q = query(frontendsRef, where("data_keys", "==", data_keys), orderBy("id", "desc"));
       }
+      */
   
       if (limitValue) {
         q = query(q, limit(Number(limitValue))); // Apply limit if provided

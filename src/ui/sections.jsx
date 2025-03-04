@@ -5,8 +5,9 @@ import { BiLogoWhatsapp, BiSupport } from 'react-icons/bi';
 import { PhoneIcon } from '@heroicons/react/24/solid';
 import { ArrowRightIcon, CheckCircleIcon, CreditCardIcon, EnvelopeIcon, FaceFrownIcon, MapPinIcon, QuestionMarkCircleIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { getContent } from '../utils';
-import { frontSections } from '../utils/frontend';
 import { useDidMount } from '../hooks';
+import { social_icons } from './admin/frontend';
+import { frontSections } from '../utils/frontend';
 
 const cls = ['!text-fore peer-focus:pl-0 peer-focus:before:!border-primary/90 peer-focus:after:!border-primary/90', 'text-fore focus:border-primary/90 placeholder:opacity-100'];
 const logo = '/images/logoIcon/logo.png'
@@ -97,13 +98,13 @@ export const AboutSection = () => {
                         <h3 className='text-primary font-bold text-2xl font-[tahoma]'>
                             {didMount && data ? data.heading : <FormSkeleton className='!p-0' size={1} />}
                             <br />
-                            <span className='text-fore text-lg'>
+                            <div className='text-fore text-lg'>
                                 {didMount && data ? data.sub_heading : <FormSkeleton className='!p-0' size={1} />}
-                            </span>
+                            </div>
                         </h3>
-                        <p className='text-fore/80 text-justify'>
+                        <div className='text-fore/80 text-justify'>
                             {didMount && data ? data.details : <FormSkeleton className='!p-0' />}
-                        </p>
+                        </div>
                     </div>
                     <div data-aos="fade-left" className='relative min-h-60 md:flex-1 basis-[100%]' style={{ backgroundImage: `url(${didMount && data ? data.image : '/images/default.png'})`, backgroundSize: 'cover', }}>
                         <div className='absolute inset-0 from-header to-transparent md:bg-gradient-to-r bg-gradient-to-b'>
@@ -115,56 +116,95 @@ export const AboutSection = () => {
     );
 };
 
-export const ServiceSection = ({ content, elements }) => {
-    elements = [
-        { data_values: { Icon: QuestionMarkCircleIcon, title: 'Professional Guidance On:', description: ' Dissertation Writting, Thesis Development, Journal Publication Preparation etc.' } },
-        { data_values: { Icon: BiSupport, title: 'Expert Assistance', description: 'Improve Research Design & Methodology, Enhance data analysis and interperation, Develop well-structured and coherent manuscripts.' } },
-    ]
+export const ServiceSection = () => {
+    const [content, setContent] = useState(null);
+    const [elements, setElements] = useState(null);
+    const didMount = useDidMount();
+    const fetchData = async () => {
+        const snapshot = await getContent('services.content', true);
+        setContent(snapshot?.data_values);
+        const snapshot2 = await getContent('services.element', false, null, true);
+        setElements(snapshot2);
+    };
+
+    useEffect(() => {
+        fetchData();
+        return ()=>{
+            setContent(null);
+            setElements(null);
+        }
+    }, []);
+
     return (
         <section id='services' className='py-10'>
             <div className='container xl:w-[90%] mx-auto'>
                 <div className='p-4 text-center'>
-                    <h3 className='font-bold text-2xl'>Our Services</h3>
-                    <p className='text-fore/80 my-4'>
-                        We are rendering below Services
-                    </p>
+                    <h3 className='font-bold text-2xl'>
+                        {didMount && content ? content.heading : <FormSkeleton className='!p-0' size={1} />}
+                    </h3>
+                    <div className='text-fore/80 my-4'>
+                        {didMount && content ? content.sub_heading : <FormSkeleton className='!p-0' size={1} />}
+                    </div>
                 </div>
                 <div className='flex flex-wrap p-4 w-full'>
-                    {elements && elements.map((service, key) => {
-                        const ServiceIcon = service.data_values.Icon;
-                        const sub_services = service.data_values.description.split(',').map((sub_, i) =>
-                            <p key={i}>&rArr; {sub_}</p>
-                        );
-                        return (
-                            <div key={key} className='text-fore mb-8 w-full md:flex-1 lg:w-1/3 md:w-1/2 group' data-aos="fade-up" data-aos-delay={`${key}00`}>
-                                <div className='float-left flex justify-center items-center size-14 border border-primary bg-primary rounded-full text-header group-hover:bg-header group-hover:text-primary transition-colors duration-1000'>
-                                    <ServiceIcon className='size-6' />
-                                </div>
-                                <Typography variant='h6' className='ml-20'>
-                                    {service.data_values.title}
-                                </Typography>
-                                <Typography as={'div'} className='ml-20'>
-                                    {sub_services}
-                                </Typography>
-                            </div>)
-                    })}
+                    {elements ? elements.map((service, key) => {
+                        const ServiceIcon = social_icons[service.data_values.icon];
+                        const sub_services = service.data_values.description.split('\n').map((sub_, i) =>
+                        <p key={i}>&rArr; {sub_}</p>
+                    );
+                    return (
+                        <div key={key} className='text-fore mb-8 w-full md:flex-1 lg:w-1/3 md:w-1/2 group' data-aos="fade-up" data-aos-delay={`${key}00`}>
+                            <div className='float-left flex justify-center items-center size-14 border border-primary bg-primary rounded-full text-header group-hover:bg-header group-hover:text-primary transition-colors duration-1000'>
+                                <ServiceIcon className='size-6' />
+                            </div>
+                            <Typography variant='h6' className='ml-20'>
+                                {service.data_values.title}
+                            </Typography>
+                            <Typography as={'div'} className='ml-20'>
+                                {sub_services}
+                            </Typography>
+                        </div>)
+                    }) : 
+                    <FormSkeleton className='!p-0 w-full' />
+                    }
                 </div>
             </div>
         </section>
     );
 };
 
-export const PaymentSection = ({ data }) => {
+export const PaymentSection = () => {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => { setOpen(!open); };
+
+    const [content, setContent] = useState(null);
+    const [elements, setElements] = useState(null);
+    const didMount = useDidMount();
+    const fetchData = async () => {
+        const snapshot = await getContent('payment.content', true);
+        setContent(snapshot?.data_values);
+        const snapshot2 = await getContent('payment.element', false, null, true);
+        setElements(snapshot2);
+    };
+
+    useEffect(() => {
+        fetchData();
+        return ()=>{
+            setContent(null);
+            setElements(null);
+        }
+    }, []);
+
     return (
         <section id='payment' className='py-10 bg-header'>
             <div className='container xl:w-[90%] mx-auto'>
                 <div className='p-4 text-center'>
-                    <h3 className='font-bold text-2xl'>Payment</h3>
-                    <p className='text-fore/80 my-4'>
-                        We accept payment through below medium
-                    </p>
+                    <h3 className='font-bold text-2xl'>
+                        {didMount && content ? content.heading : <FormSkeleton className='!p-0' size={1} />}
+                    </h3>
+                    <div className='text-fore/80 my-4'>
+                        {didMount && content ? content.sub_heading : <FormSkeleton className='!p-0' size={1} />}
+                    </div>
                 </div>
                 <div className='flex flex-wrap gap-5 mb-10 px-4'>
                     <Card data-aos="fade-left" className="bg-back text-fore md:flex-1 basis-[100%]">
@@ -177,14 +217,16 @@ export const PaymentSection = ({ data }) => {
                             </div>
                             <hr className='w-full my-3' />
                             <List className='p-0'>
-                                {[...Array(4).fill(1)].map((_, key) =>
-                                    <ListItem key={key} className='text-fore'>
-                                        <ListItemPrefix>
-                                            <ArrowRightIcon className='size-6' />
-                                        </ListItemPrefix>
-                                        Account Name, 0123456789, Bank Name
-                                    </ListItem>
-                                )}
+                                {elements ? elements.map(({data_values:dv}, key) => 
+                                <ListItem key={key} className='text-fore'>
+                                    <ListItemPrefix>
+                                        <ArrowRightIcon className='size-6' />
+                                    </ListItemPrefix>
+                                    {dv.account_name}, {dv.account_number},  {dv.bank}
+                                </ListItem>
+                                ) :
+                                <FormSkeleton className='!p-0 w-full' />
+                                }
                             </List>
                         </CardBody>
                     </Card>
@@ -199,7 +241,7 @@ export const PaymentSection = ({ data }) => {
                             <hr className='w-full my-3' />
                             <div className='flex items-center justify-center my-16'>
                                 <Button variant='outlined' onClick={handleOpen} className='border-primary rounded-full px-16 hover:text-white border-2 text-fore hover:bg-primary'>
-                                    Verify
+                                {didMount && content ? content.button_text : <FormSkeleton className='!p-0' size={1} />}
                                 </Button>
                             </div>
                         </CardBody>
@@ -226,26 +268,40 @@ export const PaymentSection = ({ data }) => {
     );
 };
 
-export const ContactSection = ({ data }) => {
+export const ContactSection = () => {
+    const [data, setData] = useState(null);
+    const didMount = useDidMount();
+    const fetchData = async () => {
+        const snapshot = await frontSections('contact_us');
+        setData(snapshot?.content.data_values);
+    };
+
+    useEffect(() => {
+        fetchData();
+        return setData(null);
+    }, []);
+
     const contact_info = [
-        { title: 'Phone', desc: '+18329844722, +2348034066961', Icon: PhoneIcon },
-        { title: 'Email', desc: 'deranmore@hotmail.com', Icon: EnvelopeIcon },
-        { title: 'Address', desc: 'Ede, Osun State.', Icon: MapPinIcon },
+        { title: 'Phone', desc: data?.phone || '+18329844722, +2348034066961', Icon: PhoneIcon },
+        { title: 'Email', desc: data?.email || 'deranmore@hotmail.com', Icon: EnvelopeIcon },
+        { title: 'Address', desc: data?.address || 'Ede, Osun Sta.', Icon: MapPinIcon },
     ]
     return (
         <section id='contact' className='pt-10'>
             <div className='container xl:w-[90%] mx-auto'>
                 <div className='p-4 text-center'>
-                    <h3 className='font-bold text-2xl'>Contact Us</h3>
-                    <p className='text-fore/80 my-4'>
-                        Contact Us Today to Know more
-                    </p>
+                    <h3 className='font-bold text-2xl'>
+                        {didMount && data ? data.heading : <FormSkeleton className='!p-0' size={1} />}
+                    </h3>
+                    <div className='text-fore/80 my-4'>
+                        {didMount && data ? data.sub_heading : <FormSkeleton className='!p-0' size={1} />}
+                    </div>
                 </div>
                 <div className='flex flex-wrap gap-5 mb-10 px-4'>
                     <Card data-aos="fade-left" data-aos-delay="100" className="bg-header border text-fore md:flex-1 basis-[100%]">
                         <CardBody>
                             <Typography variant="h5" className="text-fore">
-                                Have something to say?
+                                {didMount && data ? data.title : <FormSkeleton className='!p-0' size={1} />}
                             </Typography>
                             <hr className='w-full my-5' />
                             <form className="flex flex-col gap-6 mb-2 mt-2 text-fore" method='post'>
@@ -264,14 +320,14 @@ export const ContactSection = ({ data }) => {
                                     <Textarea size='lg' label='Your Message' labelProps={{ className: cls[0] }} containerProps={{ className: 'min-w-0' }} className={cls[1]} required />
                                 </div>
                                 <Button type="submit" className="bg-primary disabled:!pointer-events-auto disabled:cursor-not-allowed justify-center" loading={false} fullWidth>
-                                    {data?.data_values?.button_text || 'Send Message'}
+                                    {data?.button_text || 'Send Message'}
                                 </Button>
                             </form>
                         </CardBody>
                     </Card>
                     <Card data-aos="fade-left" data-aos-delay="200" className="bg-header border text-fore md:flex-1 basis-[100%]">
                         <CardBody>
-                            <iframe src={data?.data_values?.map_source || 'https://www.google.com/maps/embed/v1/place?q=The+Federal+Polytechnic+Ede,+Ede,+Nigeria&key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8'} loading='lazy' className='w-full h-[400px]' allowFullScreen></iframe>
+                            <iframe src={data?.map_source || 'https://www.google.com/maps/embed/v1/place?q=The+Federal+Polytechnic+Ede,+Ede,+Nigeria&key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8'} loading='lazy' className='w-full h-[400px]' allowFullScreen></iframe>
                         </CardBody>
                     </Card>
                 </div>
@@ -288,8 +344,8 @@ export const ContactSection = ({ data }) => {
                                     <Typography variant='h6' className='ml-20'>
                                         {info.title}
                                     </Typography>
-                                    <Typography className='ml-20'>
-                                        {info.desc}
+                                    <Typography as={'div'} className='ml-20'>
+                                        {didMount && data ? info.desc : <FormSkeleton className='!p-0' size={1} />}
                                     </Typography>
                                 </CardBody>
                             </Card>
@@ -301,7 +357,21 @@ export const ContactSection = ({ data }) => {
     );
 };
 
-export const FooterSection = ({ data }) => {
+export const FooterSection = () => {
+    const [elements, setElements] = useState(null);
+    const didMount = useDidMount();
+    const fetchData = async () => {
+        const snapshot = await getContent('footer.element', false, null, true);
+        setElements(snapshot);
+    };
+
+    useEffect(() => {
+        fetchData();
+        return ()=>{
+            setElements(null);
+        }
+    }, []);
+
     const socialLinks = [
         { data_values: { social_icon: BiLogoWhatsapp, social_link: 'https://wa.me/+2348034066961' } },
         { data_values: { social_icon: EnvelopeIcon, social_link: 'mailto:deranmore@hotmail.com' } },
@@ -348,7 +418,6 @@ export const NotFound = () => {
         </div>
     );
 };
-
 
 export function BreadCrumbs({ role = 'admin', links = [], ...props }) {
     return (
