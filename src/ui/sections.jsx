@@ -371,12 +371,7 @@ export const FooterSection = () => {
             setElements(null);
         }
     }, []);
-
-    const socialLinks = [
-        { data_values: { social_icon: BiLogoWhatsapp, social_link: 'https://wa.me/+2348034066961' } },
-        { data_values: { social_icon: EnvelopeIcon, social_link: 'mailto:deranmore@hotmail.com' } },
-        { data_values: { social_icon: PhoneIcon, social_link: 'tel:+18329844722,' } },
-    ]
+    
     return (
         <section id='' className='py-5 bg-header'>
             <div className='container xl:w-[90%] mx-auto'>
@@ -385,14 +380,20 @@ export const FooterSection = () => {
                         © Copyright <b>DeranMore.</b> All Rights Reserved
                     </div>
                     <div className='flex gap-x-3 text-2xl'>
-                        {socialLinks && socialLinks.map(({ data_values }, key) => {
-                            const SIcon = data_values?.social_icon
-                            return (
-                                <Link to={data_values?.social_link || '/'} key={key} className='hover:text-primary/60 text-primary/90'>
-                                    {SIcon && <SIcon className='size-5' />}
-                                </Link>
-                            )
-                        })}
+                    {elements ? elements.map(({data_values:dv}, key) =>{
+                        const SIcon = social_icons[dv.social_icon];
+                        return (
+                            <Link to={dv?.social_link || '/'} key={key} className='hover:text-primary/60 text-primary/90'>
+                                {SIcon && <SIcon className='size-5' />}
+                            </Link>
+                        )
+                    }) :
+                    <>
+                    <FormSkeleton className='!p-0 size-5 rounded-full' size={1} />
+                    <FormSkeleton className='!p-0 size-5 rounded-full' size={1} />
+                    <FormSkeleton className='!p-0 size-5 rounded-full' size={1} />
+                    </>
+                    }
                     </div>
                 </div>
             </div>
