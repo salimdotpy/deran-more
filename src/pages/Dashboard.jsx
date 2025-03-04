@@ -28,7 +28,7 @@ export default function Dashboard() {
                             <Typography variant="small" className="text-fore">Verified Balance</Typography>
                             <i onClick={() => toggleBalanceVisiblity(2)}>{balanceShown === 2 ? (<EyeIcon className="h-5 w-5" />) : (<EyeSlashIcon className="h-5 w-5" />)}</i>
                         </div>
-                        <Typography variant='h3' className='naira text-fore'>{balanceShown === 2 ? 20 : '*******'}</Typography>
+                        <Typography variant='h3' className='naira text-fore'>{balanceShown === 2 ? showAmount(0) : '*******'}</Typography>
                     </CardBody>
                 </Card>
                 <Card className="bg-header">
@@ -37,7 +37,7 @@ export default function Dashboard() {
                             <Typography variant="small" className="text-fore">Unverified Balance</Typography>
                             <i onClick={() => toggleBalanceVisiblity(3)}>{balanceShown === 3 ? (<EyeIcon className="h-5 w-5" />) : (<EyeSlashIcon className="h-5 w-5" />)}</i>
                         </div>
-                        <Typography variant='h3' className='naira text-fore'>{balanceShown === 3 ? showAmount(90000000) : '*******'}</Typography>
+                        <Typography variant='h3' className='naira text-fore'>{balanceShown === 3 ? showAmount(0) : '*******'}</Typography>
                     </CardBody>
                 </Card>
             </div>
@@ -46,7 +46,7 @@ export default function Dashboard() {
                     <CardBody>
                         <Typography variant="small">All Payment Made</Typography>
                         <div className='flex items-center justify-between'>
-                            <Typography variant='h3'>{showAmount(5, 0)}</Typography>
+                            <Typography variant='h3'>{showAmount(0, 0)}</Typography>
                             <CurrencyDollarIcon className='size-12' />
                         </div>
                     </CardBody>
@@ -55,7 +55,7 @@ export default function Dashboard() {
                     <CardBody>
                         <Typography variant="small">Verified Payment</Typography>
                         <div className='flex items-center justify-between'>
-                            <Typography variant='h3'>{showAmount(3, 0)}</Typography>
+                            <Typography variant='h3'>{showAmount(0, 0)}</Typography>
                             <CheckCircleIcon className='size-12 text-green-300' />
                         </div>
                     </CardBody>
@@ -64,7 +64,7 @@ export default function Dashboard() {
                     <CardBody>
                         <Typography variant="small">Unverified Payment</Typography>
                         <div className='flex items-center justify-between'>
-                            <Typography variant='h3'>{showAmount(2, 0)}</Typography>
+                            <Typography variant='h3'>{showAmount(0, 0)}</Typography>
                             <MinusCircleIcon className='size-12 text-red-300' />
                         </div>
                     </CardBody>

@@ -43,7 +43,6 @@ export function FormSkeleton({ size = 5, className = ''}) {
     )
 }
 
-const slider_img = 'images/img1.jpeg';
 export const HeroSection = () => {
     const [data, setData] = useState(null);
     const didMount = useDidMount();
