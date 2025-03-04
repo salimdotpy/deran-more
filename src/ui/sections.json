@@ -76,6 +76,8 @@
         "no_selection": true,
         "name": "Contact Us",
         "content": {
+            "heading": "text",
+            "sub_heading": "text",
             "title": "text",
             "button_text": "text",
             "email": "text",

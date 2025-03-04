@@ -18,3 +18,92 @@ const db = getFirestore(app);
 const storage = getStorage(app);
 
 export { db, storage, collection, addDoc, getDocs, deleteDoc, doc, updateDoc, ref, uploadBytes, getDownloadURL, deleteObject };
+
+/*
+// AUTH ACTIONS ------------
+
+createAccount = (email, password) =>
+this.auth.createUserWithEmailAndPassword(email, password);
+
+signIn = (email, password) =>
+this.auth.signInWithEmailAndPassword(email, password);
+
+signInWithGoogle = () =>
+this.auth.signInWithPopup(new app.auth.GoogleAuthProvider());
+
+signInWithFacebook = () =>
+this.auth.signInWithPopup(new app.auth.FacebookAuthProvider());
+
+signInWithGithub = () =>
+this.auth.signInWithPopup(new app.auth.GithubAuthProvider());
+
+signOut = () => this.auth.signOut();
+
+passwordReset = (email) => this.auth.sendPasswordResetEmail(email);
+
+addUser = (id, user) => this.db.collection("users").doc(id).set(user);
+
+getUser = (id) => this.db.collection("users").doc(id).get();
+
+passwordUpdate = (password) => this.auth.currentUser.updatePassword(password);
+
+changePassword = (currentPassword, newPassword) =>
+new Promise((resolve, reject) => {
+  this.reauthenticate(currentPassword)
+    .then(() => {
+      const user = this.auth.currentUser;
+      user
+        .updatePassword(newPassword)
+        .then(() => {
+          resolve("Password updated successfully!");
+        })
+        .catch((error) => reject(error));
+    })
+    .catch((error) => reject(error));
+});
+
+reauthenticate = (currentPassword) => {
+const user = this.auth.currentUser;
+const cred = app.auth.EmailAuthProvider.credential(
+  user.email,
+  currentPassword
+);
+
+return user.reauthenticateWithCredential(cred);
+};
+
+updateEmail = (currentPassword, newEmail) =>
+new Promise((resolve, reject) => {
+  this.reauthenticate(currentPassword)
+    .then(() => {
+      const user = this.auth.currentUser;
+      user
+        .updateEmail(newEmail)
+        .then(() => {
+          resolve("Email Successfully updated");
+        })
+        .catch((error) => reject(error));
+    })
+    .catch((error) => reject(error));
+});
+
+updateProfile = (id, updates) =>
+this.db.collection("users").doc(id).update(updates);
+
+onAuthStateChanged = () =>
+new Promise((resolve, reject) => {
+  this.auth.onAuthStateChanged((user) => {
+    if (user) {
+      resolve(user);
+    } else {
+      reject(new Error("Auth State Changed failed"));
+    }
+  });
+});
+
+saveBasketItems = (items, userId) =>
+this.db.collection("users").doc(userId).update({ basket: items });
+
+setAuthPersistence = () =>
+this.auth.setPersistence(app.auth.Auth.Persistence.LOCAL);
+*/

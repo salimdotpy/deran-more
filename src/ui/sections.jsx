@@ -28,6 +28,18 @@ export function LoadingComponent() {
     )
 }
 
+export function FormSkeleton({ size = 5 }) {
+    return (
+        <div className="max-w-full animate-pulse p-5 space-y-5">
+            {Array(size).fill(null).map((_, key) =>
+                <div key={key} className="h-3 rounded-full bg-gray-300">
+                    &nbsp;
+                </div>
+            )}
+        </div>
+    )
+}
+
 const slider_img = 'images/img1.jpeg';
 export const HeroSection = ({ data }) => {
     let heading = data?.heading;
@@ -138,7 +150,7 @@ export const PaymentSection = ({ data }) => {
                     </p>
                 </div>
                 <div className='flex flex-wrap gap-5 mb-10 px-4'>
-                    <Card  data-aos="fade-left" className="bg-back text-fore md:flex-1 basis-[100%]">
+                    <Card data-aos="fade-left" className="bg-back text-fore md:flex-1 basis-[100%]">
                         <CardBody>
                             <div className=''>
                                 <CreditCardIcon className='size-16 text-primary inline-block' />
@@ -321,7 +333,7 @@ export const NotFound = () => {
 };
 
 
-export function BreadCrumbs({ role='admin', links = [], ...props }) {
+export function BreadCrumbs({ role = 'admin', links = [], ...props }) {
     return (
         <Breadcrumbs {...props}>
             <Link to={`/${role}`} className={`text-fore hover:text-primary ${links.length ? 'opacity-60' : ''}`}>

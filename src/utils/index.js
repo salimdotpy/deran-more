@@ -1,4 +1,5 @@
-import { doc, query, where } from "firebase/firestore";
+import sections_json from "../ui/sections.json";
+import { doc, limit, orderBy, query, where } from "firebase/firestore";
 import { addDoc, collection, db, getDocs, updateDoc } from "./firebase";
 
 export async function fetchSetting(data_key = 'general') {
@@ -115,3 +116,51 @@ export function getOrdinal(n) {
         default: return 'th';
     }
 }
+
+export const getPageSections = async (arr = false) => {
+    const sections = sections_json;
+    if (arr) {
+      return Object.entries(sections).sort();
+    }
+    return sections;
+};
+
+//   import { db } from "./firebase"; // Import Firestore instance
+//   import { collection, query, where, orderBy, limit, getDocs } from "firebase/firestore";
+  
+  export const getContent = async (data_keys, singleQuery = false, limitValue = null, orderById = false) => {
+    let content = false;
+  
+    try {
+      const frontendsRef = collection(db, "frontends"); // Firestore collection reference
+  
+      let q = query(frontendsRef, where("data_keys", "==", data_keys)); // Base query
+  
+      if (orderById) {
+        q = query(frontendsRef, where("data_keys", "==", data_keys)); // No ordering
+      } else {
+        q = query(frontendsRef, where("data_keys", "==", data_keys), orderBy("id", "desc"));
+      }
+  
+      if (limitValue) {
+        q = query(q, limit(Number(limitValue))); // Apply limit if provided
+      }
+  
+      const snapshot = await getDocs(q);
+  
+      if (snapshot.empty) return content; // Return false if no data
+  
+      if (singleQuery) {
+        const doc = snapshot.docs[0]; // Get first document
+        content = { id: doc.id, ...doc.data() };
+        content.data_values = JSON.parse(content.data_values); // Parse stored JSON data
+      } else {
+        content = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data(), data_values: JSON.parse(doc.data().data_values) }))
+      }
+    } catch (error) {
+      console.log("Error:", error);
+    }
+  
+    return content;
+  };
+  

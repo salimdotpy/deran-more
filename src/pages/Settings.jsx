@@ -4,8 +4,8 @@ import { LogoFavicon, Seo } from "../ui/admin/settings";
 import { fetchSetting } from "../utils";
 
 export default function SettingLogoFavicon() {
-    const [data, setData] = useState(null);
     document.title = 'Logo & Favicon - DeranMore';
+    const [data, setData] = useState(null);
     const fetchData = async () => {
         const snapshot = await fetchSetting('logo_favicon.image');
         setData(snapshot);
@@ -23,9 +23,18 @@ export default function SettingLogoFavicon() {
 
 export function SettingSeo() {
     document.title = 'Seo - DeranMore';
+    const [data, setData] = useState(null);
+    const fetchData = async () => {
+        const snapshot = await fetchSetting('seo.data');
+        setData(snapshot);
+    };
+
+    useEffect(() => {
+        fetchData();
+    }, []);
     return (
         <Layout>
-            <Seo />
+            {data && <Seo data={data} />}
         </Layout>
     )
 }

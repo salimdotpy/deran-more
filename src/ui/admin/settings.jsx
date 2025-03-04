@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import { BreadCrumbs } from "../sections";
 import { updateSetting } from "../../utils";
 
-const ImageSchema = {
+export const ImageSchema = {
     image_input: yup.mixed()
         .test("fileType", "Unsupported file format. Please upload JPG, PNG, or GIF", (value) => {
             if (!value || value.length === 0) return true; // Allow empty files
@@ -132,7 +132,7 @@ export function LogoFavicon({ image }) {
 export function Seo({ data }) {
     const { register, handleSubmit, setValue, clearErrors, formState: { errors }, } = useForm({ resolver: yupResolver(yup.object(ImageSchema)),});
     const [loading, setLoading] = useState(false);
-    const [preview, setPreview] = useState(data?.seo?.image);
+    const [preview, setPreview] = useState(data?.image);
     
     const onSubmit = async (formData) => {
         setLoading(true);
@@ -192,17 +192,17 @@ export function Seo({ data }) {
                             <div className="w-full md:w-2/3 py-5 px-0 md:py-0 md:pl-5">
                                 <div className="mb-1 flex flex-col gap-6">
                                     <div className="basis-1/3 grow">
-                                        <Input {...register('keywords')} defaultValue={data && data.seo.keywords} label='Meta Keywords' labelProps={{ className: cls[0] }} containerProps={{ className: 'min-w-0 w-full flex-1' }} className={cls[1]} required />
+                                        <Input {...register('keywords')} defaultValue={data && data.keywords} label='Meta Keywords' labelProps={{ className: cls[0] }} containerProps={{ className: 'min-w-0 w-full flex-1' }} className={cls[1]} required />
                                         <small className="mt-3">Separate multiple keywords by <code>,</code>comma or <code>enter</code> key</small>
                                     </div>
                                     <div className="basis-1/3 grow">
-                                        <Textarea {...register('description')} defaultValue={data && data.seo.description} label='Meta Description' labelProps={{ className: cls[0] }} containerProps={{ className: 'min-w-0 w-full flex-1' }} className={cls[1]} required />
+                                        <Textarea {...register('description')} defaultValue={data && data.description} label='Meta Description' labelProps={{ className: cls[0] }} containerProps={{ className: 'min-w-0 w-full flex-1' }} className={cls[1]} required />
                                     </div>
                                     <div className="basis-1/3 grow">
-                                        <Input {...register('social_title')} defaultValue={data && data.seo.social_title} label='Social Title' labelProps={{ className: cls[0] }} containerProps={{ className: 'min-w-0 w-full flex-1' }} className={cls[1]} required />
+                                        <Input {...register('social_title')} defaultValue={data && data.social_title} label='Social Title' labelProps={{ className: cls[0] }} containerProps={{ className: 'min-w-0 w-full flex-1' }} className={cls[1]} required />
                                     </div>
                                     <div className="basis-1/3 grow">
-                                        <Textarea {...register('social_description')} defaultValue={data && data.seo.social_description} label='Social Description' labelProps={{ className: cls[0] }} containerProps={{ className: 'min-w-0 w-full flex-1' }} className={cls[1]} required />
+                                        <Textarea {...register('social_description')} defaultValue={data && data.social_description} label='Social Description' labelProps={{ className: cls[0] }} containerProps={{ className: 'min-w-0 w-full flex-1' }} className={cls[1]} required />
                                     </div>
                                 </div>
                             </div>

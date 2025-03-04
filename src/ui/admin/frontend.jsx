@@ -5,9 +5,12 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "react-toastify";
 import { XMarkIcon } from "@heroicons/react/24/solid";
-import { BiEnvelope, BiLogoFacebookCircle, BiLogoGithub, BiLogoTelegram, BiLogoTiktok, BiLogoTwitter, BiLogoWhatsapp, BiPhoneCall } from "react-icons/bi";
-import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import { BiEnvelope, BiLogoFacebookCircle, BiLogoGithub, BiLogoTelegram, BiLogoTiktok, BiLogoTwitter, BiLogoWhatsapp, BiPhoneCall, BiSupport } from "react-icons/bi";
+import { MagnifyingGlassIcon, QuestionMarkCircleIcon, CreditCardIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
+import { BreadCrumbs } from "../sections";
+import { ImageSchema } from "./settings";
+import { frontContent, removeElement } from "../../utils/frontend";
 
 const cls = ['!text-fore peer-focus:pl-0 peer-focus:before:!border-primary/90 peer-focus:after:!border-primary/90', 'text-fore focus:border-primary/90 placeholder:opacity-100'];
 
@@ -26,6 +29,9 @@ export const social_icons = {
   tiktok: BiLogoTiktok,
   email: BiEnvelope,
   call: BiPhoneCall,
+  question: QuestionMarkCircleIcon,
+  support: BiSupport,
+  card: CreditCardIcon,
 }
 
 
@@ -131,27 +137,42 @@ export function Contents({ data }) {
   const showingStart = (currentPage - 1) * rowsPerPage + 1;
   const showingEnd = Math.min(showingStart + rowsPerPage - 1, sortedRows.length);
 
-  const { register, handleSubmit, setValue, clearErrors, formState: { errors }, } = useForm({
+  const { register, handleSubmit, reset, setValue, clearErrors, formState: { errors }, } = useForm({
     resolver: yupResolver(schema),
   });
+
+  useEffect(() => {
+    if (data && section?.content) {
+      let res = {};
+      Object.entries(section.content).map(([keyName, item]) => {
+        if (keyName === 'images') {
+          Object.entries(item).map(([imgKey, image], index) => {
+            let prevImg = content?.data_values?.[imgKey];
+            prevImg = prevImg ? prevImg : `/images/default.png`;
+            const imgName = `image_inputA${imgKey}Z`;
+            res[imgName] = prevImg;
+            setPreviews((prev) => ({ ...prev, imgName: prevImg, }));
+          })
+          }else {
+            res[keyName] = content?.data_values?.[keyName];
+          }
+      });
+      reset({ key: key, type: "content", ...res, });
+    }
+  }, [data, reset, section, key]);
 
   const toggleModal = (value) => setOpenModal(openModal === value ? 0 : value);
 
   const onSubmit = async (formData) => {
     setLoading(true);
     try {
-        console.log(formData);
-        toast.success('Submission Successfully.');
+        const response = await frontContent({...formData, ...previews});
+        response.message ? toast.success(response.message) : toast.error(response.error);
     } catch (error) {
       toast.error('Submission failed. ' + error);
     } finally {
       setLoading(false);
     }
-  }
-
-  const handleEditTxt = (val, fieldName) => {
-    setValue(fieldName, val);
-    clearErrors(fieldName);
   }
 
   const renderContentImages = () => {
@@ -161,7 +182,7 @@ export function Contents({ data }) {
       if (keyName === 'images') {
         return Object.entries(item).map(([imgKey, image], index) => {
           let prevImg = content?.data_values?.[imgKey];
-          prevImg = prevImg ? `/images/frontend/${key}/${prevImg}` : `/images/default.png`;
+          prevImg = prevImg ? prevImg : `/images/default.png`;
           const imgName = `image_inputA${imgKey}Z`;
 
           return (
@@ -219,6 +240,7 @@ export function Contents({ data }) {
   return (
     <React.Fragment>
       <Typography variant="h5" className="mb-4 text-fore">{pageTitle}</Typography>
+      <BreadCrumbs separator="/" className='my-3 bg-header' links={[{ name: pageTitle, href: '' }]} />
       {section.content &&
         <Card className="bg-header text-fore">
           <CardBody>
@@ -435,6 +457,7 @@ const AddModal = ({ open, handler, data }) => {
     try {
       const response = await frontContent(formData);
       response.message ? toast.success(response.message) : toast.error(response.error);
+      window.location.reload()
     } catch (error) {
       toast.error(`Submission failed. ${error}`);
     } finally {
@@ -559,6 +582,7 @@ const EditModal = ({ open, handler, data }) => {
     try {
       const response = await frontContent(formData);
       response.message ? toast.success(response.message) : toast.error(response.error);
+      window.location.reload();
     } catch (error) {
       toast.error(`Submission failed. ${error}`);
     } finally {
@@ -675,6 +699,7 @@ const DeleteModal = ({ open, handler, data }) => {
     try {
       const response = await removeElement(formData);
       response.message ? toast.success(response.message) : toast.error(response.error);
+      window.location.reload();
     } catch (error) {
       toast.error(`Deletion failed. ${error}`);
     } finally {
@@ -759,6 +784,7 @@ export function Elements({ datas }) {
           </Button>
         </Link>
       </div>
+      <BreadCrumbs separator="/" className='my-3 bg-header' links={[{ name: pageTitle, href: '' }]} />
       <Card className="bg-header text-fore">
         <CardBody>
           <form className="mb-2 mt-2 text-fore" onSubmit={handleSubmit(onSubmit)}>
