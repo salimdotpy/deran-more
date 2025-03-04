@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Breadcrumbs, Button, Card, CardBody, Dialog, DialogBody, Input, List, ListItem, ListItemPrefix, Textarea, Typography } from '@material-tailwind/react';
 import { Link, useLocation } from 'react-router-dom';
-import { BiLogoWhatsapp, BiSupport } from 'react-icons/bi';
 import { PhoneIcon } from '@heroicons/react/24/solid';
-import { ArrowRightIcon, CheckCircleIcon, CreditCardIcon, EnvelopeIcon, FaceFrownIcon, MapPinIcon, QuestionMarkCircleIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { ArrowRightIcon, CheckCircleIcon, CreditCardIcon, EnvelopeIcon, FaceFrownIcon, MapPinIcon,  XMarkIcon } from '@heroicons/react/24/outline';
 import { getContent } from '../utils';
 import { useDidMount } from '../hooks';
 import { social_icons } from './admin/frontend';
