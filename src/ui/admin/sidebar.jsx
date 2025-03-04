@@ -26,7 +26,7 @@ export const links = [
     { name: 'SETTINGS', head: true },
     { name: 'Logo & Favicon', href: '/admin/logo-favicon', Icon: PhotoIcon },
     { name: 'SEO Manager', href: '/admin/seo', Icon: GlobeAltIcon },
-    { name: 'Email Configure', href: '/admin/email-setting', Icon: EnvelopeIcon },
+    // { name: 'Email Configure', href: '/admin/email-setting', Icon: EnvelopeIcon },
     { name: 'FRONTEND MANAGER', head: true },
     {
         name: 'Manage Sections', href: false, Icon: TvIcon,

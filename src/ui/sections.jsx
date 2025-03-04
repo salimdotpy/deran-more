@@ -4,6 +4,9 @@ import { Link, useLocation } from 'react-router-dom';
 import { BiLogoWhatsapp, BiSupport } from 'react-icons/bi';
 import { PhoneIcon } from '@heroicons/react/24/solid';
 import { ArrowRightIcon, CheckCircleIcon, CreditCardIcon, EnvelopeIcon, FaceFrownIcon, MapPinIcon, QuestionMarkCircleIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { getContent } from '../utils';
+import { frontSections } from '../utils/frontend';
+import { useDidMount } from '../hooks';
 
 const cls = ['!text-fore peer-focus:pl-0 peer-focus:before:!border-primary/90 peer-focus:after:!border-primary/90', 'text-fore focus:border-primary/90 placeholder:opacity-100'];
 const logo = '/images/logoIcon/logo.png'
@@ -28,9 +31,9 @@ export function LoadingComponent() {
     )
 }
 
-export function FormSkeleton({ size = 5 }) {
+export function FormSkeleton({ size = 5, className = ''}) {
     return (
-        <div className="max-w-full animate-pulse p-5 space-y-5">
+        <div className={`max-w-full animate-pulse p-5 space-y-5 ${className}`}>
             {Array(size).fill(null).map((_, key) =>
                 <div key={key} className="h-3 rounded-full bg-gray-300">
                     &nbsp;
@@ -41,24 +44,31 @@ export function FormSkeleton({ size = 5 }) {
 }
 
 const slider_img = 'images/img1.jpeg';
-export const HeroSection = ({ data }) => {
-    let heading = data?.heading;
-    heading = heading && heading.split('<br />').map((head, key) =>
-        <span key={key}>{head}<br /></span>
-    )
+export const HeroSection = () => {
+    const [data, setData] = useState(null);
+    const didMount = useDidMount();
+    const fetchData = async () => {
+        const snapshot = await frontSections('hero');
+        setData(snapshot?.content.data_values);
+    };
+
+    useEffect(() => {
+        fetchData();
+        return setData(null);
+    }, []);
     return (
-        <div id="hero" style={{ backgroundImage: `url(${slider_img})`, backgroundSize: 'cover', backgroundAttachment: 'fixed', backgroundPosition: 'top center' }} className='h-screen md:h-[80vh] bg-no-repeat relative'>
+        <div id="hero" style={{ backgroundImage: `url(${didMount && data ? data.image : '/images/default.png'})`, backgroundSize: 'cover', backgroundAttachment: 'fixed', backgroundPosition: 'top center' }} className='h-screen md:h-[80vh] bg-no-repeat relative'>
             <div className='absolute flex w-full h-screen md:h-[80vh] bg-black bg-opacity-40'>
                 <div className='container m-auto text-white px-4 md:px-0'>
                     <Typography variant='h1' className="text-2xl md:text-4xl lg:text-5xl" data-aos="fade-left" data-aos-delay={100}>
-                        Achieve Academic Success and Excellence
+                        {didMount && data ? data.heading : <FormSkeleton className='w-1/2 !p-0' size={1} />}
                     </Typography>
                     <Typography variant='h6' className='mt-3 mb-7 text-sm md:text-lg lg:text-2xl text-gray-200' data-aos="fade-right" data-aos-delay={200}>
-                        With DeranMore Educational Consult Services
+                        {didMount && data ? data.sub_heading : <FormSkeleton className='w-1/2 !p-0' size={1} />}
                     </Typography>
-                    <a href={"/#about"} data-aos="fade-up" data-aos-delay={300}>
+                    <a href={data ? data.button_url :"/#about"} data-aos="fade-up" data-aos-delay={300}>
                         <Button className="rounded-full border-white hover:border-primary border-2 bg-transparent hover:bg-primary">
-                            Learn More
+                            {didMount && data ? data.button_text : <FormSkeleton className='!p-0' size={1} />}
                         </Button>
                     </a>
                 </div>
@@ -67,28 +77,35 @@ export const HeroSection = ({ data }) => {
     );
 };
 
-export const AboutSection = ({ data }) => {
+export const AboutSection = () => {
+    const [data, setData] = useState(null);
+    const didMount = useDidMount();
+    const fetchData = async () => {
+        const snapshot = await frontSections('about');
+        setData(snapshot?.content.data_values);
+    };
+
+    useEffect(() => {
+        fetchData();
+        return setData(null);
+    }, []);
     return (
         <section id='about' className='py-10 bg-header'>
             <div className='container xl:w-[90%] mx-auto'>
                 <div className='flex flex-wrap gap-5 px-4'>
                     <div className='h-1/2 md:flex-1 basis-[100%] flex flex-col gap-y-4 p-5' data-aos="fade-right">
                         <h3 className='text-primary font-bold text-2xl font-[tahoma]'>
-                            DeranMore
+                            {didMount && data ? data.heading : <FormSkeleton className='!p-0' size={1} />}
                             <br />
                             <span className='text-fore text-lg'>
-                                Educational Consult Services
+                                {didMount && data ? data.sub_heading : <FormSkeleton className='!p-0' size={1} />}
                             </span>
                         </h3>
                         <p className='text-fore/80 text-justify'>
-                            Some information about the company/organisation,
-                            Some information about the company/organisation,
-                            Some information about the company/organisation,
-                            Some information about the company/organisation,
-                            Some information about the company/organisation.
+                            {didMount && data ? data.details : <FormSkeleton className='!p-0' />}
                         </p>
                     </div>
-                    <div data-aos="fade-left" className='relative min-h-60 md:flex-1 basis-[100%]' style={{ backgroundImage: `url(images/img3.jpeg)`, backgroundSize: 'cover', }}>
+                    <div data-aos="fade-left" className='relative min-h-60 md:flex-1 basis-[100%]' style={{ backgroundImage: `url(${didMount && data ? data.image : '/images/default.png'})`, backgroundSize: 'cover', }}>
                         <div className='absolute inset-0 from-header to-transparent md:bg-gradient-to-r bg-gradient-to-b'>
                         </div>
                     </div>
