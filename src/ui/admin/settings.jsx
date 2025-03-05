@@ -117,7 +117,7 @@ export function LogoFavicon({ image }) {
                                     </label>
                                 </CardFooter>
                             </Card>
-                            <Button type="submit" className={`bg-primary disabled:!pointer-events-auto disabled:cursor-not-allowed`} loading={loading} fullWidth>
+                            <Button type="submit" className={`mt-6 bg-primary disabled:!pointer-events-auto disabled:cursor-not-allowed justify-center`} loading={loading} fullWidth>
                                 Update
                             </Button>
                         </div>
@@ -172,9 +172,6 @@ export function Seo({ data }) {
             <Card className="bg-header text-fore">
                 <CardBody>
                     <form className="mb-2 mt-2 text-fore" onSubmit={handleSubmit(onSubmit)}>
-                        {/* <input type="hidden" {...register('type')} defaultValue="data" /> */}
-                        {/* <input type="hidden" {...register('seo_image')} defaultValue="1" /> */}
-                        {/* <input type="hidden" {...register('key')} defaultValue="seo" /> */}
                         <div className="flex flex-wrap w-full">
                             <div className="w-full md:w-1/3 text-center">
                                 <label htmlFor="logo">
