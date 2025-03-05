@@ -11,6 +11,7 @@ import { AuthProvider } from "./ui/AuthContext";
 import ProtectedRoute from "./ui/ProtectedRoute";
 import SettingLogoFavicon, { SettingSeo } from "./pages/Settings";
 import Frontend from "./pages/Frontend";
+import MetaTags from "./ui/metaTags";
 
 function App() {
   const [theme, setTheme] = useState(false);
@@ -39,6 +40,7 @@ function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
+      <MetaTags />
         <LoadingComponent />
         <Routes>
           <Route path="/" element={<Index />} />
