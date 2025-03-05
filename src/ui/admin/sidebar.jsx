@@ -1,8 +1,10 @@
 import { ChevronDownIcon, ChevronRightIcon, CurrencyDollarIcon, EnvelopeIcon, GlobeAltIcon, HomeIcon, PhotoIcon, TvIcon } from "@heroicons/react/24/outline";
 import { Accordion, AccordionBody, AccordionHeader, Chip, Drawer, List, ListItem, ListItemPrefix, ListItemSuffix, Typography } from "@material-tailwind/react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import data from "../sections.json";
+import { useDidMount } from "../../hooks";
+import { fetchSetting } from "../../utils";
 
 let secs = data;
 let keys = Object.entries(secs).sort();
@@ -132,11 +134,28 @@ export function Aside({open, onClose}) {
   }
 
 function CompanyLogo() {
+    const [images, setImages] = useState(null);
+    const [seo, setSeo] = useState(null);
+    const didMount = useDidMount();
+    const fetchData = async () => {
+        const snapshot = await fetchSetting('logo_favicon.image');
+        setImages(snapshot);
+        const snapshot2 = await fetchSetting('seo.data');
+        setSeo(snapshot2);
+    };
+
+    useEffect(() => {
+        fetchData();
+        return ()=>{
+            setImages(null);
+            setSeo(null);
+        }
+    }, []);
     return (
         <div className="flex bg-header items-center justify-center gap-2 h-[60px] text-fore">
-            <img src={'/images/logoIcon/logo.png'} alt="company logo" className="size-12 p-1 rounded-full bg-white" />
+            <img src={`${didMount && images ? images.logo :'/images/logoIcon/logo.png'}`} alt="company logo" className="size-12 p-1 rounded-full bg-white" />
             <Typography variant="h5">
-                Deran More
+                {didMount && seo ? seo.social_title : 'DeranMore'}
             </Typography>
         </div>
     )

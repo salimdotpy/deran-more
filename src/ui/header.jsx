@@ -2,8 +2,10 @@
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/solid';
 import { Drawer, IconButton, List, ListItem, Navbar } from '@material-tailwind/react';
 import { Link } from 'react-router-dom';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ToggleTheme from './ToggleTheme';
+import { useDidMount } from '../hooks';
+import { fetchSetting } from '../utils';
 
 const links = [
     { name: 'Home', href: '/' },
@@ -14,11 +16,28 @@ const links = [
 ]
 
 const Header = ({ sitename }) => {
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
     const openDrawer = () => setOpen(true);
     const closeDrawer = () => setOpen(false);
+    const [images, setImages] = useState(null);
+    const [seo, setSeo] = useState(null);
+    const didMount = useDidMount();
+    const fetchData = async () => {
+        const snapshot = await fetchSetting('logo_favicon.image');
+        setImages(snapshot);
+        const snapshot2 = await fetchSetting('seo.data');
+        setSeo(snapshot2);
+    };
+
+    useEffect(() => {
+        fetchData();
+        return ()=>{
+            setImages(null);
+            setSeo(null);
+        }
+    }, []);
   
-    React.useEffect(() => {
+    useEffect(() => {
       window.addEventListener("resize", () => {
         if(window.innerWidth >= 960) {
           setOpen(false);
@@ -33,8 +52,10 @@ const Header = ({ sitename }) => {
                     <div className="flex items-center gap-x-2">
                         <Link to="/" className="me-auto font-bold text-primary">
                             <div className='flex items-center gap-2'>
-                                <img src={'/images/logoIcon/logo.png'} alt='company logo' className='size-12 p-1 rounded-full bg-white' />
-                                <span className="hidden lg:block font-[tahoma]">{sitename || 'DeranMore'}</span>
+                                <img src={`${didMount && images ? images.logo :'/images/logoIcon/logo.png'}`} alt='company logo' className='size-12 p-1 rounded-full bg-white' />
+                                <span className="hidden lg:block font-[tahoma]">
+                                    {didMount && seo ? seo.social_title : 'DeranMore'}
+                                </span>
                             </div>
                         </Link>
                         <div className='hidden lg:block'>

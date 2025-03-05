@@ -17,8 +17,8 @@ const MetaTags = () => {
     useEffect(() => {
         fetchData();
         return ()=>{
-            setContent(null);
-            setElements(null);
+            setSeo(null);
+            setImages(null);
         }
     }, []);
 
@@ -26,9 +26,9 @@ const MetaTags = () => {
 
   return (
     <Helmet>
-      <title>{metaData.title}</title>
-      <meta name="description" content={metaData.description} />
-      <meta name="keywords" content={metaData.keywords} />
+      <title>{seo?.title}</title>
+      <meta name="description" content={seo?.description} />
+      <meta name="keywords" content={seo?.keywords} />
       <link rel="manifest" href="https://deran-moresite.vercel.app/manifest.json" />
       
       {/* Open Graph Meta Tags */}
