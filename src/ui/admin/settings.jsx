@@ -36,7 +36,7 @@ export function LogoFavicon({ image }) {
     const onSubmit = async (formData) => {
         setLoading(true);
         try {
-            const response = await updateSetting(previews, 'logoFavicon.image');
+            const response = await updateSetting(previews, 'logo_favicon.image');
             if (response.message) {
                 toast.success(response.message);
             } else {
