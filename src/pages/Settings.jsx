@@ -2,9 +2,12 @@ import React, { useEffect, useState } from "react";
 import Layout from "../ui/admin/layout";
 import { LogoFavicon, Seo } from "../ui/admin/settings";
 import { fetchSetting } from "../utils";
+import { useDidMount, useDocumentTitle } from "../hooks";
+import { FormSkeleton } from "../ui/sections";
 
 export default function SettingLogoFavicon() {
-    document.title = 'Logo & Favicon - DeranMore';
+    useDocumentTitle('Logo & Favicon - DeranMore')
+    const didMount = useDidMount();
     const [data, setData] = useState(null);
     const fetchData = async () => {
         const snapshot = await fetchSetting('logo_favicon.image');
@@ -16,13 +19,14 @@ export default function SettingLogoFavicon() {
     }, []);
     return (
         <Layout>
-            {data && <LogoFavicon image={data} />}
+            {didMount && data ? <LogoFavicon image={data} /> : <FormSkeleton className='!p-0' size={10} />}
         </Layout>
     )
 }
 
 export function SettingSeo() {
-    document.title = 'Seo - DeranMore';
+    useDocumentTitle('Seo - DeranMore')
+    const didMount = useDidMount();
     const [data, setData] = useState(null);
     const fetchData = async () => {
         const snapshot = await fetchSetting('seo.data');
@@ -34,7 +38,7 @@ export function SettingSeo() {
     }, []);
     return (
         <Layout>
-            {data && <Seo data={data} />}
+            {didMount && data ? <Seo data={data} /> : <FormSkeleton className='!p-0' size={10} />}
         </Layout>
     )
 }

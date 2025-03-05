@@ -1,13 +1,15 @@
-import React, { Suspense, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../ui/admin/layout";
 import { Contents } from "../ui/admin/frontend";
 import { FormSkeleton } from "../ui/sections";
 import { frontSections } from "../utils/frontend";
 import { useParams } from "react-router-dom";
+import { useDidMount, useDocumentTitle } from "../hooks";
 
 export default function Frontend() {
     const [data, setData] = useState(null);
-    document.title = 'Frontend Setting - DeranMore';
+    useDocumentTitle('Frontend Setting - DeranMore');
+    const didMount = useDidMount();
     let params = useParams();
     params = params.type;
     const fetchData = async () => {
@@ -22,9 +24,7 @@ export default function Frontend() {
 
     return (
         <Layout>
-            <Suspense fallback={<FormSkeleton />}>
-                {data && <Contents data={data} />}
-            </Suspense>
+            {didMount && data ? <Contents data={data} /> : <FormSkeleton className='!p-0' size={10} />}
         </Layout>
     )
 }

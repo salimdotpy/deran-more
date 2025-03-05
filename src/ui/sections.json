@@ -74,7 +74,7 @@
     "contact_us": {
         "builder": true,
         "no_selection": true,
-        "name": "Contact Us",
+        "name": "Contact Us Section",
         "content": {
             "heading": "text",
             "sub_heading": "text",

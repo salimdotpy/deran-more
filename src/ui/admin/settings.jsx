@@ -42,7 +42,6 @@ export function LogoFavicon({ image }) {
             } else {
                 toast.error(response.error)
             }
-            // toast.success('Submission Successfully.');
         } catch (error) {
             toast.error('Submission failed.');
         } finally {
