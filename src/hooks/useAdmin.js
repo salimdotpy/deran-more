@@ -39,11 +39,10 @@ export default useAdmin;
 
 export const useTheme = () => {
   const [theme, setTheme] = useState(false);
-  const didMount = useDidMount(true);
-
-  if (didMount) {
+  
+  useEffect(() => {
     if (localStorage?.getItem('theme') === 'dark') setTheme(true);
-  }
+  }, []);
 
   useEffect(() => {
     if (theme) {

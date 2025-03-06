@@ -12,6 +12,7 @@ import SettingLogoFavicon, { SettingSeo } from "./pages/Settings";
 import Frontend from "./pages/Frontend";
 import { useDidMount } from "./hooks";
 import { fetchSetting } from "./utils";
+import UpdateProfile, { UpdatePassword } from "./pages/UpdateProfile";
 
 function App() {
   const [theme, setTheme] = useState(false);
@@ -78,6 +79,8 @@ function App() {
             <ProtectedRoute>
               <Routes>
                 <Route path="/" element={<Dashboard />} />
+                <Route path="/profile" element={<UpdateProfile />} />
+                <Route path="/password" element={<UpdatePassword />} />
                 <Route path="/logo-favicon" element={<SettingLogoFavicon />} />
                 <Route path="/seo" element={<SettingSeo />} />
                 <Route path="/frontend/:type" element={<Frontend />} />

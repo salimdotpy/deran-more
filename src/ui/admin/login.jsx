@@ -28,10 +28,9 @@ export default function AdminLogin() {
   const onSubmit = async (formData) => {
     setLoading(true);
     try {
-      // console.log(formData);
       const result = await adminLogin(formData.email, formData.password);
       if (result.success) {
-        navigate("/admin"); // Redirect after login
+        navigate("/admin");
         toast.success("You've successfully logged in.");
       } else {
         toast.error(result.message);
@@ -45,7 +44,7 @@ export default function AdminLogin() {
   const sendMail = async () => {
     setLoading(true);
     try {
-      toast.success('Submission Successfully.');
+      toast.info("Coming soon!");
     } catch (error) {
       toast.error('Submission failed.');
     } finally {
@@ -74,7 +73,7 @@ export default function AdminLogin() {
           </div>
         </div>
         <div className='flex justify-between items-center mt-3'>
-          <Checkbox label={<Typography variant="small" className="flex opacity-0 items-center font-normal text-fore">Remember me</Typography>} containerProps={{ className: "-ml-2.5 opacity-0" }} className='checked:bg-primary' />
+          <span>&nbsp;</span>
           <Button variant='text' onClick={handleOpen} className='text-primary capitalize'>Forgot Password?</Button>
         </div>
         <Button type="submit" className={`mt-6 bg-primary disabled:!pointer-events-auto disabled:cursor-not-allowed justify-center`} loading={loading} fullWidth>

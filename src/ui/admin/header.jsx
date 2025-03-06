@@ -86,9 +86,16 @@ const Header = ({open, onClose}) => {
                 </Menu>
                 <Menu placement='bottom-end'>
                     <MenuHandler>
+                        {!isLoading && admin ? 
                         <IconButton className="flex shrink-0 justify-center items-center shadow size-10 bg-primary/30 text-fore rounded-full">
-                            <Typography variant="h4">A</Typography>
-                        </IconButton>
+                            <Typography variant="h4">{admin.name[0]}</Typography>
+                        </IconButton> : 
+                        <div className='animate-pulse'>
+                            <div className="flex shrink-0 justify-center items-center size-10 bg-primary/20 border-primary border-dashed border-2 mx-auto shadow-md text-fore rounded-full bg-gray-300">
+                                &nbsp;
+                            </div>
+                        </div>
+                        }
                     </MenuHandler>
                     <MenuList className="bg-header text-fore border-none outline-none">
                         <div className="line-clamp-2 border-none outline-none uppercase">
@@ -100,11 +107,11 @@ const Header = ({open, onClose}) => {
                             </p>
                         </div>
                         <hr className='my-2 border-fore/15' />
-                        <MenuItem className='flex items-center gap-2'>
+                        <MenuItem className='flex items-center gap-2' onClick={()=>navigate('/admin/profile')}>
                             <UserIcon className='size-4' />
                             <Typography variant='small' className=''>Profile</Typography>
                         </MenuItem>
-                        <MenuItem className='flex items-center gap-2' onClick={()=>navigate()}>
+                        <MenuItem className='flex items-center gap-2' onClick={()=>navigate('/admin/password')}>
                             <KeyIcon className='size-4' />
                             <Typography variant='small' className=''>Password</Typography>
                         </MenuItem>

@@ -216,24 +216,23 @@ export function Seo({ data }) {
     );
 }
 
+const schema1 = yup.object({
+    name: yup.string().trim().required('Fullname is required').matches(/^[a-zA-Z ]+[a-zA-Z0-9]+$/, "Must be alphanumeric only").max(80, "The name is too long"),
+    username: yup.string().trim().required('Username is required').matches(/^[a-zA-Z]+[a-zA-Z0-9]+$/, "Must be alphanumeric only").max(40, "Is too long"),
+    email: yup.string().email('Invalid email').trim().required('Email is required').max(40, "Is too long"),
+});
+
 export function Profile() {
-    const { register, handleSubmit, setValue, clearErrors, formState: { errors }, } = useForm({ resolver: yupResolver(yup.object(ImageSchema)), });
+    const { register, handleSubmit, formState: { errors }, } = useForm({ resolver: yupResolver(schema1), });
     const [loading, setLoading] = useState(false);
     const {user} = useAuth();
     const {admin, isLoading, error} = useAdmin(user);
     const { theme, changeTheme } = useTheme();
-    const [preview, setPreview] = useState(data?.image);
 
     const onSubmit = async (formData) => {
         setLoading(true);
         try {
-            formData.image = preview;
-            const response = await updateSetting(formData, 'seo.data');
-            if (response.message) {
-                toast.success(response.message);
-            } else {
-                toast.error(response.error)
-            }
+            toast.info("Coming soon!");
         } catch (error) {
             toast.error('Submission failed.');
         } finally {
@@ -260,10 +259,10 @@ export function Profile() {
                             </div>
                             }
                         <div className="flex gap-5 p-5 *:flex-1">
-                            <Button color="white" className="text-center flex items-center justify-center h-16">
+                            <Button color="white" className="text-center flex items-center justify-center h-16 shadow-md" onClick={() => changeTheme(false)}>
                                 <SunIcon className="size-7 text-primary" />
                             </Button>
-                            <Button color="black" className="text-center flex items-center justify-center h-16">
+                            <Button color="black" className="text-center flex items-center justify-center h-16 shadow-md" onClick={() => changeTheme(true)}>
                                 <MoonIcon className="size-7" />
                             </Button>
                         </div>
@@ -271,16 +270,25 @@ export function Profile() {
                 </Card>
                 <Card className="bg-header md:basis-1/2">
                     <CardBody>
-                        <form className="text-fore" method='post'>
+                        <form className="text-fore" method='post' onSubmit={handleSubmit(onSubmit)}>
                             <div className="mb-1 flex flex-wrap gap-6">
                                 <div className='flex-1'>
-                                    <Input label='Full Name' size='lg' defaultValue={admin?.name} labelProps={{ className: cls[0] }} containerProps={{ className: 'min-w-0' }} className={cls[1]} />
+                                    <Input label='Full Name' {...register('name')} size='lg' defaultValue={admin?.name} labelProps={{ className: cls[0] }} containerProps={{ className: 'min-w-0' }} className={cls[1]} error={errors.name} />
+                                    {errors.name && <Typography color="red" className="mt-2 text-xs font-normal">
+                                    {errors.name.message}
+                                    </Typography>}
                                 </div>
                                 <div className='flex-1'>
-                                    <Input label='Username' size='lg' defaultValue={admin?.username} labelProps={{ className: cls[0] }} containerProps={{ className: 'min-w-0' }} className={cls[1]} />
+                                    <Input label='Username' {...register('username')} size='lg' defaultValue={admin?.username} labelProps={{ className: cls[0] }} containerProps={{ className: 'min-w-0' }} className={cls[1]} error={errors.username} />
+                                    {errors.username && <Typography color="red" className="mt-2 text-xs font-normal">
+                                    {errors.username.message}
+                                    </Typography>}
                                 </div>
                                 <div className='flex-1'>
-                                    <Input type='email' size='lg' defaultValue={admin?.email} label='Email Address' labelProps={{ className: cls[0] }} containerProps={{ className: 'min-w-0' }} className={cls[1]} />
+                                    <Input type='email' size='lg' defaultValue={admin?.email} label='Email Address' {...register('email')} labelProps={{ className: cls[0] }} containerProps={{ className: 'min-w-0' }} className={cls[1]} error={errors.email} />
+                                    {errors.email && <Typography color="red" className="mt-2 text-xs font-normal">
+                                    {errors.email.message}
+                                    </Typography>}
                                 </div>
                             </div>
                             <Button type="submit" className={`mt-5 bg-primary disabled:!pointer-events-auto disabled:cursor-not-allowed justify-center`} loading={loading} fullWidth>
@@ -290,6 +298,65 @@ export function Profile() {
                     </CardBody>
                 </Card>
             </div>
+        </React.Fragment>
+    );
+}
+
+const schema2 = yup.object({
+    opass: yup.string().required('Old Password is required'),
+    npass: yup.string().required('New Password is required'),
+    cpass: yup.string().required('Comfirm Password is required'),
+});
+
+export function Password() {
+    const { register, handleSubmit, formState: { errors }, } = useForm({ resolver: yupResolver(schema2), });
+    const [loading, setLoading] = useState(false);
+    const {user} = useAuth();
+
+    const onSubmit = async (formData) => {
+        setLoading(true);
+        try {
+            toast.info("Coming soon!");
+        } catch (error) {
+            toast.error('Submission failed.');
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    return (
+        <React.Fragment>
+            <Typography variant="h5" className="mb-4 text-fore">Change Password</Typography>
+            <BreadCrumbs separator="/" className='my-3 bg-header' links={[{ name: 'Change Password', href: '/admin/password' }]} />
+
+            <Card className="bg-header md:w-[600px]">
+                <CardBody>
+                    <form className="text-fore" method='post' onSubmit={handleSubmit(onSubmit)}>
+                        <div className="mb-1 flex flex-col gap-6">
+                            <div>
+                                <Input type="password" {...register('opass')} label='Old Password' size='lg' labelProps={{ className: cls[0] }} containerProps={{ className: 'min-w-0' }} className={cls[1]} error={errors.opass} />
+                                {errors.opass && <Typography color="red" className="mt-2 text-xs font-normal">
+                                {errors.opass.message}
+                                </Typography>}
+                            </div>
+                            <div>
+                                <Input type="password" {...register('npass')} label='New Password' size='lg' labelProps={{ className: cls[0] }} containerProps={{ className: 'min-w-0' }} className={cls[1]} error={errors.npass} />{errors.npass && <Typography color="red" className="mt-2 text-xs font-normal">
+                                {errors.npass.message}
+                                </Typography>}
+                            </div>
+                            <div>
+                                <Input type="password" {...register('cpass')} label='Retype New Password' size='lg' labelProps={{ className: cls[0] }} containerProps={{ className: 'min-w-0' }} className={cls[1]} />
+                                {errors.cpass && <Typography color="red" className="mt-2 text-xs font-normal">
+                                {errors.cpass.message}
+                                </Typography>}
+                            </div>
+                        </div>
+                        <Button type="submit" className={`mt-5 bg-primary disabled:!pointer-events-auto disabled:cursor-not-allowed justify-center`} loading={loading} fullWidth>
+                            Save
+                        </Button>
+                    </form>
+                </CardBody>
+            </Card>
         </React.Fragment>
     );
 }
