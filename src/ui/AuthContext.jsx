@@ -1,3 +1,30 @@
+// import { createContext, useState, useEffect, useContext } from "react";
+// import { getAuth, onAuthStateChanged } from "firebase/auth";
+// import { app } from "../services/firebaseConfig";
+
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { createContext, useContext, useEffect, useState } from "react";
+import { app } from "../utils/firebase";
+
+const AuthContext = createContext();
+const auth = getAuth(app);
+
+export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUser(user);
+    });
+    return () => unsubscribe();
+  }, []);
+
+  return <AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>;
+};
+
+export const useAuth = () => useContext(AuthContext);
+
+/*
 import { createContext, useContext, useEffect, useState } from "react";
 
 // Create Auth Context
@@ -34,3 +61,4 @@ export const AuthProvider = ({ children }) => {
 
 // Custom hook to use AuthContext
 export const useAuth = () => useContext(AuthContext);
+*/

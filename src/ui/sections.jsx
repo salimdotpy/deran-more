@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Breadcrumbs, Button, Card, CardBody, Dialog, DialogBody, Input, List, ListItem, ListItemPrefix, Textarea, Typography } from '@material-tailwind/react';
+import { Breadcrumbs, Button, Card, CardBody, Dialog, DialogBody, Input, List, ListItem, ListItemPrefix, Option, Select, Textarea, Typography } from '@material-tailwind/react';
 import { Link, useLocation } from 'react-router-dom';
 import { PhoneIcon } from '@heroicons/react/24/solid';
 import { ArrowRightIcon, CheckCircleIcon, CreditCardIcon, EnvelopeIcon, FaceFrownIcon, MapPinIcon,  XMarkIcon } from '@heroicons/react/24/outline';
@@ -254,6 +254,19 @@ export const PaymentSection = () => {
                         <div className="mb-1 flex flex-col gap-6">
                             <div>
                                 <Input label='Enter Transaction ID' labelProps={{ className: cls[0] }} containerProps={{ className: 'min-w-0' }} className={cls[1]} required />
+                            </div>
+                            <div>
+                                <Input label='Amount Sent' labelProps={{ className: cls[0] }} containerProps={{ className: 'min-w-0' }} className={cls[1]} required />
+                            </div>
+                            <div>
+                                <Select labelProps={{ className: cls[0] }} className={cls[1]} label="Bank sent to" value='' menuProps={{ className: 'max-h-44 md:max-h-72 bg-header text-fore' }}>
+                                    <Option value=''>Select bank you send to</Option>
+                                    {elements ? elements.map(({data_values:dv}, key) => 
+                                        <Option key={key} value={dv.bank}>{dv.account_name}, {dv.account_number},  {dv.bank}</Option>
+                                        ) :
+                                        <FormSkeleton className='!p-0 mt-5 w-full' size={3} />
+                                    }
+                                </Select>
                             </div>
                         </div>
                         <Button type="submit" className={`mt-6 bg-primary disabled:!pointer-events-auto disabled:cursor-not-allowed justify-center`} loading={false} fullWidth>

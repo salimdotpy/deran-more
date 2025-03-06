@@ -1,10 +1,12 @@
 import { EyeSlashIcon, EyeIcon, EnvelopeIcon, XMarkIcon, CheckIcon } from '@heroicons/react/24/solid';
 import { Input, Checkbox, Button, Typography, Dialog, DialogBody, Badge, } from "@material-tailwind/react";
-import React from 'react';
+import React, { useState } from 'react';
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "react-toastify";
+import { useNavigate } from 'react-router-dom';
+import { adminLogin } from '../../utils/firebase';
 
 const schema = yup.object({
   email: yup.string().email('Enter a valid email').required('Email field is required'),
@@ -14,22 +16,28 @@ const schema = yup.object({
 const cls = ['before:content-none after:content-none', 'placeholder:opacity-100 !border focus:!border-primary/90'];
 
 export default function AdminLogin() {
-  const [open, setOpen] = React.useState(false);
-  const [sent, setSent] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [sent, setSent] = useState(false);
   const handleOpen = () => { setOpen(!open); setSent(false) };
-  const [passwordShown, setPasswordShown] = React.useState(false);
+  const [passwordShown, setPasswordShown] = useState(false);
   const togglePasswordVisiblity = () => setPasswordShown((cur) => !cur);
   const { register, handleSubmit, formState: { errors }, } = useForm({ resolver: yupResolver(schema), })
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const onSubmit = async (formData) => {
     setLoading(true);
     try {
-      console.log(formData);
-      toast.success('Submission Successfully.');
+      // console.log(formData);
+      const result = await adminLogin(formData.email, formData.password);
+      if (result.success) {
+        navigate("/admin"); // Redirect after login
+        toast.success("You've successfully logged in.");
+      } else {
+        toast.error(result.message);
+      }
     } catch (error) {
-      console.log(error);
-      toast.error('Submission failed.');
+      toast.error(error.message);
     } finally {
       setLoading(false);
     }

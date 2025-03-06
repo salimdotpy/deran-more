@@ -1,109 +1,123 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, updateDoc } from "firebase/firestore";
+import { getFirestore, collection, addDoc, deleteDoc, doc, updateDoc, getDoc, getDocs } from "firebase/firestore";
+import { signInWithEmailAndPassword, signOut, sendPasswordResetEmail, getAuth } from "firebase/auth";
 import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
 
+// const firebaseConfig = {
+//     apiKey: "AIzaSyBFTGwfMyNKsU5Q_9XLZjMaeDNTOp-p8ns",
+//     authDomain: "salimtech-d4171.firebaseapp.com",
+//     projectId: "salimtech-d4171",
+//     storageBucket: "salimtech-d4171.firebasestorage.app",
+//     messagingSenderId: "1007953204162",
+//     appId: "1:1007953204162:web:f353d5fc5f8164c032bc5b",
+//     measurementId: "G-YQE8ZJB3S0"
+// };
+
 const firebaseConfig = {
-    apiKey: "AIzaSyBFTGwfMyNKsU5Q_9XLZjMaeDNTOp-p8ns",
-    authDomain: "salimtech-d4171.firebaseapp.com",
-    projectId: "salimtech-d4171",
-    storageBucket: "salimtech-d4171.firebasestorage.app",
-    messagingSenderId: "1007953204162",
-    appId: "1:1007953204162:web:f353d5fc5f8164c032bc5b",
-    measurementId: "G-YQE8ZJB3S0"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_M_ID
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const storage = getStorage(app);
+const auth = getAuth(app);
 
-export { db, storage, collection, addDoc, getDocs, deleteDoc, doc, updateDoc, ref, uploadBytes, getDownloadURL, deleteObject };
+// 🔐 Admin Login
+export const adminLogin = async (email, password) => {
+  try {
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
 
-/*
-// AUTH ACTIONS ------------
+    // Check if user is an admin
+    const adminRef = doc(db, "admins", user.uid);
+    const adminSnap = await getDoc(adminRef);
 
-createAccount = (email, password) =>
-this.auth.createUserWithEmailAndPassword(email, password);
-
-signIn = (email, password) =>
-this.auth.signInWithEmailAndPassword(email, password);
-
-signInWithGoogle = () =>
-this.auth.signInWithPopup(new app.auth.GoogleAuthProvider());
-
-signInWithFacebook = () =>
-this.auth.signInWithPopup(new app.auth.FacebookAuthProvider());
-
-signInWithGithub = () =>
-this.auth.signInWithPopup(new app.auth.GithubAuthProvider());
-
-signOut = () => this.auth.signOut();
-
-passwordReset = (email) => this.auth.sendPasswordResetEmail(email);
-
-addUser = (id, user) => this.db.collection("users").doc(id).set(user);
-
-getUser = (id) => this.db.collection("users").doc(id).get();
-
-passwordUpdate = (password) => this.auth.currentUser.updatePassword(password);
-
-changePassword = (currentPassword, newPassword) =>
-new Promise((resolve, reject) => {
-  this.reauthenticate(currentPassword)
-    .then(() => {
-      const user = this.auth.currentUser;
-      user
-        .updatePassword(newPassword)
-        .then(() => {
-          resolve("Password updated successfully!");
-        })
-        .catch((error) => reject(error));
-    })
-    .catch((error) => reject(error));
-});
-
-reauthenticate = (currentPassword) => {
-const user = this.auth.currentUser;
-const cred = app.auth.EmailAuthProvider.credential(
-  user.email,
-  currentPassword
-);
-
-return user.reauthenticateWithCredential(cred);
+    if (adminSnap.exists() && adminSnap.data().role === "admin") {
+      return { success: true, user };
+    } else {
+      await signOut(auth); // Log out if not admin
+      return { success: false, message: "Access Denied: Not an Admin" };
+    }
+  } catch (error) {
+    return { success: false, message: error.message };
+  }
 };
 
-updateEmail = (currentPassword, newEmail) =>
-new Promise((resolve, reject) => {
-  this.reauthenticate(currentPassword)
-    .then(() => {
-      const user = this.auth.currentUser;
-      user
-        .updateEmail(newEmail)
-        .then(() => {
-          resolve("Email Successfully updated");
-        })
-        .catch((error) => reject(error));
-    })
-    .catch((error) => reject(error));
-});
+// 🔑 Reset Password
+export const resetPassword = async (email) => {
+  try {
+    await sendPasswordResetEmail(auth, email);
+    return { success: true, message: "Password reset email sent!" };
+  } catch (error) {
+    return { success: false, message: error.message };
+  }
+};
 
-updateProfile = (id, updates) =>
-this.db.collection("users").doc(id).update(updates);
+// 🚪 Logout
+export const adminLogout = async () => {
+  try {
+    await signOut(auth);
+    return { success: true };
+  } catch (error) {
+    return { success: false, message: error.message };
+  }
+};
 
-onAuthStateChanged = () =>
-new Promise((resolve, reject) => {
-  this.auth.onAuthStateChanged((user) => {
-    if (user) {
-      resolve(user);
+export { db, storage, app, collection, addDoc, getDocs, deleteDoc, doc, updateDoc, ref, uploadBytes, getDownloadURL, deleteObject };
+
+/*
+import { getAuth, signInWithEmailAndPassword, signOut, sendPasswordResetEmail } from "firebase/auth";
+import { getFirestore, doc, getDoc } from "firebase/firestore";
+import { app } from "./firebaseConfig"; // Import Firebase config
+
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+// 🔐 Admin Login
+export const adminLogin = async (email, password) => {
+  try {
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+
+    // Check if user is an admin
+    const adminRef = doc(db, "admins", user.uid);
+    const adminSnap = await getDoc(adminRef);
+
+    if (adminSnap.exists() && adminSnap.data().role === "admin") {
+      return { success: true, user };
     } else {
-      reject(new Error("Auth State Changed failed"));
+      await signOut(auth); // Log out if not admin
+      return { success: false, message: "Access Denied: Not an Admin" };
     }
-  });
-});
+  } catch (error) {
+    return { success: false, message: error.message };
+  }
+};
 
-saveBasketItems = (items, userId) =>
-this.db.collection("users").doc(userId).update({ basket: items });
+// 🔑 Reset Password
+export const resetPassword = async (email) => {
+  try {
+    await sendPasswordResetEmail(auth, email);
+    return { success: true, message: "Password reset email sent!" };
+  } catch (error) {
+    return { success: false, message: error.message };
+  }
+};
 
-setAuthPersistence = () =>
-this.auth.setPersistence(app.auth.Auth.Persistence.LOCAL);
+// 🚪 Logout
+export const adminLogout = async () => {
+  try {
+    await signOut(auth);
+    return { success: true };
+  } catch (error) {
+    return { success: false, message: error.message };
+  }
+};
 */
