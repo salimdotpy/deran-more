@@ -4,11 +4,20 @@ import { Badge, Card, Dialog, DialogBody, IconButton, Input, List, ListItem, Men
 import { BiHelpCircle, BiLastPage, BiLogOut } from 'react-icons/bi';
 import React from 'react';
 import { links } from './sidebar';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { adminLogout } from '../../utils/firebase';
+import { toast } from 'react-toastify';
+import { useAuth } from '../AuthContext';
+import { useAdmin } from '../../hooks';
+import { FormSkeleton } from '../sections';
 
 const Header = ({open, onClose}) => {
     const [openSearch, setOpenSearch] = React.useState(false);
     const [searchLink, setSearchLink] = React.useState(getSearchLinks());
+    
+    const {user, loading} = useAuth();
+    const { admin,  isLoading, error} = useAdmin(user);
+    const navigate = useNavigate();
     
     const handleOpenSearch = () => {setOpenSearch(!openSearch)};
     const cls = '!text-fore peer-focus:pl-0 peer-focus:before:!border-primary/90 peer-focus:after:!border-primary/90';
@@ -19,6 +28,12 @@ const Header = ({open, onClose}) => {
             return link.name.toLocaleLowerCase().indexOf(value.toLocaleLowerCase()) !== -1
         });
         setSearchLink(result);
+    }
+
+    const handleLogout = async () => {
+        await adminLogout();
+        toast.success("You've logged out successfully!");
+        navigate("auth/admin");
     }
 
     return (
@@ -38,7 +53,7 @@ const Header = ({open, onClose}) => {
                     <MenuHandler>
                         <div className='flex items-center'>
                         {(1===1) ?
-                        <Badge content={2} withBorder className="top-2 right-1.5 bg-primary">
+                        <Badge content={0} withBorder className="top-2 right-1.5 bg-primary">
                             <IconButton variant='text'>
                                 <BellIcon className='size-5 text-fore'/>
                             </IconButton>
@@ -77,29 +92,33 @@ const Header = ({open, onClose}) => {
                     </MenuHandler>
                     <MenuList className="bg-header text-fore border-none outline-none">
                         <div className="line-clamp-2 border-none outline-none uppercase">
-                            <p className="font-semibold">Super Admin</p>
-                            <p className="text-fore/75">admin</p>
+                            <p className="font-semibold">
+                            {!isLoading ? admin?.name : <FormSkeleton className='!p-0' size={1} />}
+                            </p>
+                            <p className="text-fore/75">
+                            {!isLoading ? admin?.username : <FormSkeleton className='!p-0' size={1} />}
+                            </p>
                         </div>
                         <hr className='my-2 border-fore/15' />
                         <MenuItem className='flex items-center gap-2'>
                             <UserIcon className='size-4' />
                             <Typography variant='small' className=''>Profile</Typography>
                         </MenuItem>
-                        <MenuItem className='flex items-center gap-2'>
+                        <MenuItem className='flex items-center gap-2' onClick={()=>navigate()}>
                             <KeyIcon className='size-4' />
                             <Typography variant='small' className=''>Password</Typography>
                         </MenuItem>
-                        <MenuItem className='flex items-center gap-2'>
-                            <BiHelpCircle className='size-4' />
-                            <Typography variant='small' className=''>Help</Typography>
-                        </MenuItem>
-                        <hr className='my-2 border-fore/15' />
-                        <form>
+                        <Link to='https://wa.me/+2348076738293?text=Hi, from *DERAN MORE* type your message here'>
                             <MenuItem className='flex items-center gap-2'>
-                                <BiLogOut className='size-4' />
-                                <Typography variant='small' className=''>Sign Out</Typography>
+                                <BiHelpCircle className='size-4' />
+                                <Typography variant='small' className=''>Help</Typography>
                             </MenuItem>
-                        </form>
+                        </Link>
+                        <hr className='my-2 border-fore/15' />
+                        <MenuItem className='flex items-center gap-2' onClick={handleLogout}>
+                            <BiLogOut className='size-4' />
+                            <Typography variant='small' className=''>Sign Out</Typography>
+                        </MenuItem>
                     </MenuList>
                 </Menu>
             </div>

@@ -7,6 +7,9 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "react-toastify";
 import { BreadCrumbs } from "../sections";
 import { updateSetting } from "../../utils";
+import { MoonIcon, SunIcon } from "@heroicons/react/24/outline";
+import useTheme, { useAdmin } from "../../hooks";
+import { useAuth } from "../AuthContext";
 
 export const ImageSchema = {
     image_input: yup.mixed()
@@ -70,7 +73,7 @@ export function LogoFavicon({ image }) {
         <React.Fragment>
             <Typography variant="h5" className="mb-4 text-fore">Logo and Favicon Setting</Typography>
             <BreadCrumbs separator="/" className='my-3 bg-header' links={[{ name: 'Logo and Favicon Setting', href: '/admin/logo-favicon' }]} />
-            
+
             <Card className="bg-header text-fore">
                 <CardBody>
                     <form className="mb-2 text-fore" onSubmit={handleSubmit(onSubmit)}>
@@ -129,10 +132,10 @@ export function LogoFavicon({ image }) {
 }
 
 export function Seo({ data }) {
-    const { register, handleSubmit, setValue, clearErrors, formState: { errors }, } = useForm({ resolver: yupResolver(yup.object(ImageSchema)),});
+    const { register, handleSubmit, setValue, clearErrors, formState: { errors }, } = useForm({ resolver: yupResolver(yup.object(ImageSchema)), });
     const [loading, setLoading] = useState(false);
     const [preview, setPreview] = useState(data?.image);
-    
+
     const onSubmit = async (formData) => {
         setLoading(true);
         try {
@@ -168,7 +171,7 @@ export function Seo({ data }) {
         <React.Fragment>
             <Typography variant="h5" className="mb-4 text-fore">Setting Seo</Typography>
             <BreadCrumbs separator="/" className='my-3 bg-header' links={[{ name: 'Setting Seo', href: '/admin/seo' }]} />
-            
+
             <Card className="bg-header text-fore">
                 <CardBody>
                     <form className="mb-2 mt-2 text-fore" onSubmit={handleSubmit(onSubmit)}>
@@ -179,7 +182,7 @@ export function Seo({ data }) {
                                 </label>
                                 <input type="file" id="logo" onChange={(e) => handleFileChange(e)} accept="image/*" className="hidden" />
                                 {errors.image_input && <Typography className="font-medium text-red-900" textGradient>
-                                {errors.image_input.message}
+                                    {errors.image_input.message}
                                 </Typography>}
                                 <label htmlFor="logo" className="mt-3 align-middle cursor-pointer select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg border hover:opacity-75 focus:ring focus:ring-gray-300 active:opacity-[0.85] block w-full text-fore border-fore">
                                     Upload Image
@@ -209,6 +212,84 @@ export function Seo({ data }) {
                     </form>
                 </CardBody>
             </Card>
+        </React.Fragment>
+    );
+}
+
+export function Profile() {
+    const { register, handleSubmit, setValue, clearErrors, formState: { errors }, } = useForm({ resolver: yupResolver(yup.object(ImageSchema)), });
+    const [loading, setLoading] = useState(false);
+    const {user} = useAuth();
+    const {admin, isLoading, error} = useAdmin(user);
+    const { theme, changeTheme } = useTheme();
+    const [preview, setPreview] = useState(data?.image);
+
+    const onSubmit = async (formData) => {
+        setLoading(true);
+        try {
+            formData.image = preview;
+            const response = await updateSetting(formData, 'seo.data');
+            if (response.message) {
+                toast.success(response.message);
+            } else {
+                toast.error(response.error)
+            }
+        } catch (error) {
+            toast.error('Submission failed.');
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    return (
+        <React.Fragment>
+            <Typography variant="h5" className="mb-4 text-fore">Setting Profile</Typography>
+            <BreadCrumbs separator="/" className='my-3 bg-header' links={[{ name: 'Setting Profile', href: '/admin/profile' }]} />
+
+            <div className='flex flex-wrap *:flex-1 *:basis-full gap-5'>
+                <Card className="bg-header text-fore md:basis-1/3">
+                    <CardBody>
+                        {!isLoading && admin ? 
+                            <div className="flex shrink-0 justify-center items-center size-32 bg-primary/20 border-primary border-dashed border-2 mx-auto shadow-md text-fore rounded-full">
+                                <Typography variant="h1">{admin.name[0]}</Typography>
+                            </div> : 
+                            <div className='animate-pulse'>
+                                <div className="flex shrink-0 justify-center items-center size-32 bg-primary/20 border-primary border-dashed border-2 mx-auto shadow-md text-fore rounded-full bg-gray-300">
+                                    &nbsp;
+                                </div>
+                            </div>
+                            }
+                        <div className="flex gap-5 p-5 *:flex-1">
+                            <Button color="white" className="text-center flex items-center justify-center h-16">
+                                <SunIcon className="size-7 text-primary" />
+                            </Button>
+                            <Button color="black" className="text-center flex items-center justify-center h-16">
+                                <MoonIcon className="size-7" />
+                            </Button>
+                        </div>
+                    </CardBody>
+                </Card>
+                <Card className="bg-header md:basis-1/2">
+                    <CardBody>
+                        <form className="text-fore" method='post'>
+                            <div className="mb-1 flex flex-wrap gap-6">
+                                <div className='flex-1'>
+                                    <Input label='Full Name' size='lg' defaultValue={admin?.name} labelProps={{ className: cls[0] }} containerProps={{ className: 'min-w-0' }} className={cls[1]} />
+                                </div>
+                                <div className='flex-1'>
+                                    <Input label='Username' size='lg' defaultValue={admin?.username} labelProps={{ className: cls[0] }} containerProps={{ className: 'min-w-0' }} className={cls[1]} />
+                                </div>
+                                <div className='flex-1'>
+                                    <Input type='email' size='lg' defaultValue={admin?.email} label='Email Address' labelProps={{ className: cls[0] }} containerProps={{ className: 'min-w-0' }} className={cls[1]} />
+                                </div>
+                            </div>
+                            <Button type="submit" className={`mt-5 bg-primary disabled:!pointer-events-auto disabled:cursor-not-allowed justify-center`} loading={loading} fullWidth>
+                                Save
+                            </Button>
+                        </form>
+                    </CardBody>
+                </Card>
+            </div>
         </React.Fragment>
     );
 }

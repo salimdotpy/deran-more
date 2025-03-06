@@ -1,13 +1,45 @@
-// import { createContext, useState, useEffect, useContext } from "react";
-// import { getAuth, onAuthStateChanged } from "firebase/auth";
-// import { app } from "../services/firebaseConfig";
-
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { browserLocalPersistence, getAuth, onAuthStateChanged, setPersistence } from "firebase/auth";
 import { createContext, useContext, useEffect, useState } from "react";
-import { app } from "../utils/firebase";
+import { auth } from "../utils/firebase";
 
 const AuthContext = createContext();
+
+export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      if (currentUser) {
+        setUser(currentUser);
+      } else {
+        setUser(null);
+      }
+      setLoading(false); // Stop loading once authentication is checked
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  return (
+    <AuthContext.Provider value={{ user, loading }}>
+      {!loading && children} {/* Ensures app doesn't render until auth is ready */}
+    </AuthContext.Provider>
+  );
+};
+
+export const useAuth = () => useContext(AuthContext);
+
+/*
+const AuthContext = createContext();
 const auth = getAuth(app);
+setPersistence(auth, browserLocalPersistence)
+  .then(() => {
+    console.log("Persistence enabled");
+  })
+  .catch((error) => {
+    console.error("Persistence error:", error.message);
+  });
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -22,43 +54,5 @@ export const AuthProvider = ({ children }) => {
   return <AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>;
 };
 
-export const useAuth = () => useContext(AuthContext);
-
-/*
-import { createContext, useContext, useEffect, useState } from "react";
-
-// Create Auth Context
-const AuthContext = createContext();
-
-// Auth Provider Component
-export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    // Check if user is already logged in (from localStorage)
-    const savedUser = localStorage.getItem("deranmore-admin");
-    if (savedUser) {
-      setUser(JSON.parse(savedUser));
-    }
-  }, []);
-
-  const login = (userData) => {
-    setUser(userData);
-    localStorage.setItem("deranmore-admin", JSON.stringify(userData)); // Store user data
-  };
-
-  const logout = () => {
-    setUser(null);
-    localStorage.removeItem("deranmore-admin"); // Remove user data
-  };
-
-  return (
-    <AuthContext.Provider value={{ user, login, logout }}>
-      {children}
-    </AuthContext.Provider>
-  );
-};
-
-// Custom hook to use AuthContext
 export const useAuth = () => useContext(AuthContext);
 */

@@ -17,14 +17,6 @@ keys.forEach(key => {
 
 export const links = [
     { name: 'Dashboard', href: '/admin', Icon: HomeIcon },
-    {
-        name: 'Manage Payment', href: false, Icon: CurrencyDollarIcon,
-        menu: [
-            { name: 'All Payment', href: '/admin/payment/all' },
-            { name: 'Verified Payment', href: '/admin/payment/verified' },
-            { name: 'Unverified Payment', href: '/admin/payment/unverified' },
-        ]
-    },
     { name: 'SETTINGS', head: true },
     { name: 'Logo & Favicon', href: '/admin/logo-favicon', Icon: PhotoIcon },
     { name: 'SEO Manager', href: '/admin/seo', Icon: GlobeAltIcon },
@@ -33,6 +25,14 @@ export const links = [
     {
         name: 'Manage Sections', href: false, Icon: TvIcon,
         menu: secs
+    },
+    {
+        name: 'Manage Payment', href: false, Icon: CurrencyDollarIcon,
+        menu: [
+            { name: 'All Payment', href: '/admin/payment/all' },
+            { name: 'Verified Payment', href: '/admin/payment/verified' },
+            { name: 'Unverified Payment', href: '/admin/payment/unverified' },
+        ]
     },
 ]
 

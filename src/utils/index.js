@@ -96,7 +96,6 @@ export const verificationCode = (length = 6) => {
 export const getNumber = (length = 8) =>
     Array.from({ length }, () => Math.floor(Math.random() * 10)).join('');
 
-// Convert title to key
 export const keyToTitle = (text, multi = false) => {
     const words = text.split("_").map((word) => word[0].toUpperCase() + word.slice(1));
     return multi ? words.join(" ") : words.join(" ");
@@ -120,48 +119,44 @@ export function getOrdinal(n) {
 export const getPageSections = async (arr = false) => {
     const sections = sections_json;
     if (arr) {
-      return Object.entries(sections).sort();
+        return Object.entries(sections).sort();
     }
     return sections;
 };
 
-//   import { db } from "./firebase"; // Import Firestore instance
-//   import { collection, query, where, orderBy, limit, getDocs } from "firebase/firestore";
-  
-  export const getContent = async (data_keys, singleQuery = false, limitValue = null, orderById = false) => {
+export const getContent = async (data_keys, singleQuery = false, limitValue = null, orderById = false) => {
     let content = false;
-  
+
     try {
-      const frontendsRef = collection(db, "frontends"); // Firestore collection reference
-  
-      let q = query(frontendsRef, where("data_keys", "==", data_keys)); // Base query
-      /*
-      if (!orderById) {
-        q = query(frontendsRef, where("data_keys", "==", data_keys)); // No ordering
-      } else {
-        q = query(frontendsRef, where("data_keys", "==", data_keys), orderBy("id", "desc"));
-      }
-      */
-  
-      if (limitValue) {
-        q = query(q, limit(Number(limitValue))); // Apply limit if provided
-      }
-  
-      const snapshot = await getDocs(q);
-  
-      if (snapshot.empty) return content; // Return false if no data
-  
-      if (singleQuery) {
-        const doc = snapshot.docs[0]; // Get first document
-        content = { id: doc.id, ...doc.data() };
-        content.data_values = JSON.parse(content.data_values); // Parse stored JSON data
-      } else {
-        content = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data(), data_values: JSON.parse(doc.data().data_values) }))
-      }
+        const frontendsRef = collection(db, "frontends"); // Firestore collection reference
+
+        let q = query(frontendsRef, where("data_keys", "==", data_keys)); // Base query
+        /*
+        if (!orderById) {
+          q = query(frontendsRef, where("data_keys", "==", data_keys)); // No ordering
+        } else {
+          q = query(frontendsRef, where("data_keys", "==", data_keys), orderBy("id", "desc"));
+        }
+        */
+
+        if (limitValue) {
+            q = query(q, limit(Number(limitValue))); // Apply limit if provided
+        }
+
+        const snapshot = await getDocs(q);
+
+        if (snapshot.empty) return content; // Return false if no data
+
+        if (singleQuery) {
+            const doc = snapshot.docs[0]; // Get first document
+            content = { id: doc.id, ...doc.data() };
+            content.data_values = JSON.parse(content.data_values); // Parse stored JSON data
+        } else {
+            content = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data(), data_values: JSON.parse(doc.data().data_values) }))
+        }
     } catch (error) {
-      console.log("Error:", error);
+        console.log("Error:", error);
     }
-  
+
     return content;
-  };
-  
+};

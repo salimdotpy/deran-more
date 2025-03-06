@@ -3,16 +3,6 @@ import { getFirestore, collection, addDoc, deleteDoc, doc, updateDoc, getDoc, ge
 import { signInWithEmailAndPassword, signOut, sendPasswordResetEmail, getAuth } from "firebase/auth";
 import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
 
-// const firebaseConfig = {
-//     apiKey: "AIzaSyBFTGwfMyNKsU5Q_9XLZjMaeDNTOp-p8ns",
-//     authDomain: "salimtech-d4171.firebaseapp.com",
-//     projectId: "salimtech-d4171",
-//     storageBucket: "salimtech-d4171.firebasestorage.app",
-//     messagingSenderId: "1007953204162",
-//     appId: "1:1007953204162:web:f353d5fc5f8164c032bc5b",
-//     measurementId: "G-YQE8ZJB3S0"
-// };
-
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
@@ -34,12 +24,11 @@ export const adminLogin = async (email, password) => {
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
-
-    // Check if user is an admin
+    // return { success: true, user };
     const adminRef = doc(db, "admins", user.uid);
     const adminSnap = await getDoc(adminRef);
 
-    if (adminSnap.exists() && adminSnap.data().role === "admin") {
+    if (adminSnap.exists()) {
       return { success: true, user };
     } else {
       await signOut(auth); // Log out if not admin
@@ -70,7 +59,24 @@ export const adminLogout = async () => {
   }
 };
 
-export { db, storage, app, collection, addDoc, getDocs, deleteDoc, doc, updateDoc, ref, uploadBytes, getDownloadURL, deleteObject };
+// 🚪 Get Admin
+export const getAdmin = async (user) => {
+  try {
+    const adminRef = doc(db, "admins", user.uid);
+    const adminSnap = await getDoc(adminRef);
+
+    if (adminSnap.exists()) {
+      return {id: adminSnap.id, ...adminSnap.data()};
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.log(error.message);
+    return false;
+  }
+};
+
+export { db, storage, app, auth, collection, addDoc, getDocs, deleteDoc, doc, updateDoc, ref, uploadBytes, getDownloadURL, deleteObject };
 
 /*
 import { getAuth, signInWithEmailAndPassword, signOut, sendPasswordResetEmail } from "firebase/auth";
