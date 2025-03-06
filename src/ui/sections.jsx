@@ -7,6 +7,7 @@ import { getContent } from '../utils';
 import { useDidMount } from '../hooks';
 import { social_icons } from './admin/frontend';
 import { frontSections } from '../utils/frontend';
+import { toast } from 'react-toastify';
 
 const cls = ['!text-fore peer-focus:pl-0 peer-focus:before:!border-primary/90 peer-focus:after:!border-primary/90', 'text-fore focus:border-primary/90 placeholder:opacity-100'];
 const logo = '/images/logoIcon/logo.png'
@@ -250,7 +251,7 @@ export const PaymentSection = () => {
             <Dialog open={open} handler={handleOpen} size="sm">
                 <DialogBody divider className=" bg-header border-0 gap-4 md:p-16 relative rounded">
                     <XMarkIcon className="mr-3 h-5 w-5 absolute top-3 right-0" onClick={handleOpen} />
-                    <form className="mt-8 mb-2 text-fore" method='post'>
+                    <form className="mt-8 mb-2 text-fore" method='post' onSubmit={()=>toast.info('Coming soon!')}>
                         <div className="mb-1 flex flex-col gap-6">
                             <div>
                                 <Input label='Enter Transaction ID' labelProps={{ className: cls[0] }} containerProps={{ className: 'min-w-0' }} className={cls[1]} required />

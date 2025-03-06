@@ -10,6 +10,7 @@ import { updateSetting } from "../../utils";
 import { MoonIcon, SunIcon } from "@heroicons/react/24/outline";
 import useTheme, { useAdmin } from "../../hooks";
 import { useAuth } from "../AuthContext";
+import { updateAdminPassword, updateAdminProfile } from "../../utils/firebase";
 
 export const ImageSchema = {
     image_input: yup.mixed()
@@ -219,7 +220,7 @@ export function Seo({ data }) {
 const schema1 = yup.object({
     name: yup.string().trim().required('Fullname is required').matches(/^[a-zA-Z ]+[a-zA-Z0-9]+$/, "Must be alphanumeric only").max(80, "The name is too long"),
     username: yup.string().trim().required('Username is required').matches(/^[a-zA-Z]+[a-zA-Z0-9]+$/, "Must be alphanumeric only").max(40, "Is too long"),
-    email: yup.string().email('Invalid email').trim().required('Email is required').max(40, "Is too long"),
+    email: yup.string().email('Invalid email').trim().optional().max(40, "Is too long"),
 });
 
 export function Profile() {
@@ -232,7 +233,12 @@ export function Profile() {
     const onSubmit = async (formData) => {
         setLoading(true);
         try {
-            toast.info("Coming soon!");
+            const result = await updateAdminProfile(formData.name, formData.username);
+            if (result.success) {
+                toast.success(result.message);
+            } else {
+                toast.error(result.message);
+            }
         } catch (error) {
             toast.error('Submission failed.');
         } finally {
@@ -242,8 +248,8 @@ export function Profile() {
 
     return (
         <React.Fragment>
-            <Typography variant="h5" className="mb-4 text-fore">Setting Profile</Typography>
-            <BreadCrumbs separator="/" className='my-3 bg-header' links={[{ name: 'Setting Profile', href: '/admin/profile' }]} />
+            <Typography variant="h5" className="mb-4 text-fore">Update Profile</Typography>
+            <BreadCrumbs separator="/" className='my-3 bg-header' links={[{ name: 'Update Profile', href: '/admin/profile' }]} />
 
             <div className='flex flex-wrap *:flex-1 *:basis-full gap-5'>
                 <Card className="bg-header text-fore md:basis-1/3">
@@ -285,7 +291,7 @@ export function Profile() {
                                     </Typography>}
                                 </div>
                                 <div className='flex-1'>
-                                    <Input type='email' size='lg' defaultValue={admin?.email} label='Email Address' {...register('email')} labelProps={{ className: cls[0] }} containerProps={{ className: 'min-w-0' }} className={cls[1]} error={errors.email} />
+                                    <Input type='email' size='lg' defaultValue={admin?.email} label='Email Address' {...register('email')} labelProps={{ className: cls[0] }} containerProps={{ className: 'min-w-0' }} className={cls[1]} error={errors.email} readOnly />
                                     {errors.email && <Typography color="red" className="mt-2 text-xs font-normal">
                                     {errors.email.message}
                                     </Typography>}
@@ -305,7 +311,7 @@ export function Profile() {
 const schema2 = yup.object({
     opass: yup.string().required('Old Password is required'),
     npass: yup.string().required('New Password is required'),
-    cpass: yup.string().required('Comfirm Password is required'),
+    cpass: yup.string().required('Please retype your password.').oneOf([yup.ref('npass')], 'Two passwords not match.'),
 });
 
 export function Password() {
@@ -316,7 +322,12 @@ export function Password() {
     const onSubmit = async (formData) => {
         setLoading(true);
         try {
-            toast.info("Coming soon!");
+            const result = await updateAdminPassword(formData.opass, formData.npass);
+            if (result.success) {
+                toast.success(result.message);
+            } else {
+                toast.error(result.message);
+            }
         } catch (error) {
             toast.error('Submission failed.');
         } finally {
@@ -352,7 +363,7 @@ export function Password() {
                             </div>
                         </div>
                         <Button type="submit" className={`mt-5 bg-primary disabled:!pointer-events-auto disabled:cursor-not-allowed justify-center`} loading={loading} fullWidth>
-                            Save
+                            Update
                         </Button>
                     </form>
                 </CardBody>

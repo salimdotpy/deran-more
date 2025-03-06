@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, addDoc, deleteDoc, doc, updateDoc, getDoc, getDocs, query, where } from "firebase/firestore";
-import { signInWithEmailAndPassword, signOut, sendPasswordResetEmail, getAuth } from "firebase/auth";
+import { signInWithEmailAndPassword, signOut, sendPasswordResetEmail, getAuth, reauthenticateWithCredential, EmailAuthProvider, updatePassword, updateProfile } from "firebase/auth";
 import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
 
 const firebaseConfig = {
@@ -52,6 +52,37 @@ export const resetPassword = async (email) => {
       return { success: false, message: "Email not found" };
     }
   } catch (error) {
+    return { success: false, message: error.message };
+  }
+};
+
+export const updateAdminPassword = async (currentPassword, newPassword) => {
+  try {
+    const user = auth.currentUser;
+
+    // Re-authenticate the user
+    const credential = EmailAuthProvider.credential(user.email, currentPassword);
+    await reauthenticateWithCredential(user, credential);
+
+    // Update password
+    await updatePassword(user, newPassword);
+    console.log("Password updated successfully!");
+    return { success: true, message: "Password updated successfully!" };
+  } catch (error) {
+    console.error("Update Password Error:", error.message);
+    return { success: false, message: error.message };
+  }
+};
+
+export const updateAdminProfile = async (displayName, username) => {
+  const user = auth.currentUser;
+  try {
+    await updateDoc(doc(db, "admins", user.uid), { name: displayName, username });
+    await updateProfile(user, { displayName });
+    console.log("Profile updated successfully!");
+    return { success: true, message: "Profile updated successfully!" };
+  } catch (error) {
+    console.error("Update Profile Error:", error.message);
     return { success: false, message: error.message };
   }
 };
