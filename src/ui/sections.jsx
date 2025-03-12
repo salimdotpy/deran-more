@@ -66,11 +66,11 @@ export const HeroSection = () => {
                     <Typography variant='h6' className='mt-3 mb-7 text-sm md:text-lg lg:text-2xl text-gray-200' data-aos="fade-right" data-aos-delay={200}>
                         {didMount && data ? data.sub_heading : <FormSkeleton className='w-1/2 !p-0' size={1} />}
                     </Typography>
-                    <Link to={data ? data.button_url :"/#about"} data-aos="fade-up" data-aos-delay={300}>
+                    <a href={data ? data.button_url :"/#about"} data-aos="fade-up" data-aos-delay={300}>
                         <Button className="rounded-full border-white hover:border-primary border-2 bg-transparent hover:bg-primary">
                             {didMount && data ? data.button_text : <FormSkeleton className='!p-0' size={1} />}
                         </Button>
-                    </Link>
+                    </a>
                 </div>
             </div>
         </div>
