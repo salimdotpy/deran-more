@@ -7,6 +7,7 @@ import Login from "./pages/Login";
 import { ToastContainer } from "react-toastify";
 import Index from "./pages/Index";
 import Dashboard from "./pages/Dashboard";
+import About from "./pages/About";
 import ProtectedRoute from "./ui/ProtectedRoute";
 import SettingLogoFavicon, { SettingSeo } from "./pages/Settings";
 import Frontend from "./pages/Frontend";
@@ -73,6 +74,7 @@ function App() {
       <LoadingComponent />
       <Routes>
         <Route path="/" element={<Index />} />
+        <Route path="/about" element={<About />} />
         <Route path="/auth/admin" element={<Login />} />
         <Route path="/admin/*"
           element={

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Breadcrumbs, Button, Card, CardBody, Dialog, DialogBody, Input, List, ListItem, ListItemPrefix, Option, Select, Textarea, Typography } from '@material-tailwind/react';
+import { Accordion, AccordionBody, AccordionHeader, Breadcrumbs, Button, Card, CardBody, Dialog, DialogBody, Input, List, ListItem, ListItemPrefix, Option, Select, Textarea, Typography } from '@material-tailwind/react';
 import { Link, useLocation } from 'react-router-dom';
 import { PhoneIcon } from '@heroicons/react/24/solid';
-import { ArrowRightIcon, CheckCircleIcon, CreditCardIcon, EnvelopeIcon, FaceFrownIcon, MapPinIcon,  XMarkIcon } from '@heroicons/react/24/outline';
-import { getContent } from '../utils';
+import { ArrowDownIcon, ArrowRightIcon, CheckCircleIcon, ChevronDownIcon, CreditCardIcon, EnvelopeIcon, FaceFrownIcon, MapPinIcon,  XMarkIcon } from '@heroicons/react/24/outline';
+import { getContent, keyToTitle } from '../utils';
 import { useDidMount } from '../hooks';
 import { social_icons } from './admin/frontend';
 import { frontSections } from '../utils/frontend';
@@ -104,6 +104,11 @@ export const AboutSection = () => {
                         <div className='text-fore/80 text-justify'>
                             {didMount && data ? data.details : <FormSkeleton className='!p-0' />}
                         </div>
+                        <Link to={data ? data.button_url :"/#about"} data-aos="fade-up" data-aos-delay={300}>
+                            <Button variant='outlined' className='border-primary rounded-full px-16 hover:text-white border-2 text-fore hover:bg-primary justify-self-start'>
+                                {didMount && data ? data.button_text : <FormSkeleton className='!p-0' size={1} />}
+                            </Button>
+                        </Link>
                     </div>
                     <div data-aos="fade-left" className='relative min-h-60 md:flex-1 basis-[100%]' style={{ backgroundImage: `url(${didMount && data ? data.image : '/images/default.png'})`, backgroundSize: 'cover', }}>
                         <div className='absolute inset-0 from-header to-transparent md:bg-gradient-to-r bg-gradient-to-b'>
@@ -277,6 +282,140 @@ export const PaymentSection = () => {
                 </DialogBody>
             </Dialog>
         </section>
+    );
+};
+
+export const AboutsSection = () => {
+    const about_page = {
+        intro: {
+            title: "Introduction",
+            bottom: "Whether you need guidance on selecting a research topic, developing a research plan, or overcoming challenges in your research pursuits, our educational consult services provide the expertise, support, and peace of mind necessary for success.",
+            content: [
+                "At DeranMore Educational Consult Services, we understand that every student's and educator's educational journey is distinct, marked by unique challenges and opportunities. As a trusted educational consult service, we provide personalized guidance and support to clients navigating the complex and ever-changing educational landscape.",
+                "Our team of experienced educational consultants is dedicated to empowering students/clients to reach their full potential and achieve their academic goals. We offer expert advice and tailored solutions on various educational issues, including but not limited to:",
+            ],
+            elements: [
+                "Research design improvement", "Data analysis and interpretation", "Dissertation, thesis, and manuscript writing", "Proposal development for higher degrees and journal publications"
+            ]
+        },
+        mission: {
+            title: "Our Mission",
+            content: [
+                "To deliver personalized educational consulting services that empower students, researchers, and educators to achieve their academic objectives and reach their full potential."
+            ]
+        },
+        values: {
+            title: "Our Values",
+            elements: [
+                "Personalized attention and support",
+                "Expertise and knowledge in educational best practices",
+                "Collaboration and partnership with students, researchers, and educators",
+                "Commitment to accessibility, equity, and inclusivity in education",
+            ]
+        },
+        faq: {
+            title: "Frequently Asked Questions",
+            elements: [
+                {
+                    question: "What types of academic writing services do you offer?",
+                    answer: "We provide expert assistance with proposal, dissertation, thesis writing, manuscript preparation for journal publication, and other academic writing projects."
+                },
+                {
+                    question: "Who are your target clients?",
+                    answer: "Our services cater to undergraduate, graduate students, researchers, academics, and professionals seeking assistance with academic writing projects."
+                },
+                {
+                    question: "How do you ensure the quality and originality of your work?",
+                    answer: "Our team of experienced writers and editors adhere to strict quality control measures, ensuring that all work is original, well-researched, and meets the highest academic standards."
+                },
+                {
+                    question: "Can you help me with my dissertation proposal?",
+                    answer: "Yes, our expert writers can assist you in developing a well-structured and well-written dissertation proposal. We require our clients to provide a draft, which we will then refine and enhance."
+                },
+                {
+                    question: "How do you assist with dissertation and thesis writing?",
+                    answer: "We provide guidance on research design, methodology, literature review, data analysis, and writing chapters. Our team can also help with editing, proofreading, and formatting."
+                },
+            ]
+        },
+    }
+    const [open, setOpen] = useState(0);
+    const handleOpen = (value) => setOpen(open === value ? 0 : value);
+ 
+    return (
+        <>
+        <section className='py-10 bg-primary/20'>
+            <div className='container xl:w-[90%] mx-auto flex justify-center items-center h-56'>
+                <Typography variant="h2" className="text-fore text-center">More info About Us</Typography>
+            </div>
+        </section>
+        <section id='intro' className='py-10 bg-header'>
+            <div className='container xl:w-[90%] mx-auto'>
+                <div className='p-4 text-justify'>
+                    <h3 className='font-bold text-2xl'>{about_page.intro.title}</h3>
+                    {about_page.intro.content.map((p, key) =>
+                    <p key={key} className='text-fore/80 my-4'>{p}</p>
+                    )}
+                    <List className='p-0'>
+                        {about_page.intro.elements.map((element, key) => 
+                        <ListItem key={key} className='text-fore'>
+                            <ListItemPrefix>
+                                <ArrowRightIcon className='size-6' />
+                            </ListItemPrefix>
+                            {element}
+                        </ListItem>
+                        )}
+                    </List>
+                    <p className='text-fore/80 my-4'>{about_page.intro.bottom}</p>
+                </div>
+            </div>
+        </section>
+        <section id='mission' className='py-10'>
+            <div className='container xl:w-[90%] mx-auto'>
+                <div className='p-4 text-justify'>
+                    <h3 className='font-bold text-2xl'>{about_page.mission.title}</h3>
+                    {about_page.mission.content.map((p, key) =>
+                    <p key={key} className='text-fore/80 my-4'>{p}</p>
+                    )}
+                </div>
+            </div>
+        </section>
+        <section id='values' className='py-10 bg-header'>
+            <div className='container xl:w-[90%] mx-auto'>
+                <div className='p-4 text-justify'>
+                    <h3 className='font-bold text-2xl'>{about_page.values.title}</h3>
+                    <List className='p-0'>
+                        {about_page.intro.elements.map((element, key) => 
+                        <ListItem key={key} className='text-fore'>
+                            <ListItemPrefix>
+                                <ArrowRightIcon className='size-6' />
+                            </ListItemPrefix>
+                            {element}
+                        </ListItem>
+                        )}
+                    </List>
+                </div>
+            </div>
+        </section>
+        <section id='values' className='py-10'>
+            <div className='container xl:w-[90%] mx-auto'>
+                <div className='p-4 text-justify'>
+                    <h3 className='font-bold text-2xl'>{about_page.faq.title}</h3>
+                    {about_page.faq.elements.map((faq, key)=>
+                    <Accordion open={open === key + 1} icon={<ChevronDownIcon open={open} className={`${open === key + 1 ? "rotate-180" : ""} h-5 w-5 transition-transform`}
+                    />}>
+                        <AccordionHeader className='text-fore hover:text-primary' onClick={() => handleOpen(key + 1)}>
+                            {faq.question}
+                        </AccordionHeader>
+                        <AccordionBody className='text-fore'>
+                            {faq.answer}
+                        </AccordionBody>
+                    </Accordion>
+                    )}
+                </div>
+            </div>
+        </section>
+        </>
     );
 };
 
