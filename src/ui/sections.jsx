@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Accordion, AccordionBody, AccordionHeader, Breadcrumbs, Button, Card, CardBody, Dialog, DialogBody, Input, List, ListItem, ListItemPrefix, Option, Select, Textarea, Typography } from '@material-tailwind/react';
+import { Accordion, AccordionBody, AccordionHeader, Breadcrumbs, Button, Card, CardBody, Dialog, DialogBody, IconButton, Input, List, ListItem, ListItemPrefix, Option, Select, Textarea, Typography } from '@material-tailwind/react';
 import { Link, useLocation } from 'react-router-dom';
 import { PhoneIcon } from '@heroicons/react/24/solid';
 import { ArrowDownIcon, ArrowRightIcon, CheckCircleIcon, ChevronDownIcon, CreditCardIcon, EnvelopeIcon, FaceFrownIcon, MapPinIcon,  XMarkIcon } from '@heroicons/react/24/outline';
@@ -522,7 +522,7 @@ export const FooterSection = () => {
             setElements(null);
         }
     }, []);
-    
+    const WIcon = social_icons['whatsapp'];
     return (
         <>
         <section id='' className='py-5 bg-header'>
@@ -550,7 +550,10 @@ export const FooterSection = () => {
                 </div>
             </div>
         </section>
-        <div className='absolute'>
+        <div className='absolute right-3'>
+            <IconButton>
+                <WIcon className='size-5' />
+            </IconButton>
         </div>
         </>
     )
