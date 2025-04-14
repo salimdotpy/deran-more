@@ -524,6 +524,7 @@ export const FooterSection = () => {
     }, []);
     
     return (
+        <>
         <section id='' className='py-5 bg-header'>
             <div className='container xl:w-[90%] mx-auto'>
                 <div className='flex flex-wrap items-center justify-center md:justify-between gap-5 px-4'>
@@ -549,6 +550,9 @@ export const FooterSection = () => {
                 </div>
             </div>
         </section>
+        <div className='absolute'>
+        </div>
+        </>
     )
 }
 
