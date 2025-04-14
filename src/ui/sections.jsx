@@ -509,20 +509,24 @@ export const ContactSection = () => {
 };
 
 export const FooterSection = () => {
+    const [data, setData] = useState(null);
     const [elements, setElements] = useState(null);
     const didMount = useDidMount();
     const fetchData = async () => {
         const snapshot = await getContent('footer.element', false, null, true);
         setElements(snapshot);
+        const snapshot1 = await frontSections('contact_us');
+        setData(snapshot1?.content.data_values);
     };
 
     useEffect(() => {
         fetchData();
         return ()=>{
             setElements(null);
+            setData(null);
         }
     }, []);
-    const WIcon = social_icons['whatsapp'];
+
     return (
         <>
         <section id='' className='py-5 bg-header'>
@@ -550,7 +554,7 @@ export const FooterSection = () => {
                 </div>
             </div>
         </section>
-        <Link to={'https://wa.me/+2348034066961'} target='_blank' className='fixed flex flex-col items-center justify-center bottom-16 right-8'>
+        <Link to={'https://wa.me/'+data?.address || 'https://wa.me/+2348034066961'} target='_blank' className='fixed flex flex-col items-center justify-center bottom-16 right-8'>
             <div className='relative rounded-full p-2 bg-primary/50 block'>
                 <span className='absolute h-full w-full inset-0 animate-ping rounded-full bg-primary opacity-75'></span>
                 <IconButton className='bg-green-700 rounded-full'>
