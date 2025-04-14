@@ -550,13 +550,15 @@ export const FooterSection = () => {
                 </div>
             </div>
         </section>
-        <div className='fixed bottom-16 right-8'>
-            <div className='rounded-full p-2 bg-primary'>
+        <Link to={'https://wa.me/+2348034066961'} target='_blank' className='fixed flex flex-col items-center justify-center bottom-16 right-8'>
+            <div className='relative rounded-full p-2 bg-primary/50 block'>
+                <span className='absolute h-full w-full inset-0 animate-ping rounded-full bg-primary opacity-75'></span>
                 <IconButton className='bg-green-700 rounded-full'>
-                    <WIcon className='size-14' />
+                    <BiLogoWhatsapp className='size-14' />
                 </IconButton>
             </div>
-        </div>
+            <Chip size="sm" color='green' value="Chat us!" className='capitalize' />
+        </Link>
         </>
     )
 }
