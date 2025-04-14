@@ -289,10 +289,10 @@ export const PaymentSection = () => {
 export const AboutsSection = () => {
     const about_page = {
         intro: {
-            title: "Introduction",
+            title: "Welcome to DeranMore Educational Consult Services",
             bottom: "Whether you need guidance on selecting a research topic, developing a research plan, or overcoming challenges in your research pursuits, our educational consult services provide the expertise, support, and peace of mind necessary for success.",
             content: [
-                "At DeranMore Educational Consult Services, we understand that every student's and educator's educational journey is distinct, marked by unique challenges and opportunities. As a trusted educational consult service, we provide personalized guidance and support to clients navigating the complex and ever-changing educational landscape.",
+                "DeranMore Educational Consult Services is a reputable and trustworthy partner for individuals seeking to achieve academic excellence. Our team of experienced educators and researchers is committed to delivering top-notch consulting services tailored to meet the unique needs of students, researchers, and institutions.",
                 "Our team of experienced educational consultants is dedicated to empowering students/clients to reach their full potential and achieve their academic goals. We offer expert advice and tailored solutions on various educational issues, including but not limited to:",
             ],
             elements: [
@@ -302,7 +302,7 @@ export const AboutsSection = () => {
         mission: {
             title: "Our Mission",
             content: [
-                "To deliver personalized educational consulting services that empower students, researchers, and educators to achieve their academic objectives and reach their full potential."
+                "At DeranMore Educational Consult Services, our mission is to empower individuals (and organizations) to attain their academic objectives through our expertise in research design, manuscript preparation, proofreading, and editing. We are driven by a passion for education and a commitment to quality, ensuring that our services consistently exceed client expectations."
             ]
         },
         values: {
