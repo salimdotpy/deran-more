@@ -58,7 +58,7 @@ export const HeroSection = () => {
     }, []);
     return (
         <div id="hero" style={{ backgroundImage: `url(${didMount && data ? data.image : '/images/default.png'})`, backgroundSize: 'cover', backgroundAttachment: 'fixed', backgroundPosition: 'top center' }} className='h-screen md:h-[80vh] bg-no-repeat relative'>
-            <div className='absolute flex w-full h-screen md:h-[80vh] bg-black bg-opacity-40'>
+            <div className='absolute flex w-full h-screen md:h-[80vh]'>
                 <div className='container m-auto text-white px-4 md:px-0'>
                     <Typography variant='h1' className="text-2xl md:text-4xl lg:text-5xl" data-aos="fade-left" data-aos-delay={100}>
                         {didMount && data ? data.heading : <FormSkeleton className='w-1/2 !p-0' size={1} />}
@@ -346,7 +346,7 @@ export const AboutsSection = () => {
         <>
         <section className='py-10 bg-primary/20'>
             <div className='container xl:w-[90%] mx-auto flex justify-center items-center h-56'>
-                <Typography variant="h2" className="text-fore text-center">More info About Us</Typography>
+                <Typography data-aos="fade-in" variant="h2" className="text-fore text-center">More info About Us</Typography>
             </div>
         </section>
         <section id='intro' className='py-10 bg-header'>
