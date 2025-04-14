@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Accordion, AccordionBody, AccordionHeader, Breadcrumbs, Button, Card, CardBody, Dialog, DialogBody, IconButton, Input, List, ListItem, ListItemPrefix, Option, Select, Textarea, Typography } from '@material-tailwind/react';
+import { Accordion, AccordionBody, AccordionHeader, Breadcrumbs, Button, Card, CardBody, Chip, Dialog, DialogBody, IconButton, Input, List, ListItem, ListItemPrefix, Option, Select, Textarea, Typography } from '@material-tailwind/react';
 import { Link, useLocation } from 'react-router-dom';
 import { PhoneIcon } from '@heroicons/react/24/solid';
 import { ArrowDownIcon, ArrowRightIcon, CheckCircleIcon, ChevronDownIcon, CreditCardIcon, EnvelopeIcon, FaceFrownIcon, MapPinIcon,  XMarkIcon } from '@heroicons/react/24/outline';
@@ -8,6 +8,7 @@ import { useDidMount } from '../hooks';
 import { social_icons } from './admin/frontend';
 import { frontSections } from '../utils/frontend';
 import { toast } from 'react-toastify';
+import { BiLogoWhatsapp } from 'react-icons/bi';
 
 const cls = ['!text-fore peer-focus:pl-0 peer-focus:before:!border-primary/90 peer-focus:after:!border-primary/90', 'text-fore focus:border-primary/90 placeholder:opacity-100'];
 const logo = '/images/logoIcon/logo.png'
