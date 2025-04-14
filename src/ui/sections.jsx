@@ -550,7 +550,7 @@ export const FooterSection = () => {
                 </div>
             </div>
         </section>
-        <div className='absolute top-16 right-3'>
+        <div className='absolute bottom-16 right-3'>
             <IconButton>
                 <WIcon className='size-5' />
             </IconButton>
