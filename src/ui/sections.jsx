@@ -435,7 +435,7 @@ export const ContactSection = () => {
     const contact_info = [
         { title: 'Phone', desc: data?.phone || '+18329844722, +2348034066961', Icon: PhoneIcon },
         { title: 'Email', desc: data?.email || 'deranmore@hotmail.com', Icon: EnvelopeIcon },
-        { title: 'Address', desc: data?.address || 'Ede, Osun Sta.', Icon: MapPinIcon },
+        // { title: 'Address', desc: data?.address || 'Ede, Osun Sta.', Icon: MapPinIcon },
     ]
     return (
         <section id='contact' className='pt-10'>
