@@ -79,7 +79,7 @@ function NavList() {
     return (
         <List className="lg:flex min-w-0 lg:flex-row lg:p-1 lg:px-6">
             {links.map((link, key) =>
-            (link.href.startsWith('/') ?
+            (link.href.startsWith('/#') ?
                 <a href={link.href} key={key} className="text-primary">
                     <ListItem className="flex items-center gap-2 py-3 pr-4">{link.name}</ListItem>
                 </a> :
