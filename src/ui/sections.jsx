@@ -158,7 +158,38 @@ export const CatchySection = () => {
           ]
     };
 
-    const phrases = [{}];
+    const phrases = [
+        {
+            title: 'Discover a partner in your academic journey',
+            items: [
+                'Transform Your Research with Our Expert Educational Services.',
+                'Unlock Your Full Potential with Our Research Design Solutions.',
+                'Publish with Confidence: Our Manuscript Preparation Services.',
+                'Elevate Your Academic Career with Our Dissertation and Thesis Support.',
+                'Get Published in Top Journals with Our Expert Manuscript Preparation.',
+            ]
+        },
+        {
+            title: 'Discover a partner in your academic journey',
+            items: [
+                'Transform Your Research with Our Expert Educational Services.',
+                'Unlock Your Full Potential with Our Research Design Solutions.',
+                'Publish with Confidence: Our Manuscript Preparation Services.',
+                'Elevate Your Academic Career with Our Dissertation and Thesis Support.',
+                'Get Published in Top Journals with Our Expert Manuscript Preparation.',
+            ]
+        },
+        {
+            title: 'Discover a partner in your academic journey',
+            items: [
+                'Transform Your Research with Our Expert Educational Services.',
+                'Unlock Your Full Potential with Our Research Design Solutions.',
+                'Publish with Confidence: Our Manuscript Preparation Services.',
+                'Elevate Your Academic Career with Our Dissertation and Thesis Support.',
+                'Get Published in Top Journals with Our Expert Manuscript Preparation.',
+            ]
+        },
+    ];
     return (
         <section id='catchy' className='py-10'>
             <div className='container xl:w-[90%] mx-auto px-4 md:px-0'>
