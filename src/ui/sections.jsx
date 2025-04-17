@@ -170,13 +170,11 @@ export const CatchySection = () => {
             ]
         },
         {
-            title: 'Discover a partner in your academic journey',
+            title: 'Your Benefits',
             items: [
-                'Transform Your Research with Our Expert Educational Services.',
-                'Unlock Your Full Potential with Our Research Design Solutions.',
-                'Publish with Confidence: Our Manuscript Preparation Services.',
-                'Elevate Your Academic Career with Our Dissertation and Thesis Support.',
-                'Get Published in Top Journals with Our Expert Manuscript Preparation.',
+                'Improve Your Grades and Enhance Your Academic Reputation.',
+                'Save Time and Reduce Stress with Our Research Support Services.',
+                'Increase Your Chances of Publication with Our Expert Journal Manuscript Preparation.','Achieve Academic Excellence with Our Comprehensive Dissertation and Thesis Services.','Enhance Your Research Quality and Credibility with Our Educational Services.',
             ]
         },
         {
