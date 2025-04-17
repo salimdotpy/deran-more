@@ -178,13 +178,13 @@ export const CatchySection = () => {
             ]
         },
         {
-            title: 'Discover a partner in your academic journey',
+            title: 'Our Trust and Credibility',
             items: [
-                'Transform Your Research with Our Expert Educational Services.',
-                'Unlock Your Full Potential with Our Research Design Solutions.',
-                'Publish with Confidence: Our Manuscript Preparation Services.',
-                'Elevate Your Academic Career with Our Dissertation and Thesis Support.',
-                'Get Published in Top Journals with Our Expert Manuscript Preparation.',
+                'Trusted by Thousands of Students and Researchers Worldwide.',
+                'Expert Support from Seasoned Academics and Researchers.',
+                'Proven Track Record of Successful Publications and Academic Achievements.',
+                'Confidential and Secure Services to Protect Your Intellectual Property.',
+                'Committed to Delivering High-Quality Services to Meet Your Academic Needs.',
             ]
         },
     ];
