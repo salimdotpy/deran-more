@@ -9,6 +9,7 @@ import { social_icons } from './admin/frontend';
 import { frontSections } from '../utils/frontend';
 import { toast } from 'react-toastify';
 import { BiLogoWhatsapp } from 'react-icons/bi';
+import Slider from 'react-slick';
 
 const cls = ['!text-fore peer-focus:pl-0 peer-focus:before:!border-primary/90 peer-focus:after:!border-primary/90', 'text-fore focus:border-primary/90 placeholder:opacity-100'];
 const logo = '/images/logoIcon/logo.png'
@@ -115,6 +116,60 @@ export const AboutSection = () => {
                         <div className='absolute inset-0 from-header to-transparent md:bg-gradient-to-r bg-gradient-to-b'>
                         </div>
                     </div>
+                </div>
+            </div>
+        </section>
+    );
+};
+
+export const CatchySection = () => {
+    const settings = {
+        className: "catchy",
+        infinite: true,
+        slidesToShow: 3,
+        speed: 500,
+        autoplay: true,
+        autoplaySpeed: 3000,
+        cssEase: "linear",
+        arrows: false,
+        responsive: [
+            {
+              breakpoint: 1024,
+              settings: {
+                slidesToShow: 3,
+                slidesToScroll: 3,
+              }
+            },
+            {
+              breakpoint: 600,
+              settings: {
+                slidesToShow: 2,
+                slidesToScroll: 2,
+                initialSlide: 2
+              }
+            },
+            {
+              breakpoint: 480,
+              settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1
+              }
+            }
+          ]
+    };
+    return (
+        <section id='catchy' className='py-10'>
+            <div className='container xl:w-[90%] mx-auto px-4 md:px-0'>
+                <div className='pt-5 slider-container'>
+                    <Slider {...settings}>
+                        {[1,2,3,1,3,2,3,2].map((ele, i)=>
+                        <div key={i} className='p-3'>
+                            <div className='!overflow-hidden rounded-lg'>
+                                <img src={`/images/img${ele}.jpeg`} alt='img-i' className='w-full h-[200px] rounded-lg hover:scale-105 transition-all duration-1000' />
+                            </div>
+                        </div>
+                        )}
+                    </Slider>
                 </div>
             </div>
         </section>
