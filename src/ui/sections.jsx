@@ -174,7 +174,9 @@ export const CatchySection = () => {
             items: [
                 'Improve Your Grades and Enhance Your Academic Reputation.',
                 'Save Time and Reduce Stress with Our Research Support Services.',
-                'Increase Your Chances of Publication with Our Expert Journal Manuscript Preparation.','Achieve Academic Excellence with Our Comprehensive Dissertation and Thesis Services.','Enhance Your Research Quality and Credibility with Our Educational Services.',
+                'Increase Your Chances of Publication with Our Expert Journal Manuscript Preparation.',
+                'Achieve Academic Excellence with Our Comprehensive Dissertation and Thesis Services.',
+                'Enhance Your Research Quality and Credibility with Our Educational Services.',
             ]
         },
         {
@@ -185,6 +187,17 @@ export const CatchySection = () => {
                 'Proven Track Record of Successful Publications and Academic Achievements.',
                 'Confidential and Secure Services to Protect Your Intellectual Property.',
                 'Committed to Delivering High-Quality Services to Meet Your Academic Needs.',
+            ]
+        },
+        {
+            title: "Don’t let time slip away; take action today:",
+            items: [
+                "Don't Miss Your Deadline: Get Expert Help Now.",
+                'Limited Spots Available: Secure Your Place Today.',
+                "Don't Let Poor Grammar and Punctuation Hold You Back: Get Proofreading Help Now.",
+                "Transform Your Research Today and Achieve Academic Success Tomorrow.",
+                "Take the First Step Towards Academic Excellence: Contact Us Now.",
+
             ]
         },
     ];
