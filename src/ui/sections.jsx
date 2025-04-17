@@ -166,7 +166,7 @@ export const CatchySection = () => {
                     <h3 className='text-primary font-bold text-2xl'>
                         Try us today
                     </h3>
-                    <p className='my-4 text-fore'> and experience the power of academic support</p>
+                    <p className='my-4 text-fore'> Experience the power of academic support</p>
                 </div>
                 <div className='pt-5 slider-container'>
                     <Slider {...settings}>
