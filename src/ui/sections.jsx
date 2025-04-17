@@ -209,10 +209,10 @@ export const CatchySection = () => {
         <section id='catchy' className='py-10'>
             <div className='container xl:w-[90%] mx-auto px-4 md:px-0'>
                 <div className='text-center'>
-                    <h3 className='text-primary font-bold text-2xl'>
-                        Try us today
+                    <h3 className='text-primary font-bold text-3xl'>
+                        Try Us Today
                     </h3>
-                    <p className='my-4 text-fore'> Experience the power of academic support</p>
+                    <p className='my-4 text-fore font-bold text-2xl'> Experience the Power of Academic Support</p>
                 </div>
                 <div className='pt-5 slider-container'>
                     <Slider {...settings}>
