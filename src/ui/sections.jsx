@@ -161,6 +161,7 @@ export const CatchySection = () => {
     const phrases = [
         {
             title: 'Discover a partner in your academic journey',
+            color: 'bg-gradient-to-tr from-blue-400 to-purple-900',
             items: [
                 'Transform Your Research with Our Expert Educational Services.',
                 'Unlock Your Full Potential with Our Research Design Solutions.',
@@ -171,6 +172,7 @@ export const CatchySection = () => {
         },
         {
             title: 'Your Benefits',
+            color: 'bg-gradient-to-tl from-blue-600 via-indigo-600 to-purple-700',
             items: [
                 'Improve Your Grades and Enhance Your Academic Reputation.',
                 'Save Time and Reduce Stress with Our Research Support Services.',
@@ -181,6 +183,7 @@ export const CatchySection = () => {
         },
         {
             title: 'Our Trust and Credibility',
+            color: 'bg-gradient-to-tl from-blue-600 via-indigo-600 to-purple-700',
             items: [
                 'Trusted by Thousands of Students and Researchers Worldwide.',
                 'Expert Support from Seasoned Academics and Researchers.',
@@ -191,6 +194,7 @@ export const CatchySection = () => {
         },
         {
             title: "Don’t let time slip away; take action today:",
+            color: 'bg-gradient-to-bl from-blue-600 via-indigo-600 to-purple-700',
             items: [
                 "Don't Miss Your Deadline: Get Expert Help Now.",
                 'Limited Spots Available: Secure Your Place Today.',
@@ -214,11 +218,11 @@ export const CatchySection = () => {
                     <Slider {...settings}>
                         {phrases.map((phrase, key) =>
                             <div key={key} className='p-5'>
-                                <Card>
+                                <Card className={`p-5 text-white ${phrase.color}`}>
                                     <Typography variant='h4'>{phrase.title}</Typography>
                                     <List className='p-0'>
                                         {phrase.items.map((item, k) => 
-                                        <ListItem key={k} className='text-fore text-sm'>
+                                        <ListItem key={k} className='text-white text-sm'>
                                             <ListItemPrefix>
                                                 <StarIcon className='size-6' />
                                             </ListItemPrefix>
