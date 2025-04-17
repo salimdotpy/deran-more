@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Accordion, AccordionBody, AccordionHeader, Breadcrumbs, Button, Card, CardBody, Chip, Dialog, DialogBody, IconButton, Input, List, ListItem, ListItemPrefix, Option, Select, Textarea, Typography } from '@material-tailwind/react';
 import { Link, useLocation } from 'react-router-dom';
 import { PhoneIcon } from '@heroicons/react/24/solid';
-import { ArrowDownIcon, ArrowRightIcon, CheckCircleIcon, ChevronDownIcon, CreditCardIcon, EnvelopeIcon, FaceFrownIcon, MapPinIcon,  XMarkIcon } from '@heroicons/react/24/outline';
+import { ArrowDownIcon, ArrowRightIcon, CheckCircleIcon, ChevronDownIcon, CreditCardIcon, EnvelopeIcon, FaceFrownIcon, GiftIcon, MapPinIcon,  StarIcon,  XMarkIcon } from '@heroicons/react/24/outline';
 import { getContent, keyToTitle } from '../utils';
 import { useDidMount } from '../hooks';
 import { social_icons } from './admin/frontend';
@@ -212,10 +212,22 @@ export const CatchySection = () => {
                 </div>
                 <div className='pt-5 slider-container'>
                     <Slider {...settings}>
-                        {[1,2,3,1,3,2,3,2].map((ele, i)=>
-                        <div key={i}>
-                            <h3>{ele}</h3>
-                        </div>
+                        {phrases.map((phrase, key) =>
+                            <div key={key} className='p-5'>
+                                <Card>
+                                    <Typography variant='h4'>{phrase.title}</Typography>
+                                    <List className='p-0'>
+                                        {phrase.items.map((item, k) => 
+                                        <ListItem key={k} className='text-fore text-sm'>
+                                            <ListItemPrefix>
+                                                <StarIcon className='size-6' />
+                                            </ListItemPrefix>
+                                            <small>{item}</small>
+                                        </ListItem>
+                                        )}
+                                    </List>
+                                </Card>
+                            </div>
                         )}
                     </Slider>
                 </div>
