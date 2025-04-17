@@ -127,9 +127,9 @@ export const CatchySection = () => {
         className: "catchy",
         infinite: true,
         slidesToShow: 3,
-        speed: 500,
         autoplay: true,
-        autoplaySpeed: 3000,
+        speed: 2000,
+        autoplaySpeed: 2000,
         cssEase: "linear",
         arrows: false,
         responsive: [
