@@ -163,11 +163,6 @@ export const CatchySection = () => {
                 <div className='pt-5 slider-container'>
                     <Slider {...settings}>
                         {[1,2,3,1,3,2,3,2].map((ele, i)=>
-                        // <div key={i} className='p-3'>
-                        //     <div className='!overflow-hidden rounded-lg'>
-                        //         <img src={`/images/img${ele}.jpeg`} alt='img-i' className='w-full h-[200px] rounded-lg hover:scale-105 transition-all duration-1000' />
-                        //     </div>
-                        // </div>
                         <div key={i}>
                             <h3>{ele}</h3>
                         </div>
