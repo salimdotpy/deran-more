@@ -157,9 +157,17 @@ export const CatchySection = () => {
             }
           ]
     };
+
+    const phrases = [{}];
     return (
         <section id='catchy' className='py-10'>
             <div className='container xl:w-[90%] mx-auto px-4 md:px-0'>
+                <div className='text-center'>
+                    <h3 className='text-primary font-bold text-2xl'>
+                        Try us today
+                    </h3>
+                    <p className='my-4 text-fore'> and experience the power of academic support</p>
+                </div>
                 <div className='pt-5 slider-container'>
                     <Slider {...settings}>
                         {[1,2,3,1,3,2,3,2].map((ele, i)=>
