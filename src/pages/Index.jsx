@@ -4,7 +4,7 @@ import { AboutSection, CatchySection, ContactSection, FooterSection, HeroSection
 import { useDocumentTitle } from "../hooks";
 
 export default function Index() {
-    useDocumentTitle('Deran More');
+    useDocumentTitle('DeranMore');
     return (
         <MainLayout sitename={'Deran More'}>
             <HeroSection />
