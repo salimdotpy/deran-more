@@ -39,7 +39,7 @@ const Header = ({open, onClose}) => {
     return (
         <div className='flex basis-full items-center h-full px-4'>
             <div className='flex items-center xl:hidden'>
-                <IconButton variant='text' className='text-fore'onClick={()=>onClose(!open)}>
+                <IconButton variant='text' className='text-fore' onClick={()=>onClose(!open)}>
                     <BiLastPage className='size-5'/>
                 </IconButton>
             </div>
