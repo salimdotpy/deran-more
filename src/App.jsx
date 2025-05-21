@@ -13,7 +13,7 @@ import About from "./pages/About";
 import ProtectedRoute from "./ui/ProtectedRoute";
 import SettingLogoFavicon, { SettingSeo } from "./pages/Settings";
 import Frontend from "./pages/Frontend";
-import { useDidMount } from "./hooks";
+import { UseScrollTop, useDidMount } from "./hooks";
 import { fetchSetting } from "./utils";
 import UpdateProfile, { UpdatePassword } from "./pages/UpdateProfile";
 
@@ -73,6 +73,7 @@ function App() {
 
   return (
     <BrowserRouter>
+      <UseScrollTop />
       <LoadingComponent />
       <Routes>
         <Route path="/" element={<Index />} />
