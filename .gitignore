@@ -39,3 +39,7 @@ dist-ssr
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+#Plus
+api/admin.js
+api/*
