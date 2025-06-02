@@ -582,7 +582,6 @@ const EditModal = ({ open, handler, data }) => {
     try {
       const response = await frontContent(formData);
       response.message ? toast.success(response.message) : toast.error(response.error);
-      window.location.reload();
     } catch (error) {
       toast.error(`Submission failed. ${error}`);
     } finally {
@@ -699,7 +698,6 @@ const DeleteModal = ({ open, handler, data }) => {
     try {
       const response = await removeElement(formData);
       response.message ? toast.success(response.message) : toast.error(response.error);
-      window.location.reload();
     } catch (error) {
       toast.error(`Deletion failed. ${error}`);
     } finally {
