@@ -41,6 +41,91 @@ export async function frontElement(key, id= false) {
 }
 
 export async function frontContent(req) {
+    const { key, type, id, ...rest } = req;
+    if (!type || !key) return null;
+
+    const dataKey = `${key}.${type}`;
+    const inputContentValue = {};
+
+    // 1. Filter form fields, handle arrays like fieldName[]
+    for (const [fieldName, value] of Object.entries(rest)) {
+        if (await except_(fieldName, ['image_input', 'key', 'status', 'type', 'id'])) {
+            const cleanKey = fieldName.endsWith('[]') ? fieldName.slice(0, -2) : fieldName;
+            inputContentValue[cleanKey] = value;
+        }
+    }
+
+    // 2. Attempt to load image field structure from config
+    let imageFields = false;
+    try {
+        const sections = await getPageSections();
+        imageFields = sections[key]?.[type]?.images || false;
+    } catch {
+        imageFields = false;
+    }
+
+    let docId = id;
+    let existingData = null;
+
+    // 3. If `id` is provided, fetch by Firestore document ID
+    if (docId) {
+        const docSnap = await getDocs(query(frontCol, where("id", "==", docId))); // legacy support
+        if (!docSnap.empty) {
+            const doc = docSnap.docs[0];
+            docId = doc.id;
+            existingData = JSON.parse(doc.data().data_values);
+        }
+    } else {
+        // If no ID, try find matching content by data_keys (fallback)
+        const contentQuery = query(frontCol, where("data_keys", "==", dataKey));
+        const snapshot = await getDocs(contentQuery);
+        if (!snapshot.empty) {
+            const doc = snapshot.docs[0];
+            docId = doc.id;
+            existingData = JSON.parse(doc.data().data_values);
+        }
+    }
+
+    // 4. Handle image merging logic
+    if (imageFields) {
+        for (const [imgKey] of Object.entries(imageFields)) {
+            const uploadKey = `image_inputA${imgKey}Z`;
+            const newImage = req[uploadKey];
+
+            if (newImage) {
+                inputContentValue[imgKey] = newImage;
+            } else if (existingData?.[imgKey] && (id || type === 'content')) {
+                inputContentValue[imgKey] = existingData[imgKey];
+            } else {
+                inputContentValue[imgKey] = '';
+            }
+        }
+    }
+
+    const date = new Date().toISOString();
+    const finalData = JSON.stringify(inputContentValue);
+
+    if (docId) {
+        // ✅ Update existing document
+        await updateDoc(doc(db, "frontends", docId), {
+            data_values: finalData,
+            updated_at: date,
+        });
+    } else {
+        // ✅ Add new document
+        await addDoc(frontCol, {
+            data_keys: dataKey,
+            data_values: finalData,
+            created_at: date,
+            updated_at: date,
+        });
+    }
+
+    return { message: 'Content has been updated.' };
+}
+
+
+export async function frontContent2(req) {
     const key = req.key;
     const valInputs = req;
     const inputContentValue = {};
